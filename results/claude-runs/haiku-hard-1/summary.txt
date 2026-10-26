@@ -1,0 +1,8 @@
+model                tasks  accepted  clean
+deepseek-chat            1         0      0
+deepseek-reasoner        1         0      0
+gpt-4o                   1         0      0
+haiku-5-5                1         1      0
+llama                    1         0      0
+
+claude calls: 5, input 51,144 tok, output 79,508 tok, API-equivalent $0.05

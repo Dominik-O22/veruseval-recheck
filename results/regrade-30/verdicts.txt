@@ -1,0 +1,33 @@
+StarVerus|deepseek-reasoner|zero-shot|DAFNY2VERUS-COLLECTION_79         correct, differs only in safe direction   pre_gen_to_ref invalid
+StarVerus|deepseek-reasoner|few-shot|HumanEval-Verus_task_15            candidate real miss                       pre_ref_to_gen invalid
+StarVerus|deepseek-chat|few-shot|HumanEval-Verus_task_80                candidate real miss                       pre_ref_to_gen invalid; io_correct failed 2; io_wrong failed 2
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_47                  correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 2
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_73                  correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 2
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0110_vericoded        candidate real miss                       pre_ref_to_gen invalid; io_correct failed 4; io_wrong failed 3
+StarVerus|qwen-coder|few-shot|VeriCoding_VA0123_vericoded               correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 6
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0151_vericoded              candidate real miss                       post_gen_to_ref invalid
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0523_vericoded        correct, differs only in safe direction   
+StarVerus|qwen-coder|few-shot|VeriCoding_VB0061_vericoded               correct, differs only in safe direction   
+StarVerus|qwen-coder|zero-shot|VeriCoding_VD0580_vericoded              candidate real miss                       pre_ref_to_gen invalid
+StarVerus|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded            candidate real miss                       pre_ref_to_gen invalid; io_correct failed 2; io_wrong failed 2
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VH0091_vericoded           candidate real miss                       post_gen_to_ref invalid
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded       correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 7
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VJ0123_vericoded           candidate real miss                       pre_ref_to_gen invalid
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded       correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid
+StarVerus|qwen-coder|few-shot|VeriCoding_VS0054_vericoded               correct, differs only in safe direction   post_ref_to_gen invalid
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VT0044_vericoded           correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VT0166_vericoded        candidate real miss                       post_gen_to_ref invalid
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VT0325_vericoded       candidate real miss                       post_gen_to_ref invalid
+StarVerus|qwen-coder|zero-shot|VeriCoding_VT0556_vericoded              candidate real miss                       post_gen_to_ref invalid
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VV0078_vericoded        candidate real miss                       pre_ref_to_gen invalid; post_gen_to_ref invalid
+StarVerus|qwen-coder|zero-shot|VerusBench_CloverBench_is_prime          correct, differs only in safe direction   post_ref_to_gen invalid
+VerusAge|qwen-coder|zero-shot|MBPP-verified_task_19                     candidate real miss                       pre_ref_to_gen invalid
+VerusAge|deepseek-chat|few-shot|VeriCoding_VA0383_vericoded             correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 12
+VerusAge|deepseek-chat|few-shot|VeriCoding_VD0044_vericoded             correct, differs only in safe direction   
+VerusAge|deepseek-chat|zero-shot|VeriCoding_VJ0114_vericoded            candidate real miss                       post_gen_to_ref invalid
+VerusAge|qwen-coder|zero-shot|VeriCoding_VJ0132_vericoded               candidate real miss                       pre_ref_to_gen invalid; io_correct failed 1; io_wrong failed 1
+VerusAge|qwen-coder|zero-shot|VeriCoding_VT0036_vericoded               candidate real miss                       pre_ref_to_gen invalid
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0269_vericoded             correct, differs only in safe direction   
+
+ 16  candidate real miss
+ 14  correct, differs only in safe direction

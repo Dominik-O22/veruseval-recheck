@@ -1,0 +1,82 @@
+[
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0080_vericoded",
+    "task_id": "VeriCoding_VA0080_vericoded",
+    "model": "haiku-5-5",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "// No new helpers needed: lemma_h_solution_y_pos from the harness supplies\n// h(1, (r-3)/2) == r and (r-3)/2 > 0 in the odd case.\n{\n    let r_int: int = __arg0 as int;\n    let m = __ret0@.map(|i: int, x: i8| x as int);\n    if is_odd_case(r_int) {\n        lemma_h_solution_y_pos(r_int);\n        assert(__ret0@.len() == 2);\n        assert(__ret0@[0] as int == 1);\n        assert(__ret0@[1] as int == (r_int - 3) / 2);\n        assert(m.len() == 2);\n        assert(m[0] == __ret0@[0] as int);\n        assert(m[1] == __ret0@[1] as int);\n        assert(m[0] == 1);\n        assert(m[1] == (r_int - 3) / 2);\n        assert(m[0] > 0);\n        assert(m[1] > 0);\n        assert(h(m[0], m[1]) == r_int);\n        assert(h(__ret0@[0] as int, __ret0@[1] as int) == r_int);\n    } else {\n        assert(__ret0@.len() == 0);\n        assert(m.len() == 0);\n    }\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0187_vericoded",
+    "task_id": "VeriCoding_VA0187_vericoded",
+    "model": "haiku-5-5",
+    "function": "solve",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0187_vericoded",
+    "task_id": "VeriCoding_VA0187_vericoded",
+    "model": "haiku-5-5",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0515_vericoded",
+    "task_id": "VeriCoding_VA0515_vericoded",
+    "model": "haiku-5-5",
+    "function": "build_output_vec",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "assert(__sqm_antecedent_3_b6ec9cd5dc(__arg0, __ret0));\nassert(__ret0@ == __sqm_gen_expected_output_fe659f4b0a(__arg0 as int));\nif (__arg0 as int) >= 30 {\n    assert(__sqm_gen_expected_output_fe659f4b0a(__arg0 as int) == seq![89u8, 101u8, 115u8, 10u8]);\n    assert(__ret0@ == seq![89u8, 101u8, 115u8, 10u8]);\n    assert(__ret0@.map(|i: int, b: u8| b as char) =~= seq!['Y', 'e', 's', '\\n']);\n    assert(expected_output(__arg0 as int) == seq!['Y', 'e', 's', '\\n']);\n} else {\n    assert(__sqm_gen_expected_output_fe659f4b0a(__arg0 as int) == seq![78u8, 111u8, 10u8]);\n    assert(__ret0@ == seq![78u8, 111u8, 10u8]);\n    assert(__ret0@.map(|i: int, b: u8| b as char) =~= seq!['N', 'o', '\\n']);\n    assert(expected_output(__arg0 as int) == seq!['N', 'o', '\\n']);\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0515_vericoded",
+    "task_id": "VeriCoding_VA0515_vericoded",
+    "model": "haiku-5-5",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "let s = __ret0@;\nlet t = __arg0 as int;\nlet g = __sqm_gen_expected_output_fe659f4b0a(t);\nassert(s == g);\nif t >= 30 {\n    assert(g =~= seq![89u8, 101u8, 115u8, 10u8]);\n    assert(s =~= seq![89u8, 101u8, 115u8, 10u8]);\n    assert(expected_output(t) =~= seq!['Y', 'e', 's', '\\n']);\n    assert(s.map(|i: int, b: u8| b as char) =~= seq!['Y', 'e', 's', '\\n']);\n} else {\n    assert(g =~= seq![78u8, 111u8, 10u8]);\n    assert(s =~= seq![78u8, 111u8, 10u8]);\n    assert(expected_output(t) =~= seq!['N', 'o', '\\n']);\n    assert(s.map(|i: int, b: u8| b as char) =~= seq!['N', 'o', '\\n']);\n}\nassert(correct_output(t, s.map(|i: int, b: u8| b as char)));\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0256_vericoded",
+    "task_id": "VeriCoding_VT0256_vericoded",
+    "model": "haiku-5-5",
+    "function": "bitwise_and",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0256_vericoded",
+    "task_id": "VeriCoding_VT0256_vericoded",
+    "model": "haiku-5-5",
+    "function": "bitwise_and",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 2,
+    "proof": "proof fn lemma_u8_and_facts(a: u8, b: u8)\n    ensures\n        (a & b) == (b & a),\n        (a & 0) == 0,\n        (a & a) == a,\n        (a & b) <= a,\n        (a & b) <= b,\n{\n    assert((a & b) == (b & a)) by(bit_vector);\n    assert((a & 0) == 0) by(bit_vector);\n    assert((a & a) == a) by(bit_vector);\n    assert((a & b) <= a) by(bit_vector);\n    assert((a & b) <= b) by(bit_vector);\n}\nassert(__ret0@.len() == __arg0@.len());\nassert(__arg0@.len() == __arg1@.len());\nassert forall|i: int| 0 <= i < __ret0@.len() implies\n    (__ret0@[i] == (__arg0@[i] & __arg1@[i]) &&\n     (__arg0@[i] & __arg1@[i]) == (__arg1@[i] & __arg0@[i]) &&\n     (__arg0@[i] & 0) == 0 &&\n     (__arg0@[i] & __arg0@[i]) == __arg0@[i] &&\n     __ret0@[i] <= __arg0@[i] && __ret0@[i] <= __arg1@[i])\nby {\n    assert(i < __arg0@.len());\n    assert(__ret0@[i] == (__arg0@[i] & __arg1@[i]));\n    lemma_u8_and_facts(__arg0@[i], __arg1@[i]);\n};\nassert(__sqm_consequent_2_171435e204(__arg0, __arg1, __ret0));\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_CloverBench_array_copy_strong",
+    "task_id": "VerusBench_CloverBench_array_copy_strong",
+    "model": "haiku-5-5",
+    "function": "copy",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  }
+]

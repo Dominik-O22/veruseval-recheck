@@ -1,0 +1,71 @@
+--- a/baselines/starverus/workflows/benchmark/utils/client_util.py
++++ b/baselines/starverus/workflows/benchmark/utils/client_util.py
+@@ -12,6 +12,52 @@
+ max_retries = generation_config.get('max_retries', 3)
+ retry_delay = generation_config.get('retry_delay', 1)
+ 
++# A base_url of "agent-sdk" routes calls through the Claude Agent SDK, which uses
++# the logged-in Claude subscription (CLAUDE_CODE_OAUTH_TOKEN) instead of an API key.
++AGENT_SDK_URL = "agent-sdk"
++
++
++# Runs n independent one-turn completions through the Agent SDK with no tools and
++# no filesystem settings, so the model sees only the pipeline's prompt. A single
++# query cannot replay assistant turns, so earlier turns (the few-shot examples) are
++# inlined into the user message. Temperature and max_tokens are not forwarded.
++# Set AGENT_SDK_USAGE_LOG to append each call's token usage as a JSON line.
++def _agent_sdk_call(model_name: str, prompt: list, n: int) -> list:
++    import asyncio
++    import json
++    from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
++
++    system = "\n\n".join(m["content"] for m in prompt if m["role"] == "system")
++    turns = [m for m in prompt if m["role"] != "system"]
++    earlier = "".join(
++        f"<{'example_input' if m['role'] == 'user' else 'example_output'}>\n"
++        f"{m['content']}\n"
++        f"</{'example_input' if m['role'] == 'user' else 'example_output'}>\n\n"
++        for m in turns[:-1]
++    )
++    user = (f"Worked examples:\n\n{earlier}Now the actual task:\n\n" if earlier else "") + turns[-1]["content"]
++    options = ClaudeAgentOptions(
++        model=model_name, system_prompt=system, tools=[], max_turns=1, setting_sources=[],
++    )
++
++    async def once() -> str:
++        # Drain the stream fully; returning mid-iteration leaves the SDK's generator open.
++        result = None
++        async for message in query(prompt=user, options=options):
++            if isinstance(message, ResultMessage):
++                result = message
++        if result is None or result.is_error or result.result is None:
++            raise RuntimeError(f"Agent SDK call failed: {result and (result.subtype, result.errors)}")
++        log = os.environ.get("AGENT_SDK_USAGE_LOG")
++        if log:
++            with open(log, "a") as stream:
++                stream.write(json.dumps({"usage": result.usage,
++                                         "total_cost_usd": result.total_cost_usd}) + "\n")
++        return result.result
++
++    return [asyncio.run(once()) for _ in range(n)]
++
++
+ # 基础调用
+ def base_call_llm(
+     api_key: str,
+@@ -22,6 +68,15 @@
+     n: int,
+     temperature: float = None,   # ← 添加可选参数
+ ):
++    if base_url == AGENT_SDK_URL:
++        for attempt in range(max_retries):
++            try:
++                return _agent_sdk_call(model_name, prompt, n)
++            except Exception as e:
++                print(f"[Attempt {attempt+1}/{max_retries}] Agent SDK call failed: {e}")
++                if attempt == max_retries - 1:
++                    raise
++                time.sleep(retry_delay * (2 ** attempt))
+ 
+     # 创建client
+     client = openai.Client(

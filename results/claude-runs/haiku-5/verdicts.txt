@@ -1,0 +1,7 @@
+StarVerus|haiku-5-5|few-shot|VeriCoding_VA0080_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 7
+StarVerus|haiku-5-5|few-shot|VeriCoding_VA0187_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid
+StarVerus|haiku-5-5|few-shot|VeriCoding_VA0515_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0256_vericoded                correct, differs only in safe direction   
+StarVerus|haiku-5-5|few-shot|VerusBench_CloverBench_array_copy_strong   correct, differs only in safe direction   pre_gen_to_ref invalid
+
+  5  correct, differs only in safe direction

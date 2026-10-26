@@ -1,0 +1,585 @@
+[
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0110_vericoded",
+    "task_id": "VeriCoding_VA0110_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "solve",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: __arg0 = 101, __arg1 = 0, __arg2 = 0, __ret0 = 0. The antecedent `valid_input(101, 0, 0)` holds since all three values are >= 0. The consequent `__sqm_gen_valid_input_c6b2bb038d(101, 0, 0)` requires `0 <= 101 <= 100`, which is false. The bound of 100 is stricter than the i8 range (up to 127) and than `valid_input`, so the lemma cannot be proven.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = 101, __arg1 = 0, __arg2 = 0, __ret0 = 0`. The antecedent `valid_input(101, 0, 0)` holds, since all three values are non-negative. The consequent requires `0 <= r <= 100`, which fails because `101 > 100`. The antecedent does not bound the values by 100, and `i8` allows values up to 127, so the implication is false.",
+      "claude-opus-5-5: COUNTEREXAMPLE: __arg0 = 101, __arg1 = 0, __arg2 = 0, __ret0 = 0. The antecedent `valid_input(101, 0, 0)` holds because all three values are \u2265 0, and 101 fits in an i8. The consequent requires `0 <= r <= 100`, but r = 101, so it fails. In general any i8 value from 101 to 127 satisfies the ground precondition but violates the generated one, so the implication is false."
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0110_vericoded",
+    "task_id": "VeriCoding_VA0110_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|few-shot|VeriCoding_VA0123_vericoded",
+    "task_id": "VeriCoding_VA0123_vericoded",
+    "model": "qwen-coder",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "// No new helpers needed: alt_sum_closed_form already gives the closed form.\nlet ni: int = __arg0 as int;\nassert(ni > 0);\nalt_sum_closed_form(ni);\nassert(trunc_div2(ni) == ni / 2);\nif ni % 2 == 0 {\n    assert(expected_result(ni) == ni / 2);\n} else {\n    assert(expected_result(ni) == ni / 2 - ni);\n}\n"
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0523_vericoded",
+    "task_id": "VeriCoding_VA0523_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "solve",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0523_vericoded",
+    "task_id": "VeriCoding_VA0523_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VD0580_vericoded",
+    "task_id": "VeriCoding_VD0580_vericoded",
+    "model": "qwen-coder",
+    "function": "append_array",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 4,
+    "detail": [
+      "claude-sonnet-5-5: COUNTEREXAMPLE: take `__arg0` a slice with `len() == usize::MAX`, `__arg1` an empty slice, and any `__ret0`. The antecedent is `true`, but `a.len() + b.len() == usize::MAX`, so `a.len() + b.len() < usize::MAX` fails. Consequents 2 and 3 hold trivially, since every `i32` lies in `[i32::MIN, i32::MAX]`.\n\nVerus gives slice lengths only the bound `0 <= len <= usize::MAX`. The `isize::MAX` assertions in the previous attempt failed for this reason. I believe vstd has no axiom bounding slice lengths by",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0` = a slice of `usize::MAX` zeros, `__arg1` = `[]`, `__ret0` = any `Vec`. The antecedent is `true`, but `__arg0.len() + __arg1.len() == usize::MAX`, so `__sqm_consequent_1` (`... < usize::MAX`) fails. Verus's slice model only bounds `len()` by `usize::MAX`. It has no `isize::MAX` (or byte-size) bound, which is why `assert(__arg0.len() <= isize::MAX)` failed. Real Rust could not allocate this slice, but Verus admits it, so the first consequent cannot be proved. The other tw"
+    ]
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VD0580_vericoded",
+    "task_id": "VeriCoding_VD0580_vericoded",
+    "model": "qwen-coder",
+    "function": "append_array",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded",
+    "task_id": "VeriCoding_VJ0142_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "binary_search_recursive",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded",
+    "task_id": "VeriCoding_VJ0142_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "binary_search_recursive",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|few-shot|VeriCoding_VA0383_vericoded",
+    "task_id": "VeriCoding_VA0383_vericoded",
+    "model": "deepseek-chat",
+    "function": "check_lamp_arrangement",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|few-shot|VeriCoding_VA0383_vericoded",
+    "task_id": "VeriCoding_VA0383_vericoded",
+    "model": "deepseek-chat",
+    "function": "check_lamp_arrangement",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|HumanEval-Verus_task_15",
+    "task_id": "HumanEval-Verus_task_15",
+    "model": "deepseek-reasoner",
+    "function": "intersperse",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 5,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: Take `__arg0` to be any `Vec<u64>` whose ghost view has length `usize::MAX/2 + 1` (e.g. 2^63 on 64-bit), `__arg1 = 0`, and `__ret0` arbitrary. The antecedent is `true`, but the consequent `numbers.len() <= usize::MAX / 2` is false. Verus's `Vec` model only constrains the length by `usize::MAX`, so this model is consistent with what the solver knows, and the empty body fails as observed. Caveat: real Rust caps a `Vec<u64>` at `isize::MAX / 8` elements, so the bound holds for every",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: take `__arg0` to be a `Vec<u64>` with `__arg0.len() == usize::MAX`, with arbitrary `__arg1` and `__ret0`. The antecedent is `true`, but the consequent `numbers.len() <= usize::MAX / 2` is false. This is a Verus-level counterexample, not one a real machine could build.\n\nI cannot prove the lemma, and I am not confident the implication is false in real Rust. A real `Vec<u64>` has length at most `isize::MAX / 8`, so on real hardware the consequent always holds. As far as I recall, th",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0` = a `Vec<u64>` with `__arg0@.len() == usize::MAX / 2 + 1`, `__arg1 = 0`, `__ret0 = Vec::new()`. The antecedent is `true`, so it holds. The consequent `__arg0.len() <= usize::MAX / 2` fails.\n\nThe lemma cannot be proved in Verus. vstd's model of `Vec` bounds the length only by `usize::MAX`, since `len()` returns a `usize`. It has no axiom tying a `Vec`'s length to allocation limits such as `isize::MAX / size_of::<u64>()`. So a vector of this length is consistent with every"
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|HumanEval-Verus_task_15",
+    "task_id": "HumanEval-Verus_task_15",
+    "model": "deepseek-reasoner",
+    "function": "intersperse",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-opus-5-5",
+    "calls": 7,
+    "proof": "fn main() {}\n{\n    let numbers = __arg0@;\n    let r = __ret0@;\n    assert(__arg0.len() == numbers.len());\n    assert(__sqm_antecedent_3_591fa0be7e(__arg0, __arg1, __ret0));\n    assert(__sqm_antecedent_4_591fa0be7e(__arg0, __arg1, __ret0));\n    assert(__sqm_antecedent_5_591fa0be7e(__arg0, __arg1, __ret0));\n    assert(__sqm_antecedent_6_591fa0be7e(__arg0, __arg1, __ret0));\n    if numbers.len() <= 1 {\n        assert(r == numbers);\n        assert(intersperse_spec(numbers, __arg1) == numbers);\n    } else {\n        assert(r.len() == 2 * numbers.len() - 1);\n        assert forall|i: int| 0 <= i < numbers.len() implies #[trigger] r[even(i)] == numbers[i] by {\n            if i < numbers.len() - 1 {\n                assert(__arg0[i] == numbers[i]);\n                assert(__ret0[2 * i] == __arg0[i] && __ret0[2 * i + 1] == __arg1);\n                assert(r[2 * i] == numbers[i]);\n                assert(even(i) == 2 * i);\n            } else {\n                assert(i == numbers.len() - 1);\n                assert(__ret0[2 * (numbers.len() - 1)] == __arg0[numbers.len() - 1]);\n                assert(r[2 * (numbers.len() - 1)] == numbers[numbers.len() - 1]);\n                assert(even(i) == 2 * (numbers.len() - 1));\n            }\n        }\n        assert forall|i: int| 0 <= i < numbers.len() - 1 implies #[trigger] r[odd(i)] == __arg1 by {\n            assert(__arg0[i] == numbers[i]);\n            assert(__ret0[2 * i] == __arg0[i] && __ret0[2 * i + 1] == __arg1);\n            assert(r[2 * i + 1] == __arg1);\n            assert(odd(i) == 2 * i + 1);\n        }\n        assert(intersperse_quantified(numbers, __arg1, r));\n        intersperse_quantified_is_spec(numbers, __arg1, r);\n    }\n}\n"
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|MBPP-verified_task_47",
+    "task_id": "MBPP-verified_task_47",
+    "model": "deepseek-chat",
+    "function": "sum_min_max",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|MBPP-verified_task_47",
+    "task_id": "MBPP-verified_task_47",
+    "model": "deepseek-chat",
+    "function": "sum_min_max",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-sonnet-5-5",
+    "calls": 3,
+    "proof": "proof fn lemma_max_rcur_props(seq: Seq<i32>)\n    requires\n        seq.len() > 0,\n    ensures\n        forall|i: int| 0 <= i < seq.len() ==> seq[i] as int <= max_rcur(seq),\n        exists|j: int| 0 <= j < seq.len() && seq[j] as int == max_rcur(seq),\n    decreases seq.len()\n{\n    if seq.len() <= 1 {\n        assert(seq.len() == 1);\n        assert(seq.first() == seq[0]);\n        assert(max_rcur(seq) == seq[0] as int);\n    } else {\n        let s = seq.drop_last();\n        lemma_max_rcur_props(s);\n        assert(s.len() == seq.len() - 1);\n        assert(max_rcur(seq) == max(seq.last() as int, max_rcur(s)));\n        assert(seq.last() == seq[seq.len() - 1]);\n        assert forall|i: int| 0 <= i < seq.len() implies seq[i] as int <= max_rcur(seq) by {\n            if i == seq.len() - 1 {\n                assert(seq.last() == seq[i]);\n            } else {\n                assert(s[i] == seq[i]);\n            }\n        }\n        if seq.last() as int >= max_rcur(s) {\n            assert(max_rcur(seq) == seq.last() as int);\n            assert(0 <= seq.len() - 1 < seq.len() && seq[seq.len() - 1] as int == max_rcur(seq));\n        } else {\n            assert(max_rcur(seq) == max_rcur(s));\n            let j = choose|j: int| 0 <= j < s.len() && s[j] as int == max_rcur(s);\n            assert(seq[j] == s[j]);\n            assert(0 <= j < seq.len() && seq[j] as int == max_rcur(seq));\n        }\n    }\n}\n\nproof fn lemma_min_rcur_props(seq: Seq<i32>)\n    requires\n        seq.len() > 0,\n    ensures\n        forall|i: int| 0 <= i < seq.len() ==> min_rcur(seq) <= seq[i] as int,\n        exists|j: int| 0 <= j < seq.len() && seq[j] as int == min_rcur(seq),\n    decreases seq.len()\n{\n    if seq.len() <= 1 {\n        assert(seq.len() == 1);\n        assert(seq.first() == seq[0]);\n        assert(min_rcur(seq) == seq[0] as int);\n    } else {\n        let s = seq.drop_last();\n        lemma_min_rcur_props(s);\n        assert(s.len() == seq.len() - 1);\n        assert(min_rcur(seq) == min(seq.last() as int, min_rcur(s)));\n        assert(seq.last() == seq[seq.len() - 1]);\n        assert forall|i: int| 0 <= i < seq.len() implies min_rcur(seq) <= seq[i] as int by {\n            if i == seq.len() - 1 {\n                assert(seq.last() == seq[i]);\n            } else {\n                assert(s[i] == seq[i]);\n            }\n        }\n        if seq.last() as int <= min_rcur(s) {\n            assert(min_rcur(seq) == seq.last() as int);\n            assert(0 <= seq.len() - 1 < seq.len() && seq[seq.len() - 1] as int == min_rcur(seq));\n        } else {\n            assert(min_rcur(seq) == min_rcur(s));\n            let j = choose|j: int| 0 <= j < s.len() && s[j] as int == min_rcur(s);\n            assert(seq[j] == s[j]);\n            assert(0 <= j < seq.len() && seq[j] as int == min_rcur(seq));\n        }\n    }\n}\n\nspec fn sqm_pair_ok(arr: &Vec<i32>, sum: i32, mi: int, ma: int) -> bool {\n    0 <= mi < arr.len() && 0 <= ma < arr.len()\n    && arr[mi] == sum - arr[ma] && arr[ma] == sum - arr[mi]\n    && forall|i: int| 0 <= i < arr.len() ==> arr[mi] <= arr[i] && arr[i] <= arr[ma]\n}\n\nproof fn lemma_sqm_pair_post(arr: &Vec<i32>, sum: i32, mi: int, ma: int)\n    requires\n        arr.len() > 0,\n        sqm_pair_ok(arr, sum, mi, ma),\n    ensures\n        sum == max_rcur(arr@) + min_rcur(arr@),\n{\n    assert(sqm_pair_ok(arr, sum, mi, ma));\n    assert(arr@.len() == arr.len());\n    assert(arr@.len() > 0);\n    lemma_max_rcur_props(arr@);\n    lemma_min_rcur_props(arr@);\n    let jx = choose|j: int| 0 <= j < arr@.len() && arr@[j] as int == max_rcur(arr@);\n    let kx = choose|j: int| 0 <= j < arr@.len() && arr@[j] as int == min_rcur(arr@);\n    assert(0 <= jx < arr.len());\n    assert(0 <= kx < arr.len());\n    assert(arr[jx] == arr@[jx]);\n    assert(arr[kx] == arr@[kx]);\n    assert(arr[mi] == arr@[mi]);\n    assert(arr[ma] == arr@[ma]);\n    assert(arr[jx] <= arr[ma]);\n    assert(arr[mi] <= arr[kx]);\n    assert(arr@[ma] as int <= max_rcur(arr@));\n    assert(min_rcur(arr@) <= arr@[mi] as int);\n    assert(max_rcur(arr@) == arr[ma] as int);\n    assert(min_rcur(arr@) == arr[mi] as int);\n    assert(sum == arr[mi] as int + arr[ma] as int);\n    assert(sum == max_rcur(arr@) + min_rcur(arr@));\n}\n    assert(__sqm_antecedent_1_44def2e536(__arg0, __ret0));\n    assert(__sqm_antecedent_5_44def2e536(__arg0, __ret0));\n    let (mi, ma) = choose|min_idx: int, max_idx: int|\n        0 <= min_idx < __arg0.len() && 0 <= max_idx < __arg0.len() &&\n        __arg0[min_idx] == __ret0 - __arg0[max_idx] && __arg0[max_idx] == __ret0 - __arg0[min_idx] &&\n        forall|i: int| 0 <= i < __arg0.len() ==> __arg0[min_idx] <= __arg0[i] && __arg0[i] <= __arg0[max_idx];\n    assert(sqm_pair_ok(__arg0, __ret0, mi, ma));\n    lemma_sqm_pair_post(__arg0, __ret0, mi, ma);\n    assert(__sqm_consequent_1_44def2e536(__arg0, __ret0));\n"
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded",
+    "task_id": "VeriCoding_VJ0001_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "binary_search",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded",
+    "task_id": "VeriCoding_VJ0001_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "binary_search",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|DAFNY2VERUS-COLLECTION_79",
+    "task_id": "DAFNY2VERUS-COLLECTION_79",
+    "model": "deepseek-reasoner",
+    "function": "first_e",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|DAFNY2VERUS-COLLECTION_79",
+    "task_id": "DAFNY2VERUS-COLLECTION_79",
+    "model": "deepseek-reasoner",
+    "function": "first_e",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|zero-shot|VeriCoding_VH0091_vericoded",
+    "task_id": "VeriCoding_VH0091_vericoded",
+    "model": "deepseek-chat",
+    "function": "encrypt",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: `__arg0 = vec!['a']` and `__ret0 = vec!['\\u{165}']` (code point 357 = 256 + 101). Antecedent 4 holds because `'a'` is lowercase and `result[0] as u8` truncates 357 to 101, which equals `((97 - 97 + 4) % 26) + 97`. The other antecedents hold: the lengths match and the non-letter clause is vacuous. Consequent 2 fails because `encrypt_char('a') = 'e'` (code 101), but `result[0]` has code 357, so they differ. The antecedent only constrains `result[i] as u8`, which discards the high b",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec!['a']`, `__ret0 = vec!['\\u{165}']` (code point 357). The implication is false because the antecedent only constrains `result[i] as u8`, which truncates the character.\n\n- **Antecedents hold.** The lengths are both 1. For `'a'`, the antecedent requires `result[0] as u8 == ((97 - 97 + 4) % 26) + 97 = 101`. Since `357 as u8 = 357 mod 256 = 101`, this is satisfied. The other two conjuncts are vacuous for `'a'`.\n- **Consequent 2 fails.** It requires `result[0] == encrypt_",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = ['a']`, `__ret0 = ['\u0165']` (U+0165, code 357 = 101 + 256). The lemma's preconditions hold but its conclusion fails.\n\n**The preconditions hold:**\n- Antecedents 1 and 2 are trivially true.\n- Antecedent 3 holds because both vectors have length 1.\n- For antecedent 4, `'a'` is lowercase, so the required value is `(('a' as u8 - 'a' as u8 + 4) % 26) + 'a' as u8 = 4 + 97 = 101`.\n- On the result side, `'\u0165' as u8` truncates 357 to 357 mod 256 = 101. This is Rust's cast semantics. V"
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|zero-shot|VeriCoding_VT0044_vericoded",
+    "task_id": "VeriCoding_VT0044_vericoded",
+    "model": "deepseek-chat",
+    "function": "broadcast_arrays",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VV0078_vericoded",
+    "task_id": "VeriCoding_VV0078_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "two_sum",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: `__arg0 = vec![2147483647, 2147483647]`, `__arg1 = 0`, `__ret0 = None`. The antecedent is the constant `true`, so the requires clause holds. The consequent requires every pair `i < j < nums.len()` to have `nums[i] + nums[j]` within `[-2147483648, 2147483647]`. For `i = 0, j = 1` the sum is `4294967294`, which is out of range, so the ensures clause fails and the lemma cannot be proved.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![2147483647, 1]`, `__arg1 = 0`, `__ret0 = None`. The antecedent is just `true`, so it holds. The consequent fails at `i = 0, j = 1`: `nums[0] as int + nums[1] as int = 2147483648`, which is greater than `2147483647`. Nothing in the antecedent bounds the sums, so the implication is false.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec![2147483647, 2147483647]`, `__arg1 = 0`, `__ret0 = None`. The antecedent is always `true`, so the precondition holds. The consequent fails at `i = 0`, `j = 1`: `nums[0] as int + nums[1] as int = 4294967294`, which is greater than `2147483647`. The consequent claims every pair sum fits in i32, and nothing in the precondition guarantees that."
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VV0078_vericoded",
+    "task_id": "VeriCoding_VV0078_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "two_sum",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: nums = [1, 1, 1], target = 2, result = Some((1, 2)). Antecedent 1 is `true`. Antecedent 2 holds because every pair i<j sums to 2, which is within i32 range. Antecedent 3 holds for Some((1, 2)) because 1 < 2, 2 < 3, and nums[1] + nums[2] = 2 = target. The consequent fails: for k1 = 0, k2 = 1 we have k1 < i (0 < 1), so the consequent requires nums[0] + nums[1] != target, but that sum is 2 = target. The antecedents only constrain the returned pair, not the pairs that come before it ",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![1, 1, 1]`, `__arg1 = 2`, `__ret0 = Some((1, 2))`.\n\n- **Antecedent 2 holds.** Every pairwise sum is 2, which is within the i32 range.\n- **Antecedent 3 holds.** In the `Some((1, 2))` case we have 1 < 2, 2 < 3, and `nums[1] + nums[2] == 2 == target`.\n- **The consequent fails.** Its `Some` branch also requires that no earlier pair sums to the target. Take k1 = 0 and k2 = 1: then k1 < i (0 < 1), yet `nums[0] + nums[1] == 2 == target`. So the \"first pair\" clause is false",
+      "claude-opus-5-5: COUNTEREXAMPLE: `nums = [1, 2, 1, 2]`, `target = 3`, `result = Some((2, 3))`.\n\n**The antecedents all hold:**\n- Antecedent 1 is trivially true.\n- Antecedent 2 holds because every pairwise sum (at most 4) is within the i32 range.\n- Antecedent 3 holds because `2 < 3`, `3 < 4`, and `nums[2] + nums[3] = 1 + 2 = 3 = target`.\n\n**The consequent fails:**\n- The `Some` branch also requires that no lexicographically earlier pair sums to `target`.\n- Take `k1 = 0`, `k2 = 1`. Then `k1 < k2` and `k1 < i = 2`.\n-"
+    ]
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|zero-shot|VeriCoding_VJ0114_vericoded",
+    "task_id": "VeriCoding_VJ0114_vericoded",
+    "model": "deepseek-chat",
+    "function": "to_upper_char",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|zero-shot|VeriCoding_VJ0114_vericoded",
+    "task_id": "VeriCoding_VJ0114_vericoded",
+    "model": "deepseek-chat",
+    "function": "to_uppercase",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: str1 = ['A'] (so str1@.len() == 1) and result = ['B']. Antecedent 3 holds since both lengths are 1. Antecedent 4 holds because 'B' is in 'A'..='Z'. Antecedent 5 is vacuous because 'A' is not lowercase. Antecedents 1 and 2 are `true`. Consequent 1 holds since the lengths match. Consequent 2 fails at i = 0: inner_expr_to_uppercase(str1, 0) = str1[0] = 'A' (since 'A' is not lowercase), but result[0] = 'B' \u2260 'A'. Antecedent 4 allows result[i] to be any uppercase letter, even when str",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec!['5']`, `__ret0 = vec!['A']`. The lemma's hypotheses hold but its second conclusion fails.\n\n- Antecedent 3 holds because both vectors have length 1.\n- Antecedent 4 holds because `result[0] = 'A'` lies in `'A'..='Z'`.\n- Antecedent 5 holds vacuously, because `'5'` is not a lowercase letter.\n- Consequent 2 fails because `inner_expr_to_uppercase(str1, 0)` is `'5'` (not lowercase, so unchanged), but `result[0]` is `'A'`.\n\nThe root cause is that antecedent 4 allows any up",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec!['A']`, `__ret0 = vec!['B']`. The antecedents all hold, but consequent 2 fails.\n\n- **Antecedents 1\u20132:** both are trivially true.\n- **Antecedent 3:** holds because both lengths are 1.\n- **Antecedent 4:** holds because `'B'` is between `'A'` and `'Z'`.\n- **Antecedent 5:** holds vacuously because `'A'` is not lowercase.\n- **Consequent 2:** since `'A'` is not lowercase, `inner_expr_to_uppercase(__arg0, 0)` returns `__arg0[0]`, which is `'A'`. But `__ret0[0]` is `'B'`, s"
+    ]
+  },
+  {
+    "sample": "StarVerus|qwen-coder|few-shot|VeriCoding_VS0054_vericoded",
+    "task_id": "VeriCoding_VS0054_vericoded",
+    "model": "qwen-coder",
+    "function": "transpose",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|few-shot|VeriCoding_VS0054_vericoded",
+    "task_id": "VeriCoding_VS0054_vericoded",
+    "model": "qwen-coder",
+    "function": "transpose",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 2,
+    "proof": "// no helpers needed\n// consequent 1: ret.len() == arr[0].len()\nassert(__sqm_consequent_1_c09df56015(__arg0, __ret0));\n\n// consequent 2: every row of ret has length arr.len()\nassert forall|i: int| 0 <= i < __ret0.len() implies #[trigger] __ret0[i].len() == __arg0.len() by {\n    assert(__sqm_antecedent_6_c09df56015(__arg0, __ret0));\n}\nassert(__sqm_consequent_2_c09df56015(__arg0, __ret0));\n\n// consequent 3: matrix_size(ret) == matrix_cols(arr) * matrix_rows(arr)\nassert(__arg0.len() > 0);\nassert(matrix_rows(__arg0) == __arg0.len() as int);\nassert(matrix_cols(__arg0) == __arg0[0].len() as int);\nassert(matrix_rows(__ret0) == __ret0.len() as int);\nassert(__ret0.len() as int == __arg0[0].len() as int);\nassert(matrix_rows(__ret0) == matrix_cols(__arg0));\nif __ret0.len() > 0 {\n    assert(__ret0[0].len() == __arg0.len());\n    assert(matrix_cols(__ret0) == __arg0.len() as int);\n    assert(matrix_cols(__ret0) == matrix_rows(__arg0));\n    assert(matrix_size(__ret0) == matrix_rows(__ret0) * matrix_cols(__ret0));\n    assert(matrix_rows(__ret0) * matrix_cols(__ret0) == matrix_cols(__arg0) * matrix_rows(__arg0)) by (nonlinear_arith)\n        requires\n            matrix_rows(__ret0) == matrix_cols(__arg0),\n            matrix_cols(__ret0) == matrix_rows(__arg0),\n    {}\n} else {\n    assert(__arg0[0].len() == 0);\n    assert(matrix_cols(__arg0) == 0);\n    assert(matrix_cols(__ret0) == 0);\n    assert(matrix_size(__ret0) == matrix_rows(__ret0) * matrix_cols(__ret0));\n    assert(matrix_rows(__ret0) * matrix_cols(__ret0) == 0) by (nonlinear_arith)\n        requires\n            matrix_cols(__ret0) == 0,\n    {}\n    assert(matrix_cols(__arg0) * matrix_rows(__arg0) == 0) by (nonlinear_arith)\n        requires\n            matrix_cols(__arg0) == 0,\n    {}\n}\nassert(__sqm_consequent_3_c09df56015(__arg0, __ret0));\n\n// consequent 4: ret[j][i] == arr[i][j] for in-range i, j\nassert forall|i: int, j: int|\n    (0 <= i < matrix_rows(__arg0) && 0 <= j < matrix_cols(__arg0)) implies\n    #[trigger] matrix_get(__ret0, j, i) == matrix_get(__arg0, i, j) by {\n    assert(__sqm_antecedent_7_c09df56015(__arg0, __ret0));\n    assert(__ret0[j][i] == __arg0[i][j]);\n}\nassert(__sqm_consequent_4_c09df56015(__arg0, __ret0));\n"
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|few-shot|VeriCoding_VT0269_vericoded",
+    "task_id": "VeriCoding_VT0269_vericoded",
+    "model": "deepseek-chat",
+    "function": "isnat",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "proof fn lemma_is_nat_eq_nat(d: DateTime64)\n    ensures\n        is_nat(d) <==> d == DateTime64::Nat,\n{\n    match d {\n        DateTime64::Nat => {}\n        DateTime64::Valid(_) => {}\n    }\n}\nassert(__sqm_antecedent_3_70c67e5598(__arg0, __ret0));\nassert(__sqm_consequent_1_70c67e5598(__arg0, __ret0));\n\nassert forall|i: int| 0 <= i < __arg0.len() implies\n    ((__ret0@.index(i) == true) <==> __arg0@.index(i) == DateTime64::Nat)\nby {\n    assert(__ret0[i] == is_nat(__arg0[i]));\n    lemma_is_nat_eq_nat(__arg0[i]);\n}\nassert(__sqm_consequent_2_70c67e5598(__arg0, __ret0));\n\nassert forall|i: int| 0 <= i < __arg0.len() implies\n    ((__ret0@.index(i) == false) <==> exists|val: i64| __arg0@.index(i) == DateTime64::Valid(val))\nby {\n    assert(__ret0[i] == is_nat(__arg0[i]));\n    lemma_is_nat_eq_nat(__arg0[i]);\n    lemma_not_nat_iff_exists_valid(__arg0@.index(i));\n}\nassert(__sqm_consequent_3_70c67e5598(__arg0, __ret0));\n"
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|zero-shot|VeriCoding_VJ0123_vericoded",
+    "task_id": "VeriCoding_VJ0123_vericoded",
+    "model": "deepseek-chat",
+    "function": "has_only_one_distinct_element",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 5,
+    "detail": [
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0` is a `Vec<i32>` with `__arg0@.len() == usize::MAX` (any `__ret0`, e.g. `false`). The precondition is `true`, so it holds trivially. The postcondition requires `__arg0.len() < usize::MAX`, but here `usize::MAX < usize::MAX` is false.\n\nVerus's model of `Vec` only bounds `len()` by its `usize` type, i.e. `len() <= usize::MAX`. vstd has no axiom limiting a `Vec<T>` view to `isize::MAX` or anything below `usize::MAX`, so this state is consistent in the logic. A real allocatio"
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|zero-shot|VeriCoding_VJ0123_vericoded",
+    "task_id": "VeriCoding_VJ0123_vericoded",
+    "model": "deepseek-chat",
+    "function": "has_only_one_distinct_element",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "VerusAge|deepseek-chat|few-shot|VeriCoding_VD0044_vericoded",
+    "task_id": "VeriCoding_VD0044_vericoded",
+    "model": "deepseek-chat",
+    "function": "append",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 2,
+    "proof": "// no helpers needed\nassert(__ret0@.len() == __arg0@.len() + 1);\nassert((__arg0@ + seq![__arg1]).len() == __arg0@.len() + 1);\nassert forall|i: int| 0 <= i < __ret0@.len() implies __ret0@[i] == (__arg0@ + seq![__arg1])[i] by {\n    if i < __arg0@.len() {\n        assert(__ret0[i] == __arg0[i]);\n        assert(__ret0@[i] == __ret0[i]);\n        assert(__arg0@[i] == __arg0[i]);\n        assert((__arg0@ + seq![__arg1])[i] == __arg0@[i]);\n    } else {\n        assert(i == __arg0@.len());\n        assert((__arg0@ + seq![__arg1])[i] == seq![__arg1][i - __arg0@.len()]);\n        assert(seq![__arg1][0] == __arg1);\n        assert(__ret0[(__arg0@.len()) as int] == __arg1);\n        assert(__ret0@[i] == __arg1);\n    }\n};\nassert(__ret0@ =~= __arg0@ + seq![__arg1]);\n"
+  },
+  {
+    "sample": "StarVerus|qwen-coder|few-shot|VeriCoding_VB0061_vericoded",
+    "task_id": "VeriCoding_VB0061_vericoded",
+    "model": "qwen-coder",
+    "function": "zeros",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "proof fn lemma_zeros_str2int(s: Seq<char>)\n    requires forall|i: int| 0 <= i < s.len() ==> s[i] == '0'\n    ensures str2int(s) == 0\n    decreases s.len()\n{\n    if s.len() > 0 {\n        let t = s.subrange(0, s.len() - 1);\n        assert forall|i: int| 0 <= i < t.len() implies t[i] == '0' by {\n            assert(t[i] == s[i]);\n        }\n        lemma_zeros_str2int(t);\n        assert(str2int(s) == 2nat * str2int(t) + (if s[s.len() - 1] == '1' { 1nat } else { 0nat }));\n        assert(s[s.len() - 1] == '0');\n    }\n}\nassert(__ret0@.len() == __arg0);\nassert forall|i: int| 0 <= i < __ret0@.len() implies __ret0@[i] == '0' by {\n    assert(__ret0@[i] == '0');\n}\nlemma_zeros_str2int(__ret0@);\nassert forall|i: int| 0 <= i < __ret0@.len() implies (__ret0@[i] == '0' || __ret0@[i] == '1') by {\n    assert(__ret0@[i] == '0');\n}\nassert(valid_bit_string(__ret0@));\nassert(all_zero(__ret0@));\n"
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|VeriCoding_VJ0132_vericoded",
+    "task_id": "VeriCoding_VJ0132_vericoded",
+    "model": "qwen-coder",
+    "function": "is_smaller",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 4,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: Take `__arg0 = &Vec::new()` (an empty `Vec<i32>`), `__arg1 = &Vec::new()` (also empty), and `__ret0 = false` (or any bool). The antecedent `arr1.len() == arr2.len()` holds since 0 == 0. The second consequent `arr1.len() > 0` evaluates to `0 > 0`, which is false. The lemma's ensures clause therefore does not follow from its requires clause, and the empty body cannot verify it. The lemma is unprovable as stated, because nothing in the antecedent rules out empty vectors.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![]`, `__arg1 = vec![]`, `__ret0 = true`. The antecedent `arr1.len() == arr2.len()` holds (0 == 0), but the consequent `__sqm_consequent_2` requires `arr1.len() > 0`, which fails because the length is 0.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec![]`, `__arg1 = vec![]`, `__ret0 = true`. The antecedent holds because both lengths are 0, and `arr1.len() == arr2.len()` only asks for equal lengths. Consequent 1 also holds for the same reason. Consequent 2 requires `arr1.len() > 0`, but the length is `0`, so it fails. Nothing in the precondition rules out empty vectors, so the implication is false."
+    ]
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|VeriCoding_VJ0132_vericoded",
+    "task_id": "VeriCoding_VJ0132_vericoded",
+    "model": "qwen-coder",
+    "function": "is_smaller",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|HumanEval-Verus_task_80",
+    "task_id": "HumanEval-Verus_task_80",
+    "model": "deepseek-chat",
+    "function": "prime_length",
+    "direction": "pre_ref_to_gen",
+    "verdict": "unresolved",
+    "calls": 6,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: `__arg0` = the empty slice `&[]` (length 0) and `__ret0` = `false`. The requires clause `__sqm_antecedent_1_dc4f4df6d7` is the constant `true`, so it holds. The ensures clause `__sqm_consequent_1_dc4f4df6d7` requires `str.len() >= 2`, which is `0 >= 2`, so it fails. The implication is false for any slice of length 0 or 1, so no proof body can establish it.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = &[]` (an empty char slice, length 0) and `__ret0 = false` (any bool works). The antecedent `__sqm_antecedent_1_dc4f4df6d7` is `true` for all inputs, but the consequent requires `str.len() >= 2`, and `0 >= 2` is false. The lemma therefore asserts that every slice has length at least 2, which does not hold."
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|HumanEval-Verus_task_80",
+    "task_id": "HumanEval-Verus_task_80",
+    "model": "deepseek-chat",
+    "function": "prime_length",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded",
+    "task_id": "VeriCoding_VH0029_vericoded",
+    "model": "deepseek-chat",
+    "function": "is_prime",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: `__arg0 = -1i8` (any `__ret0`, e.g. `false`). The antecedent `__sqm_antecedent_1_8988193d96` is the constant `true`, so the requires clause holds. The consequent `n >= 0` is `-1 >= 0`, which is false, so the ensures clause fails. Since `i8` ranges over -128..=127, the lemma cannot be proved as stated.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = -1` (any negative i8 works, and `__ret0` can be either value). The antecedent `__sqm_antecedent_1_8988193d96` is `true`, so the precondition holds. The consequent is `n >= 0`, which is false for `-1`, so the implication cannot be proved.",
+      "claude-opus-5-5: COUNTEREXAMPLE: __arg0 = -1, __ret0 = false. The antecedent is `true`, so the precondition places no constraint on `__arg0`. The consequent requires `__arg0 >= 0`, but `-1` is a valid `i8` and `-1 >= 0` is false. The implication therefore fails."
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded",
+    "task_id": "VeriCoding_VH0029_vericoded",
+    "model": "deepseek-chat",
+    "function": "is_prime",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "if __ret0 {\n    assert(is_prime_number((__arg0 as int))) by {\n        assert((__arg0 as int) >= 2);\n        assert forall|k: int| 2 <= k < (__arg0 as int) implies #[trigger] ((__arg0 as int) % k) != 0 by {\n            assert(!is_divisible((__arg0 as int), k));\n        }\n    }\n} else {\n    if is_prime_number((__arg0 as int)) {\n        assert(forall|k: int| 2 <= k < (__arg0 as int) ==> !is_divisible((__arg0 as int), k)) by {\n            assert forall|k: int| 2 <= k < (__arg0 as int) implies !is_divisible((__arg0 as int), k) by {\n                assert(((__arg0 as int) % k) != 0);\n            }\n        }\n        assert((__arg0 as int) >= 2);\n        assert(false);\n    }\n}\n"
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|VeriCoding_VT0036_vericoded",
+    "task_id": "VeriCoding_VT0036_vericoded",
+    "model": "qwen-coder",
+    "function": "zeros_like",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: take `__arg0` = a `Vec<i32>` of length 1000001 (e.g. `vec![0; 1000001]`) and `__ret0` = `Vec::new()`. The antecedent `__sqm_antecedent_1_656664c08c` is the constant `true`, so it holds, but the consequent `a.len() <= 1000000` evaluates to `1000001 <= 1000000`, which is false. Nothing in the requires clause constrains `a.len()`, so the lemma cannot be proved.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: take `__arg0` to be any `Vec<i32>` of length 1,000,001 (for example, one million and one zeros) and `__ret0` to be any `Vec<i32>`. The antecedent `__sqm_antecedent_1_656664c08c` is just `true`, so it holds. The consequent requires `a.len() <= 1000000`, which fails because the length is 1,000,001. Nothing in the harness bounds `Vec` length this tightly. `Vec::len` returns a `usize`, so lengths up to 2^64\u22121 are possible. The implication is therefore false, and no proof body can est",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0` = a `Vec<i32>` of length 1000001 (e.g. all zeros), and `__ret0` = any `Vec<i32>`, e.g. one of the same length. The precondition `__sqm_antecedent_1_656664c08c` is just `true`, so it holds. The postcondition needs `__arg0.len() <= 1000000`, but here the length is 1000001. Verus bounds a `Vec`'s length only by the `usize` range, not by 1000000, so this input is valid and the lemma is false."
+    ]
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|VeriCoding_VT0036_vericoded",
+    "task_id": "VeriCoding_VT0036_vericoded",
+    "model": "qwen-coder",
+    "function": "zeros_like",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VT0325_vericoded",
+    "task_id": "VeriCoding_VT0325_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "imag",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: val = vec![(0.0, 1.0)] and __ret0 = result = vec![0.0]. Antecedents 1 and 2 are `true`, and antecedent 3 holds since both lengths are 1. Consequent 1 holds (lengths equal), but consequent 2 requires result[0] == val[0].1, i.e. 0.0 == 1.0, which is false. The requires clauses only constrain lengths, so nothing forces result's contents to match val, and the empty body cannot prove the element-wise postconditions.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![(0.0, 1.0)]`, `__ret0 = vec![2.0]`. The only real antecedent is `result.len() == val.len()` (1 == 1), and the other two antecedents are `true`, so all of them hold. Consequent 2 requires `result[0] == val[0].1`, but `2.0 != 1.0`, so the postcondition fails. The lemma never ties the contents of `result` to `val`, so it is false.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec![(0.0, 1.0)]`, `__ret0 = vec![0.0]`. Every precondition holds: antecedents 1 and 2 are `true`, and both vectors have length 1. Consequent 2 then requires `__ret0[0] == __arg0[0].1`, which is `0.0 == 1.0`, and that is false. Consequent 4 fails for the same reason, because `__arg0[0].1 != 0.0`. The preconditions only fix the length and say nothing about the element values, so the postcondition does not follow from them."
+    ]
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VT0556_vericoded",
+    "task_id": "VeriCoding_VT0556_vericoded",
+    "model": "qwen-coder",
+    "function": "argmax",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VT0556_vericoded",
+    "task_id": "VeriCoding_VT0556_vericoded",
+    "model": "qwen-coder",
+    "function": "argmax",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: a = [5, 5] (len 2), result = 1. Antecedents hold: `a.len() > 0`; `1 < 2`; every element satisfies `a[i] <= a[1] = 5`. Consequent 3 fails: for j = 0, `a[0] == a[1]` (both 5) but `result <= j as usize` requires `1 <= 0`, which is false. The lemma only says `result` is a maximum, not the first index of the maximum, so the implication does not hold and no body can prove it.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![5i8, 5i8]`, `__ret0 = 1`. The antecedents hold: the length is 2 > 0, `1 < 2`, and every `a[i] = 5 <= a[1] = 5`. The third consequent fails. Taking `j = 0` gives `a@[0] == a@[1]`, but `result = 1 <= 0` is false. The antecedent only says `result` indexes a maximum, not the first one, so the \"first index of the maximum\" postcondition does not follow.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec![5i8, 5i8]` and `__ret0 = 1`; this satisfies every precondition, but `__sqm_consequent_3_76e104e01c` fails, so the implication is false.\n\n- **Preconditions hold:**\n  - `a.len() = 2 > 0`.\n  - `result = 1 < 2`.\n  - Every element is at most `a[1] = 5`.\n- **Consequents 1 and 2 hold** for the same reasons.\n- **Consequent 3 fails:** at `j = 0` we have `a@[0] == a@[1] == 5`, so it requires `1 <= 0`, which is false.\n\nThe preconditions only say that `result` is some index of"
+    ]
+  },
+  {
+    "sample": "StarVerus|deepseek-chat|few-shot|MBPP-verified_task_73",
+    "task_id": "MBPP-verified_task_73",
+    "model": "deepseek-chat",
+    "function": "is_non_prime",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VT0166_vericoded",
+    "task_id": "VeriCoding_VT0166_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "argmin",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|deepseek-reasoner|few-shot|VeriCoding_VT0166_vericoded",
+    "task_id": "VeriCoding_VT0166_vericoded",
+    "model": "deepseek-reasoner",
+    "function": "argmin",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: a = [1, 1] (so a.len() = 2) and result = 1. Antecedents 1\u20133 hold since 2 > 0 and 1 < 2. Antecedent 4 holds because a[1] = 1 <= a[0] = 1 and a[1] = 1 <= a[1] = 1. Consequent 3 requires a[0] > a[1], i.e. 1 > 1, which is false. The antecedents only say result is a minimum; they do not force the first minimum, so consequent 3 is not implied.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = vec![0i8, 0i8]`, `__ret0 = 1`. All four antecedents hold: `a.len() = 2 > 0`, `1 < 2`, and `a[1] = 0 <= a[j]` for every `j`. The third consequent fails at `k = 0`, because it needs `a[0] > a[1]`, which is `0 > 0` and false. The antecedents only say that `result` is the index of some minimum. The consequent additionally requires it to be the first such index, which does not follow when the minimum value appears more than once.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = vec![0i8, 0i8]`, `__ret0 = 1`. All four antecedents hold: the length is 2 > 0, 1 < 2, and `a[1] = 0 <= a[j]` for every j. But `__sqm_consequent_3` requires `a[0] > a[1]`, i.e. `0 > 0`, which is false. The antecedents only say the result is *a* minimum, not the *first* one, so with a repeated minimum value a later index satisfies them while violating the first-occurrence postcondition."
+    ]
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|MBPP-verified_task_19",
+    "task_id": "MBPP-verified_task_19",
+    "model": "qwen-coder",
+    "function": "has_common_element",
+    "direction": "pre_ref_to_gen",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: `__arg0` is a `Vec<i32>` of length 0x80000000 (2147483648), e.g. `vec![0i32; 0x8000_0000]` (about 8 GiB, which is a valid allocation on 64-bit since Rust caps Vec byte size at isize::MAX, and 2^31 \u00b7 4 bytes < 2^63), `__arg1` is any `Vec<i32>` (e.g. empty), and `__ret0` is any bool. The sole requirement `__sqm_antecedent_1_6946865de8` is `true`, so it holds, but the first postcondition `__sqm_consequent_1_6946865de8` requires `list1.len() <= 0x7fffffff`, which is 2147483648 <= 214",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: take `__arg0` as a `Vec<i32>` of length 2^31 (or any length above 0x7fffffff, such as 2^32), `__arg1` as any `Vec<i32>`, and `__ret0 = true` or `false`. The only precondition is `true`, so it holds. The first consequent, `list1.len() <= 0x7fffffff`, then fails. Nothing bounds `Vec::len()` below `usize::MAX` (or `isize::MAX` in practice), so a 64-bit `Vec<i32>` can be longer than `i32::MAX`. The same argument with the arguments swapped refutes the second consequent for `list2`. Be",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0` = a `Vec<i32>` of length 2^31 = 0x80000000 (for example, all zeros), `__arg1` = an empty Vec, `__ret0` = false. The precondition is just `true`, so it holds, but `__arg0.len() <= 0x7fffffff` fails.\n\nSuch a Vec can exist. On a 64-bit target, `usize` goes up to 2^64\u22121, and Verus only bounds `Vec::len()` by `usize::MAX`. By default Verus does not fix the pointer width to 32 bits. A `Vec<i32>` with 2^31 elements takes about 8 GiB, which is a valid allocation, well below the "
+    ]
+  },
+  {
+    "sample": "VerusAge|qwen-coder|zero-shot|MBPP-verified_task_19",
+    "task_id": "MBPP-verified_task_19",
+    "model": "qwen-coder",
+    "function": "has_common_element",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VerusBench_CloverBench_is_prime",
+    "task_id": "VerusBench_CloverBench_is_prime",
+    "model": "qwen-coder",
+    "function": "test_prime",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VerusBench_CloverBench_is_prime",
+    "task_id": "VerusBench_CloverBench_is_prime",
+    "model": "qwen-coder",
+    "function": "test_prime",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-sonnet-5-5",
+    "calls": 3,
+    "proof": "if __ret0 {\n    assert forall|factor: nat| 1 < factor && factor < (__arg0 as nat) implies !divides(factor, (__arg0 as nat)) by {\n        let g: u64 = factor as u64;\n        assert((g as nat) == factor);\n        assert(2 <= g);\n        assert(g < __arg0);\n        assert(__arg0 % g != 0);\n        assert(((__arg0 as nat) % factor) == ((__arg0 % g) as nat));\n    }\n    assert(is_prime(__arg0 as nat));\n} else {\n    if is_prime(__arg0 as nat) {\n        assert forall|f: u64| 2 <= f && f < __arg0 implies #[trigger] (__arg0 % f) != 0 by {\n            assert(1 < (f as nat) && (f as nat) < (__arg0 as nat));\n            assert(!divides((f as nat), (__arg0 as nat)));\n            assert((__arg0 as nat) % (f as nat) != 0);\n            assert(((__arg0 % f) as nat) == ((__arg0 as nat) % (f as nat)));\n        }\n        assert(__ret0);\n        assert(false);\n    }\n}\n"
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VA0151_vericoded",
+    "task_id": "VeriCoding_VA0151_vericoded",
+    "model": "qwen-coder",
+    "function": "solve",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|qwen-coder|zero-shot|VeriCoding_VA0151_vericoded",
+    "task_id": "VeriCoding_VA0151_vericoded",
+    "model": "qwen-coder",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "claimed_counterexample",
+    "by": "claude-opus-5-5",
+    "calls": 3,
+    "detail": [
+      "claude-haiku-5-5: COUNTEREXAMPLE: n = 2, s = ['a', 'a'] (so s@ = \"aa\"), result = 0. All five antecedents hold: valid_input(2, \"aa\") is true (2 >= 1 and len = 2), n >= 1, s.len() == 2, result >= 0, and result < n since 0 < 2. Consequent 3 fails: count_adjacent_same_pairs(\"aa\", 2) = count_up_to(\"aa\", 2) = (s[1] == s[0] ? 1 : 0) + count_up_to(\"aa\", 1) = 1 + 0 = 1, but result as int = 0 \u2260 1. The lemma's requires never constrain result to equal the pair count, so the ensures cannot be proven.",
+      "claude-sonnet-5-5: COUNTEREXAMPLE: `__arg0 = 2`, `__arg1 = vec!['a', 'b']`, `__ret0 = 1`. All five antecedents hold: `valid_input(2, s@)`, `n >= 1`, `s.len() == 2`, `result >= 0`, and `result < n` (1 < 2). The consequent `result as int == count_adjacent_same_pairs(s@, 2)` fails. The only adjacent pair is ('a','b'), which differs, so the count is 0, but `result` is 1. The antecedents only bound `result` to `[0, n)` and do not tie it to the count, so the implication is false.",
+      "claude-opus-5-5: COUNTEREXAMPLE: `__arg0 = 2`, `__arg1 = ['a', 'b']`, `__ret0 = 1` satisfies every antecedent but fails consequent 3, so the implication is false.\n\n- **Antecedents hold:** `valid_input(2, ['a','b'])` is true, since 2 \u2265 1 and the length is 2. Also 2 \u2265 1, `s.len() == 2`, 1 \u2265 0 and 1 < 2.\n- **Consequents 1 and 2 hold:** 1 \u2265 0 and 1 \u2264 1.\n- **Consequent 3 fails:** `count_adjacent_same_pairs(['a','b'], 2)` is 0 because 'b' \u2260 'a', but `__ret0 as int` is 1.\n\nThe antecedents only bound `result` to between"
+    ]
+  }
+]

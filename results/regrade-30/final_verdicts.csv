@@ -1,0 +1,31 @@
+sample_id,size_group,verdict,basis,note
+StarVerus|deepseek-reasoner|zero-shot|DAFNY2VERUS-COLLECTION_79,big,checker_wrong,verus,reliability checks hold on recheck or by proof; differences only in the safe direction
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_47,big,checker_wrong,verus,postcondition implication proved; blind review flags a per-element bound that the reference may share
+StarVerus|qwen-coder|few-shot|VeriCoding_VA0123_vericoded,big,checker_wrong,verus,postcondition implication proved
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0523_vericoded,big,checker_wrong,verus,reliability checks hold on recheck or by proof
+StarVerus|qwen-coder|few-shot|VeriCoding_VB0061_vericoded,small,checker_wrong,verus,postcondition implication proved
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded,big,checker_wrong,verus,reliability checks hold on recheck or by proof
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded,big,checker_wrong,verus,reliability checks hold; blind review flags a sortedness requirement that the reference may share
+StarVerus|qwen-coder|few-shot|VeriCoding_VS0054_vericoded,big,checker_wrong,verus,postcondition implication proved
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VT0044_vericoded,big,checker_wrong,verus,reliability checks hold on recheck or by proof
+VerusAge|deepseek-chat|few-shot|VeriCoding_VA0383_vericoded,big,checker_wrong,verus,reliability checks hold on recheck or by proof
+StarVerus|deepseek-reasoner|few-shot|HumanEval-Verus_task_15,big,impossible_input_guard,verus+reading,postcondition proved; extra requires numbers.len() <= usize::MAX / 2 only excludes vectors that cannot exist
+StarVerus|qwen-coder|zero-shot|VeriCoding_VD0580_vericoded,big,impossible_input_guard,reading,extra requires a.len() + b.len() < usize::MAX only excludes slices that cannot exist
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VH0091_vericoded,big,real_weak_post,reading+review,ensures compares result[i] as u8; char-to-u8 truncation lets non-ASCII chars pass
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0110_vericoded,big,real_extra_pre,reading+review,requires r/g/b <= 100; code computes in i16 and handles 0..=127
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VV0078_vericoded,big,real_extra_pre,reading+review,requires no pairwise i32 overflow; code already uses checked_add (separate postcondition claim not read)
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_73,small,checker_wrong,verus,reliability checks hold on recheck or by proof
+StarVerus|qwen-coder|zero-shot|VerusBench_CloverBench_is_prime,small,checker_wrong,verus,postcondition implication proved
+VerusAge|deepseek-chat|few-shot|VeriCoding_VD0044_vericoded,small,checker_wrong,verus,postcondition implication proved
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0269_vericoded,small,checker_wrong,verus,postcondition implication proved
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VJ0123_vericoded,small,impossible_input_guard,model_claim+reading,extra requires len < usize::MAX
+VerusAge|qwen-coder|zero-shot|MBPP-verified_task_19,small,impossible_input_guard,model_claim+reading,extra requires len <= 2^31 - 1 (an 8 GB vector; near-impossible)
+VerusAge|deepseek-chat|zero-shot|VeriCoding_VJ0114_vericoded,big,real_weak_post,reading+review,top-level ensures never says non-lowercase chars stay unchanged
+StarVerus|qwen-coder|zero-shot|VeriCoding_VT0556_vericoded,small,real_weak_post,model_claim+review,argmax tie-breaking unspecified; code returns the first maximum
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VT0166_vericoded,small,real_weak_post,model_claim+review,argmin tie-breaking unspecified; code returns the first minimum
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VT0325_vericoded,small,real_weak_post,model_claim+review,ensures pins only the output length
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0151_vericoded,small,real_weak_post,model_claim+review,ensures only bounds the result; code and contract not read by hand
+StarVerus|deepseek-chat|few-shot|HumanEval-Verus_task_80,small,real_extra_pre,model_claim,requires len >= 2 rejects strings the code handles; adjudicator left it unresolved and the blind review missed it
+VerusAge|qwen-coder|zero-shot|VeriCoding_VJ0132_vericoded,small,real_extra_pre,model_claim+review,requires non-empty input; code handles empty vectors
+StarVerus|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded,small,real_extra_pre,model_claim+review,requires n >= 0; code returns false for negatives (postcondition proved)
+VerusAge|qwen-coder|zero-shot|VeriCoding_VT0036_vericoded,small,real_extra_pre,model_claim+review,requires len <= 1000000; an arbitrary bound the code does not need

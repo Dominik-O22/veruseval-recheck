@@ -1,0 +1,9 @@
+model                tasks  accepted  clean
+deepseek-chat            6         3      0
+deepseek-reasoner        6         5      0
+gpt-4o                   6         4      1
+haiku-5-5                6         6      1
+llama                    6         3      0
+qwen-coder               6         4      0
+
+claude calls: 64, input 422,362 tok, output 244,153 tok, API-equivalent $0.20

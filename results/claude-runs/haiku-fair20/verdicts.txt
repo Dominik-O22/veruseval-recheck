@@ -1,0 +1,9 @@
+StarVerus|haiku-5-5|few-shot|DAFNY2VERUS-COLLECTION_42                  correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 1
+StarVerus|haiku-5-5|few-shot|HumanEval-Verus_task_63                    clean                                     
+StarVerus|haiku-5-5|few-shot|MBPP-verified_task_36                      correct, differs only in safe direction   
+StarVerus|haiku-5-5|few-shot|MBPP-verified_task_72                      correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VA0625_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VD0367_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 1
+
+  5  correct, differs only in safe direction
+  1  clean

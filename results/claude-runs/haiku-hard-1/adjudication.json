@@ -1,0 +1,13 @@
+[
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|HumanEval-Verus_task_6",
+    "task_id": "HumanEval-Verus_task_6",
+    "model": "haiku-5-5",
+    "function": "below_zero",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-opus-5-5",
+    "calls": 8,
+    "proof": "proof fn lemma_prefix_sum_eq_sum_first_n(s: Seq<i32>, n: int)\n    requires\n        0 <= n <= s.len(),\n    ensures\n        prefix_sum(s.subrange(0, n)) == sum(first_n(s, n)),\n    decreases n,\n{\n    if n == 0 {\n        assert(s.subrange(0, 0).len() == 0);\n        assert(first_n(s, 0).len() == 0);\n        assert(prefix_sum(s.subrange(0, 0)) == 0);\n        assert(sum(first_n(s, 0)) == 0);\n    } else {\n        lemma_prefix_sum_eq_sum_first_n(s, n - 1);\n        let p = s.subrange(0, n);\n        let q1 = first_n(s, n - 1);\n        let q2 = first_n(s, n);\n        assert(p.len() == n);\n        assert(p.drop_last() =~= s.subrange(0, n - 1));\n        assert(q2.len() == n);\n        assert(q1.len() == n - 1);\n        assert(q2.drop_last() =~= q1);\n        assert(q2.last() == s[n - 1] as int);\n        assert(p.last() == s[n - 1]);\n        lemma_sum_equals_sum_other_way(q2);\n        lemma_sum_equals_sum_other_way(q1);\n        assert(sum_other_way(q2) == q2.last() + sum_other_way(q2.drop_last()));\n        assert(prefix_sum(p) == prefix_sum(p.drop_last()) + p.last() as int);\n    }\n}\n\nfn main() {}\n    assert forall|i: int| 0 <= i <= __arg0@.len() implies\n        #[trigger] prefix_sum(__arg0@.subrange(0, i)) == sum(first_n(__arg0@, i)) by {\n        lemma_prefix_sum_eq_sum_first_n(__arg0@, i);\n    }\n    if __ret0 {\n        let i = choose|i: int| 0 <= i <= __arg0@.len() && #[trigger] prefix_sum(__arg0@.subrange(0, i)) < 0;\n        assert(0 <= i <= __arg0@.len() && sum(first_n(__arg0@, i)) < 0);\n        assert(exists|j: int| 0 <= j <= __arg0@.len() && #[trigger] sum(first_n(__arg0@, j)) < 0) by {\n            assert(0 <= i <= __arg0@.len() && sum(first_n(__arg0@, i)) < 0);\n        }\n    } else {\n        assert forall|j: int| 0 <= j <= __arg0@.len() implies !(#[trigger] sum(first_n(__arg0@, j)) < 0) by {\n            assert(prefix_sum(__arg0@.subrange(0, j)) == sum(first_n(__arg0@, j)));\n            assert(!(prefix_sum(__arg0@.subrange(0, j)) < 0));\n        }\n    }\n"
+  }
+]

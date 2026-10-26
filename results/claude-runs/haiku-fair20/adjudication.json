@@ -1,0 +1,76 @@
+[
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|DAFNY2VERUS-COLLECTION_42",
+    "task_id": "DAFNY2VERUS-COLLECTION_42",
+    "model": "haiku-5-5",
+    "function": "reverse",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|HumanEval-Verus_task_63",
+    "task_id": "HumanEval-Verus_task_63",
+    "model": "haiku-5-5",
+    "function": "fib",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|MBPP-verified_task_36",
+    "task_id": "MBPP-verified_task_36",
+    "model": "haiku-5-5",
+    "function": "find_negative_numbers",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|MBPP-verified_task_72",
+    "task_id": "MBPP-verified_task_72",
+    "model": "haiku-5-5",
+    "function": "sub_array_at_index",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|MBPP-verified_task_72",
+    "task_id": "MBPP-verified_task_72",
+    "model": "haiku-5-5",
+    "function": "sub_array_at_index",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|MBPP-verified_task_72",
+    "task_id": "MBPP-verified_task_72",
+    "model": "haiku-5-5",
+    "function": "is_sub_array",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "proof fn lemma_matches_iff_subrange_helper(main: Seq<i32>, sub: Seq<i32>, k: int)\n    requires\n        0 <= k,\n        k + sub.len() <= main.len(),\n    ensures\n        matches_at(main, sub, k) <==> (main.subrange(k, k + sub.len() as int) =~= sub),\n{\n    let l = k + sub.len() as int;\n    assert(main.subrange(k, l).len() == sub.len());\n    if matches_at(main, sub, k) {\n        assert forall|j: int| 0 <= j < sub.len() implies main.subrange(k, l)[j] == sub[j] by {\n            assert(main.subrange(k, l)[j] == main[k + j]);\n        }\n        assert(main.subrange(k, l) =~= sub);\n    }\n    if main.subrange(k, l) =~= sub {\n        assert forall|j: int| 0 <= j < sub.len() implies main[k + j] == sub[j] by {\n            assert(main.subrange(k, l)[j] == main[k + j]);\n            assert(main.subrange(k, l)[j] == sub[j]);\n        }\n    }\n}\nif __ret0 {\n    assert(exists|k: int| 0 <= k <= (__arg0.len() as int) - (__arg1.len() as int) && matches_at(__arg0@, __arg1@, k));\n    let k = choose|k: int| 0 <= k <= (__arg0.len() as int) - (__arg1.len() as int) && matches_at(__arg0@, __arg1@, k);\n    lemma_matches_iff_subrange_helper(__arg0@, __arg1@, k);\n    let l = k + (__arg1.len() as int);\n    assert(__arg0@.subrange(k, l) =~= __arg1@);\n    assert(0 <= k <= (__arg0.len() as int) - (__arg1.len() as int) && l == k + (__arg1.len() as int) && __arg0@.subrange(k, l) =~= __arg1@);\n    assert(exists|k2: int, l2: int| 0 <= k2 <= (__arg0.len() as int) - (__arg1.len() as int) && l2 == k2 + (__arg1.len() as int) && (#[trigger] __arg0@.subrange(k2, l2)) =~= __arg1@);\n} else {\n    assert forall|k2: int, l2: int| !(0 <= k2 <= (__arg0.len() as int) - (__arg1.len() as int) && l2 == k2 + (__arg1.len() as int) && (#[trigger] __arg0@.subrange(k2, l2)) =~= __arg1@) by {\n        if 0 <= k2 <= (__arg0.len() as int) - (__arg1.len() as int) && l2 == k2 + (__arg1.len() as int) && __arg0@.subrange(k2, l2) =~= __arg1@ {\n            lemma_matches_iff_subrange_helper(__arg0@, __arg1@, k2);\n            assert(matches_at(__arg0@, __arg1@, k2));\n        }\n    }\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0625_vericoded",
+    "task_id": "VeriCoding_VA0625_vericoded",
+    "model": "haiku-5-5",
+    "function": "determine_food_safety",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VD0367_vericoded",
+    "task_id": "VeriCoding_VD0367_vericoded",
+    "model": "haiku-5-5",
+    "function": "yarra",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  }
+]
