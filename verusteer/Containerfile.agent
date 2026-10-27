@@ -1,0 +1,3 @@
+# Verus toolchain from the VerusEval artifact plus a standalone opencode binary.
+FROM veruseval:haiku
+COPY opencode-bin /usr/local/bin/opencode

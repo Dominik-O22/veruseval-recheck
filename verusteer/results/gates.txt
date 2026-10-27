@@ -1,0 +1,7 @@
+edit                                                 AutoVerus  VeruSAGE  
+add a loop invariant                                 allow      allow     
+add a proof fn                                       allow      allow     
+add an import                                        reject     allow     
+remove an import that does not resolve               reject     reject    
+rewrite a spec fn body to true                       allow      reject    
+change exec code in an if whose else is proof-only   allow      allow     

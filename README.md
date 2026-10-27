@@ -1,8 +1,10 @@
-# VerusEval re-check
+# VerusEval and VeruSteer re-check
 
 An independent re-check of [VerusEval: Evaluating LLM-Generated Verus Specifications Beyond Verifier Acceptance](https://arxiv.org/abs/2610.26464) (Wang et al., 2026), built on the authors' released artifact ([lifetruthuu/VerusEval](https://github.com/lifetruthuu/VerusEval), v1.0.0). The release reproduced the paper's tables exactly, which is what made this possible.
 
 The question: when the evaluator flags a verified contract as wrong, is the contract actually wrong?
+
+A second part, in [`verusteer/`](verusteer), re-checks the same group's [VeruSteer](https://arxiv.org/abs/2610.29755). About 69% of its repair failures cannot be fixed under the pipelines' own rules. In 73% of failed runs the program never changes at all. On 30 failing tasks, a Haiku 5.5 agent with Verus in a shell got 10 accepted where the pipeline running the same model got 6, and it flagged 9 contracts as false along the way.
 
 ## Findings
 
@@ -80,5 +82,6 @@ run python haiku/review_specs.py runs/regrade-30 > runs/regrade-30/haiku_review.
 - `results/claude-runs/`: Claude-generated programs, usage, adjudications and verdicts per run (`haiku-fair20` was stopped after 6 of 20 tasks)
 - `results/regrade-30/`: sample IDs, adjudications, final verdicts, blind reviews
 - `results/tasks/`: task lists, including the broken-task lists
+- `verusteer/`: the VeruSteer re-check, with its own README
 
 The release's programs, references and per-file records are referenced by sample ID and not redistributed here. Scripts are MIT licensed. The patch modifies MIT-licensed code from the StarVerus baseline bundled with VerusEval.
