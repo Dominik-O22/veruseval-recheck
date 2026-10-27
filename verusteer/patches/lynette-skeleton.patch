@@ -1,0 +1,98 @@
+diff -ruN a/lynette/src/deghost.rs b/lynette/src/deghost.rs
+--- a/lynette/src/deghost.rs
++++ b/lynette/src/deghost.rs
+@@ -323,6 +323,7 @@
+         inputs: sig.inputs.clone(),
+         variadic: sig.variadic.clone(),
+         output: match &sig.output {
++            _ if skeleton_mode() => sig.output.clone(),
+             syn_verus::ReturnType::Type(_, _, _, ty) => {
+                 syn_verus::ReturnType::Type(Default::default(), None, None, ty.clone())
+             }
+@@ -415,7 +416,7 @@
+         } else {
+             remove_ghost_block(&(*func.block), mode).map(|new_block| {
+                 syn_verus::ItemFn {
+-                    attrs: remove_verifier_attr(&func.attrs),
++                    attrs: if skeleton_mode() { skeleton_attrs(&func.attrs) } else { remove_verifier_attr(&func.attrs) },
+                     vis: func.vis.clone(),
+                     sig: new_sig,
+                     block: Box::new(new_block), // Box the new block
+@@ -451,7 +452,7 @@
+                             } else {
+                                 remove_ghost_block(&func.block, mode).map(|new_block| {
+                                     syn_verus::ImplItemFn {
+-                                        attrs: func.attrs.clone(),
++                                        attrs: if skeleton_mode() { skeleton_attrs(&func.attrs) } else { func.attrs.clone() },
+                                         vis: func.vis.clone(),
+                                         defaultness: func.defaultness.clone(),
+                                         sig: new_sig,
+@@ -610,3 +611,38 @@
+         Ok(deghost_merge_files(&pure_file, verus_files))
+     })
+ }
++
++
++/*
++ * Local patch: skeleton mode (env LYNETTE_SKELETON) emits the frozen part of a file as compilable
++ * Verus: the code `compare -t` checks, plus return names, fn attributes and
++ * exec_allows_no_decreases_clause, all of which `compare -t` ignores.
++ */
++pub fn skeleton_mode() -> bool {
++    std::env::var_os("LYNETTE_SKELETON").is_some()
++}
++
++fn skeleton_attrs(attrs: &Vec<syn_verus::Attribute>) -> Vec<syn_verus::Attribute> {
++    let mut attrs = attrs.clone();
++    attrs.push(syn_verus::parse_quote!(#[verifier::exec_allows_no_decreases_clause]));
++    attrs
++}
++
++pub fn skeleton_source(filepath: PathBuf, mode: &DeghostMode) -> Result<String, Error> {
++    let orig_file = fload_file(&filepath)?;
++    let mut out = String::new();
++    let mut pure = TokenStream::new();
++    remove_verus_macro(&orig_file).to_tokens(&mut pure);
++    out.push_str(&pure.to_string());
++    // One item per line, so Verus error lines map back to items.
++    for vm in extract_verus_macro(&orig_file)? {
++        out.push_str("\nverus! {\n");
++        for item in remove_ghost_from_file(&vm, mode).items {
++            let mut ts = TokenStream::new();
++            item.to_tokens(&mut ts);
++            out.push_str(&format!("{}\n", ts));
++        }
++        out.push_str("}\n");
++    }
++    Ok(out)
++}
+diff -ruN a/lynette/src/main.rs b/lynette/src/main.rs
+--- a/lynette/src/main.rs
++++ b/lynette/src/main.rs
+@@ -462,11 +462,24 @@
+         args.opts.clone()
+     };
+ 
++    if skeleton_mode() {
++        // Keep spec fns as written; callers decide whether they are frozen.
++        let mut keep_spec = mode.clone();
++        keep_spec.spec = true;
++        println!("{}", skeleton_source(f1, &keep_spec)?);
++        return Ok(true);
++    }
++
+     fextract_pure_rust(f1, &mode).and_then(|result1| {
+         fextract_pure_rust(f2, &mode).and_then(|result2| {
+             if args.verbose {
+-                println!("{}", fprint_file(&result1, Formatter::VerusFmt));
+-                println!("{}", fprint_file(&result2, Formatter::VerusFmt));
++                // Local patch: print raw tokens (no verusfmt dependency) so the frozen skeleton can be compiled.
++                let (mut t1, mut t2) = (TokenStream::new(), TokenStream::new());
++                result1.to_tokens(&mut t1);
++                result2.to_tokens(&mut t2);
++                println!("verus!{{{}}}", t1);
++                println!("=====SKELETON-SPLIT=====");
++                println!("verus!{{{}}}", t2);
+             }
+             Ok(result1 == result2)
+         })

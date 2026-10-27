@@ -1,0 +1,6 @@
+test trees 1270: default verified 185, VeruSteer verified 194
+roots that do not compile: 972/1270 (76.5%); of those verified by the default rule: 101
+failed default trajectories whose program never changes: 796/1085 (73.4%)
+verified default trajectories passing lynette compare -t (root vs final): 184/185
+VeruSAGE repair rounds on non-compiling programs that keep the original: 14644/14830 (98.7%), all splits
+VeruSAGE repair rounds on compiling programs that keep the original: 13970/29005 (48.2%), all splits
