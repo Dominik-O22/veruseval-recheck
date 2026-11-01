@@ -39,7 +39,7 @@ Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condi
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
-| 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | Open |
+| 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | **Passed.** `analysis/census.py`. 656 of 656 clauses matched, 0 lemmas with both verdicts, about $2.26. In the paper's form: 194 proved, 334 refuted, 128 undecided. Pilot data. `results/gate3/verdicts_dev.jsonl` |
 | 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | Open |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | Open |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
@@ -57,7 +57,7 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | $1.43 | Census (about $19 to $32, estimated from 128 clauses) |
+| API key | $100 | $3.69 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses) |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
