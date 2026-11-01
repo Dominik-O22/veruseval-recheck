@@ -47,7 +47,7 @@ Before the freeze:
 | Source | Available | Spent | Use |
 |---|---|---|---|
 | API key | $100 | $1.43 | Census (about $19 to $32, estimated from 128 clauses) |
-| Cloud credit, expires 5 Nov 08:59 | $204.21 left | $45.79 | Gate 2c only, unless a gate needs agents |
+| Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
 
