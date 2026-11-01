@@ -1,0 +1,37 @@
+{
+  "dev100_vs_agents": {
+    "conflicts": 0,
+    "proofs_found": "32 of 32",
+    "refutations_found": "46 of 47",
+    "undecided": {
+      "pipeline": 18,
+      "agents": 21
+    }
+  },
+  "hard_true_regrade14": {
+    "clauses": 17,
+    "conflicts": 0,
+    "guarded_proofs_found": "16 of 17",
+    "uncond_proofs_found": "4 of 5",
+    "uncond_refutations_found": "10 of 10"
+  },
+  "known_false_dev": {
+    "artifacts_with_failed_io": 71,
+    "some_clause_refuted": 69,
+    "undecided_remains": 2,
+    "all_proved": 0,
+    "note": "upper estimate, because witness.py reads the same I/O suites"
+  },
+  "both_verdicts_dev": 0,
+  "proved_refuted": 0,
+  "stability": {
+    "clauses": 200,
+    "lemma_forms": 400,
+    "same": 391,
+    "flips_proved_refuted": 0,
+    "settled_then_undecided": 2,
+    "undecided_then_settled": 7,
+    "note": "second run with fresh Haiku and Sonnet calls"
+  },
+  "dev_only_note": "Known false cases are limited to development tasks, so no census data is seen before the freeze."
+}

@@ -49,8 +49,8 @@ Also out: `tasks_fair20.csv`, the 12 Haiku tasks, the blind-review finding, the 
 |---|---|---|
 | Accepted artifacts | 7,081 | measured |
 | Rejected L1, L2 obligations | 609, 1,761 | measured |
-| Rejected clause lemmas, L1, L2 | 723, 2,320 (3,043 total) | reviewer measured, confirm at gate 1 |
-| Accepted artifacts with a rejected L1 or L2 | 2,166 on 541 tasks | measured |
+| Rejected clause lemmas, L1, L2 | 723, 2,320 (3,043 total) | measured |
+| Accepted artifacts with a rejected L1 or L2 | 2,166 on 541 tasks. One, `StarVerus|llama|few-shot|VeriCoding_VT0541_vericoded`, has an unresolved clause and no rejected clause lemma, so the census covers 2,165 | measured |
 | All artifacts with a rejected L1 or L2 | 4,365 | measured |
 | Rejected L2 valid under the older guarded form | 537 of 1,761 | measured |
 | Rejected L2 with no real precondition on either side | 369 | reviewer measured |
@@ -105,7 +105,7 @@ Obligations are the unit of inference. Artifacts are a summary, in this order: T
 
 1. **Authors' variants.** `data/evidence/contract_variants` has 943 retained variants and 395 identity bases (reviewer confirmed the counts and operator mapping). Stronger preconditions and weaker postconditions must be refuted, and weaker preconditions and stronger postconditions must clear.
 2. **Hard true cases.** The variant bases are easy, because they were selected as already equivalent. Add the 7 model-proved rows from `regrade-30`, the proofs in `proofs/`, and any others with a checked proof.
-3. **Known false cases.** Natural obligations with a failing correct or wrong-output case, up to 419, after reading each case's reason.
+3. **Known false cases.** Natural obligations with a failing correct or wrong-output case. These are limited to development tasks, 71 artifacts, because the other cases sit on census tasks and would expose census data before the freeze.
 4. **Both engines.** On validation sets only, run prover and refuter on every lemma. Any lemma with both verdicts is a soundness bug and stops the run.
 5. **Stability.** Run the frozen grader twice on 200 development lemmas and report the flip rate.
 

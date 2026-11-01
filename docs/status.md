@@ -42,7 +42,7 @@ Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condi
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
 | 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | **Passed.** `analysis/census.py`. 656 of 656 clauses matched, 0 lemmas with both verdicts, about $2.26. In the paper's form: 194 proved, 334 refuted, 128 undecided. Pilot data. `results/gate3/verdicts_dev.jsonl` |
-| 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | Open |
+| 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | **Passed.** 0 both verdicts, 0 proved refuted. Hard true: 16 of 17 guarded proofs. Known false: 69 of 71 refuted, 0 proved. 0 flips on 200 clauses, 97.8% identical. `results/gate3/validation.json` |
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | Open |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | Open |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
