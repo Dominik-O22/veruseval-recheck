@@ -1,0 +1,20 @@
+DAFNY2VERUS-COLLECTION_42         reverse                 invalid  refuted: __arg0@.len() == 0
+MBPP-verified_task_72             sub_array_at_index      valid    no small witness in 36 inputs
+MBPP-verified_task_72             is_sub_array            invalid  refuted: __arg0@.len() == 0, __arg1@.len() == 1
+VeriCoding_VA0625_vericoded       determine_food_safety   invalid  refuted: __arg0 == -1, __arg1 == -1, __arg2 == -1
+VeriCoding_VD0367_vericoded       yarra                   invalid  refuted: __arg0@.len() == 0
+VeriCoding_VA0115_vericoded       solve                   invalid  refuted: __arg0 == -1
+VeriCoding_VT0026_vericoded       meshgrid                invalid  refuted: __arg0@.len() == 0, __arg1@.len() == 0
+VeriCoding_VT0048_vericoded       copyto                  valid    no small witness in 27 inputs
+VeriCoding_VT0178_vericoded       ix_                     invalid  refuted: __arg0@.len() == 0, __arg1@.len() == 0
+VeriCoding_VT0187_vericoded       place                   valid    no small witness in 27 inputs
+VeriCoding_VT0376_vericoded       chebyshev               invalid  refuted: __arg0@.len() == 0
+VerusBench_Diffy_condm            myfun                   invalid  refuted: __arg0@.len() == 0, __old_arg0@.len() == 0, __arg1 == 0
+VerusBench_MBPP_task_id_262       split_array             invalid  refuted: __arg0@.len() == 0, __arg1 == 0
+
+# soundness control: --direction pre_ref_to_gen
+MBPP-verified_task_72             sub_array_at_index      valid    no small witness in 36 inputs
+VeriCoding_VT0048_vericoded       copyto                  valid    no small witness in 27 inputs
+VeriCoding_VT0187_vericoded       place                   valid    no small witness in 27 inputs
+VerusBench_Diffy_condm            myfun                   valid    no small witness in 36 inputs
+VerusBench_MBPP_task_id_262       split_array             valid    no small witness in 12 inputs

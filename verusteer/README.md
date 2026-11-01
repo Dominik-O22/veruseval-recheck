@@ -43,7 +43,11 @@ The agents also flagged the broken contracts, which the pipeline has no way to d
 
 AutoVerus's check ignores spec functions entirely, so rewriting `is_sorted` to `true` turns a sorting contract vacuous and the program verifies. In the 30-task run, the pipeline and both agents used that freedom on `VH0036`, where the generated spec function returns 0 for every input. All three rewrote it to count what the code counts, which matches the obvious intent but is still a contract change.
 
-The last row is a lynette bug. An `if` whose `else` holds only proof code disappears from the program lynette compares, so changing `x = x + 1` to `x = 0` inside it passes both checks. I have not checked whether any recorded success went through it.
+The last row is a lynette bug, fixed in [microsoft/verus-proof-synthesis#53](https://github.com/microsoft/verus-proof-synthesis/pull/53). An `if` with a ghost-only branch disappears from the program lynette compares, so changing `x = x + 1` to `x = 0` inside it passes both checks, and adding or deleting a ghost-only `else` is rejected.
+
+[`scripts/gate_recheck.py`](scripts/gate_recheck.py) re-runs each tree's own check with the fix ([`results/gate_recheck.txt`](results/gate_recheck.txt)). No recorded success depended on the bug: all 476 verified test paths pass under both versions, including the 185 default and 194 VeruSteer successes. `frozen_check.py` built on the fixed lynette gives an identical classification, so the 744 stands.
+
+The bug did cost the agents. Under the fix, three repairs that were rejected only because of a ghost-only `else` are accepted, so the Haiku agent goes from 10 to 11 of 30 and the DeepSeek agent from 9 to 11, which is all 11 fixable tasks for both. The pipeline could have been held back the same way during its run, so we re-ran it with the fix built in. It accepted 5 of 30 at about the same cost ([`results/s30/pipeline-haiku-fixed`](results/s30/pipeline-haiku-fixed)). The one change is `VH0036`, which failed to verify this time. That run differs from the first in that task's model output, so it is more likely run-to-run variance than an effect of the fix.
 
 **5. The released VeruSAGE repair code crashes with its own example config.** Its config object raises `KeyError` instead of `AttributeError`, so `getattr(config, "fvt_mode", False)` throws whenever the key is missing, and the example config omits it. Every model-backed repair action then fails before calling the model, and the error handler fails too, because it passes a `success` argument `ActionResult` doesn't accept. [`scripts/run_pipeline.py`](scripts/run_pipeline.py) sets the missing keys to their intended defaults.
 
@@ -51,11 +55,12 @@ The last row is a lynette bug. An `if` whose `else` holds only proof code disapp
 
 The artifact is careful. It reproduces 185 and 194 exactly and documents its own data anomalies. The contract freeze works as intended on their successes: 184 of 185 verified programs pass lynette against their starting program. VeruSteer's gain on the recorded trees is real, and the abstract reports it as the small number it is.
 
-The problem is what it optimizes. Most failures are decided before the first round: the selector picks which error to repair in programs no allowed repair can fix. The obvious baseline, giving the model every diagnostic or a shell with Verus, is named in the paper's related work and never run.
+The problem is what it optimizes. Most failures are decided before the first round: the selector picks which error to repair in programs no allowed repair can fix. The paper never runs a baseline that gives the model a shell with Verus. Its replay design could not: it selects among stored trajectories and, as the paper says, does not describe an end-to-end benchmark.
 
 ## Caveats
 
-- 30 tasks, one run per arm, no variance estimate.
+- 30 tasks, one run per arm, no variance estimate. The two pipeline runs differing on one task is the only repeat we have.
+- The table in finding 3 uses the original lynette in every column. The agents' fixed-gate counts in finding 4 are re-grades of the same programs, while the pipeline's is a fresh run.
 - The false-contract verdicts are model claims I checked by reading, not by running Verus. On 9 of the 10, two independent agents agree.
 - The agents read the rules from a prompt, while the pipeline enforces them in code. All four columns are graded by the same lynette checks, and verdicts.csv lists every case where a rule decided the outcome.
 - Through the proxy, Haiku sees few-shot examples inlined into one message, and temperature isn't forwarded.
@@ -93,16 +98,21 @@ python3 -I run_pipeline.py runs/sample-30.csv --out runs/pipeline-haiku
 python3 -I run_agent.py run runs/sample-30.csv --model claude-haiku-5-5 --out runs/agent-haiku
 python3 -I run_agent.py run runs/sample-30.csv --model opencode/deepseek-v4.1-flash-free --out runs/agent-deepseek
 for run in pipeline-haiku agent-haiku agent-deepseek; do python3 -I run_agent.py grade runs/$run; done
+
+# Compare against a lynette built with the fix from microsoft/verus-proof-synthesis#53
+python3 -I gate_recheck.py VeruSteer lynette/target/release/lynette <fixed lynette> roots runs/gate_changed.csv \
+    runs/pipeline-haiku runs/agent-haiku runs/agent-deepseek
 ```
 
 Before building `veruseval:agent`, copy opencode's standalone linux-x64 binary to `work/opencode-bin`. In an npm or mise install it is `node_modules/@opencode/cli-linux-x64/bin/opencode`.
 
 ## Layout
 
-- `scripts/`: test extraction, trajectory statistics, the unfixable classifier, the sampler, the agent and pipeline runners, the SDK proxy
+- `scripts/`: test extraction, trajectory statistics, the unfixable classifier, the sampler, the agent and pipeline runners, the SDK proxy, the old versus fixed lynette comparison
 - `patches/lynette-skeleton.patch`: adds a skeleton mode to lynette, which is MIT-licensed code from Microsoft's verus-proof-synthesis
 - `gate_examples/`: small programs and a script that show what each check accepts
 - `results/frozen_check.csv`: classifier status for every test tree
 - `results/s30/`: the sample, grades per arm and the hand verdicts
+- `results/gate_recheck.txt`: verdicts under the original and fixed lynette
 
 VeruSteer's repository has no license, so its programs, and our repairs of them, are referenced by tree ID and not redistributed.

@@ -1,0 +1,17 @@
+StarVerus|haiku-5-5|few-shot|VeriCoding_VA0115_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VD0578_vericoded                correct, differs only in safe direction   post_ref_to_gen invalid
+StarVerus|haiku-5-5|few-shot|VeriCoding_VH0074_vericoded                correct, differs only in safe direction   post_ref_to_gen invalid
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0026_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0048_vericoded                correct, differs only in safe direction   
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0111_vericoded                correct, differs only in safe direction   
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0178_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid; io_invalid failed 5
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0187_vericoded                correct, differs only in safe direction   post_ref_to_gen invalid
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0376_vericoded                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 1
+StarVerus|haiku-5-5|few-shot|VeriCoding_VT0457_vericoded                correct, differs only in safe direction   
+StarVerus|haiku-5-5|few-shot|VerusBench_Diffy_condm                     correct, differs only in safe direction   pre_gen_to_ref invalid; post_ref_to_gen invalid
+StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_18                 clean                                     
+StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_262                correct, differs only in safe direction   pre_gen_to_ref invalid; io_invalid failed 1
+StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_807                correct, differs only in safe direction   post_ref_to_gen invalid
+
+ 13  correct, differs only in safe direction
+  1  clean
