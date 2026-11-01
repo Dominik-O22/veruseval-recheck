@@ -34,7 +34,7 @@ Harnesses, references and the release are not in this repo and must not be commi
 - VeruSteer artifact: `.../dl-verusteer-repo/VeruSteer`
 - Regenerated harnesses and tier outputs: `.../run-artifacts/gate2-run`
 - Paper text: `.../run-artifacts/paper-text`
-- Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`, not merged. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
+- Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`. Merged only on local branch `gate2-local`, which holds the scripts, not on `main`. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
 
 ## Running things
 

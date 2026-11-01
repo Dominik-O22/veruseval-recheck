@@ -22,11 +22,11 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 |---|---|---|---|---|
 | 1 | Rebuild the paper's checks | Regenerated context and status match the released records on L1 and L2 | **Passed** | 151 of 151 clauses here, 117 of 117 in the cloud session |
 | 2a | Proofs and counterexamples work | Verdicts reproduce independently on this machine | **Passed** | 182 verdicts on 128 clauses, 0 failed, 0 controls tripped |
-| 2b | Cheap pipeline works | No conflicts with verified answers, cost measured | **Passed** | 94 of 103 and 78 of 79 settled, 0 conflicts, about $0.01 per clause |
+| 2b | Cheap pipeline works | No conflicts with verified answers, cost measured | **Passed** | 95 of 103 and 78 of 79 settled, 0 conflicts, about $0.01 per clause |
 | 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Waiting** | Cloud session `gate2-witness` still running |
-| 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Open** | 40 of 69 confirmed, 29 unconfirmed |
-| 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Open** | Filter matches substrings |
-| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | Blocked by 2c to 2e | |
+| 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Passed** | 63 of 69 confirmed, 6 reported as unconfirmed, about $0.01. `results/gate2/guard_final.jsonl` |
+| 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Passed** | 13 answers on 7 clauses rechecked, not 7, 1 clause newly proved, no API spend. 262 other stored answers unchanged. `results/gate2/tier_axiom.jsonl` |
+| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | Blocked by 2c | |
 | 4 | Census | All 3,043 clauses run on the 80% of tasks not used in development, plus development tasks reported apart | Blocked by 3 | |
 | 5 | Analysis | RQ1 to RQ3 scored as written in the plan | Blocked by 4 | |
 | 6 | Draft | Every number traces to a results file, every reference checked by hand | Blocked by 5 | |
@@ -34,13 +34,13 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 
 ## Next action
 
-Wait for gate 2c. Gates 2d and 2e can run alongside it, and both are small.
+Wait for gate 2c. When it passes, gate 3 opens.
 
 ## Budget
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | $1.42 | Census (about $19 to $32, estimated from 128 clauses) |
+| API key | $100 | $1.43 | Census (about $19 to $32, estimated from 128 clauses) |
 | Cloud credit, expires 5 Nov 08:59 | $219 left | $31 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
@@ -52,6 +52,7 @@ Wait for gate 2c. Gates 2d and 2e can run alongside it, and both are small.
 | 1 Nov | Do not race the credit deadline | A wrong run costs more than lost credit |
 | 1 Nov | Census instead of a 600-check sample, if the pipeline holds at gate 3 | Measured cost fits the key |
 | 1 Nov | No general retry step | $0.56 bought 3 proofs in 40 |
+| 1 Nov | Gate work stays on local branch `gate2-local`, nothing pushed | Pushing would publish pilot numbers |
 
 ## Open questions for others
 

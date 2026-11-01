@@ -32,7 +32,10 @@ from pathlib import Path
 
 VERUS = os.environ.get("VERUS_PATH", "/opt/verus/verus")
 FORBIDDEN = ("assume", "admit", "external_body", "external_fn", "external", "#[verifier", "#![verifier",
-             "axiom", "uninterp", "unsafe", "opaque", "trusted")
+             "uninterp", "unsafe", "opaque", "trusted")
+# Whole word, because vstd's `axiom_*` lemmas and `group_*_axioms` are trusted like the rest of vstd.
+# Only the keyword, as in `axiom fn`, adds a new assumption.
+AXIOM_KEYWORD = re.compile(r"\baxiom\b")
 LITERAL_FORBIDDEN = re.compile(r"\b(if|else|while|for|loop|match|let|fn|assume|admit|unsafe|proof|spec|choose|forall|exists)\b|[;=|]")
 SPEC_ONLY = re.compile(r"^(int|nat|Seq<.*|Set<.*|Map<.*|Multiset<.*|spec_fn.*)$")
 TIMEOUT = 300
@@ -82,9 +85,9 @@ def lemma_signature(harness: str) -> tuple[str, list[tuple[str, str]], list[str]
 
 def prove(harness: str, proof: str, rlimit: str | None) -> dict:
     helpers, _, body = proof.partition("// ---- body")
-    if any(word in proof for word in FORBIDDEN):
-        return {"outcome": "rejected", "reason": "forbidden construct",
-                "hits": [w for w in FORBIDDEN if w in proof]}
+    hits = [w for w in FORBIDDEN if w in proof] + AXIOM_KEYWORD.findall(proof)
+    if hits:
+        return {"outcome": "rejected", "reason": "forbidden construct", "hits": hits}
     name, _, _, _, body_open, body_close = lemma_signature(harness)
     if harness[body_open + 1:body_close].strip():
         return {"outcome": "rejected", "reason": "lemma body not empty"}
@@ -107,8 +110,9 @@ def literal_ok(value: str) -> bool:
     return True
 
 
-def refute(harness: str, witness: dict) -> dict:
-    name, params, antecedent, consequent, _, _ = lemma_signature(harness)
+def run_witness(harness: str, witness: dict, negate_consequent: bool) -> dict:
+    """Bind literals in the fixed template and assert the antecedent, plus the negated consequent if asked."""
+    _, params, antecedent, consequent, _, _ = lemma_signature(harness)
     fuel = witness.get("_fuel", {})
     types = witness.get("_types", {})  # instantiate a generic lemma: one bad instance refutes it
     if not all(re.fullmatch(r"\w+", k) and literal_ok(v) and re.fullmatch(r"[\w<>, ()&\[\]]+", v)
@@ -129,7 +133,9 @@ def refute(harness: str, witness: dict) -> dict:
         ghost = "ghost " if SPEC_ONLY.match(t) else ""
         lets.append(f"    let {ghost}{n}: {t} = {witness[n]};")
     reveal = [f"        reveal_with_fuel({f}, {k});" for f, k in fuel.items()]
-    goals = [f"        assert({c});" for c in antecedent] + [f"        assert(!{c});" for c in consequent]
+    goals = [f"        assert({c});" for c in antecedent]
+    if negate_consequent:
+        goals += [f"        assert(!{c});" for c in consequent]
 
     def file_with(asserts: list[str]) -> str:
         fn = ("\n#[allow(unused_variables)]\nfn __gate2_witness() {\n" + "\n".join(lets) + "\n    proof {\n"
@@ -143,8 +149,18 @@ def refute(harness: str, witness: dict) -> dict:
     tail = "\n".join(l for l in log.splitlines() if "error" in l or "verification results" in l)[-1500:]
     if status == "verified" and vacuity == "verified":
         return {"outcome": "void", "reason": "assert(false) also verifies", "seconds": round(seconds, 1)}
-    return {"outcome": "refuted" if status == "verified" else status, "vacuity": vacuity,
-            "seconds": round(seconds, 1), "log": tail}
+    return {"outcome": status, "vacuity": vacuity, "seconds": round(seconds, 1), "log": tail}
+
+
+def refute(harness: str, witness: dict) -> dict:
+    result = run_witness(harness, witness, negate_consequent=True)
+    return {**result, "outcome": "refuted"} if result["outcome"] == "verified" else result
+
+
+def satisfy(harness: str, witness: dict) -> dict:
+    """Is the antecedent true at this input? Confirms that a guarded lemma is not vacuous."""
+    result = run_witness(harness, witness, negate_consequent=False)
+    return {**result, "outcome": "satisfied"} if result["outcome"] == "verified" else result
 
 
 def main() -> None:

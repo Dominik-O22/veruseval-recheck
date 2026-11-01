@@ -159,9 +159,9 @@ Solo blinding is not enforceable, so the protection is the hash. Agent assistanc
 
 Live status, spend and gates are in [`docs/status.md`](status.md). This section records the method.
 
-The census runs in three layers, stopping at the first verdict: a free search over small literal values (`analysis/tier_free.py`), then one-shot Haiku and then Sonnet through the Batches API with structured output (`analysis/tier_batch.py`). On 128 development clauses this settled 94 of the 103 no-preconditions verdicts that agents had settled, and 78 of 79 valid-inputs verdicts, with no conflicts, at about $0.01 per clause (measured). That gives about $19 to $32 for all 3,043 clauses, which is an estimate from a small sample. It uses an API key, because Anthropic's terms say Agent SDK developers "should use API key authentication".
+The census runs in three layers, stopping at the first verdict: a free search over small literal values (`analysis/tier_free.py`), then one-shot Haiku and then Sonnet through the Batches API with structured output (`analysis/tier_batch.py`). On 128 development clauses this settled 95 of the 103 no-preconditions verdicts that agents had settled, and 78 of 79 valid-inputs verdicts, with no conflicts, at about $0.01 per clause (measured). That gives about $19 to $32 for all 3,043 clauses, which is an estimate from a small sample. It uses an API key, because Anthropic's terms say Agent SDK developers "should use API key authentication".
 
-The pipeline leaves more undecided than agents did, 27 against 21 of 100 on the development sample, so Undecided shares in the paper describe this pipeline.
+The pipeline leaves more undecided than agents did, 26 against 21 of 100 on the development sample, so Undecided shares in the paper describe this pipeline.
 
 ICPC 2027 RENE (abstract 11 December, paper 18 December) stays optional, because arXiv is the primary target.
 
