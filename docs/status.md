@@ -43,8 +43,8 @@ Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condi
 |---|---|---|---|
 | 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | **Passed.** `analysis/census.py`. 656 of 656 clauses matched, 0 lemmas with both verdicts, about $2.26. In the paper's form: 194 proved, 334 refuted, 128 undecided. Pilot data. `results/gate3/verdicts_dev.jsonl` |
 | 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | **Passed.** 0 both verdicts, 0 proved refuted. Hard true: 16 of 17 guarded proofs. Known false: 69 of 71 refuted, 0 proved. 0 flips on 200 clauses, 97.8% identical. `results/gate3/validation.json` |
-| 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | Open |
-| 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | Open |
+| 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
+| 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
 | 3e | Tell the authors | Dom approves the message and it is sent | Waits for Dom |
 
@@ -60,7 +60,7 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | $3.69 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), then RQ4 |
+| API key | $100 | about $5 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), then RQ4 |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions

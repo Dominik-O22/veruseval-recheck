@@ -14,7 +14,8 @@ An artifact is, in order: Trivial if the paper's check holds, Difference if any 
 rejected clause is Solver limit or Premise only, otherwise Undecided. Artifacts with no rejected clause are
 Clean. L3 and L4 are out of scope, so none of these means equivalent or correct.
 
-    python3 -I analysis/census_report.py --verdicts verdicts.jsonl --labels rq1_artifact_labels.csv --out DIR
+    python3 -I analysis/census_report.py --verdicts verdicts.jsonl --labels rq1_artifact_labels.csv --out DIR \\
+        [--rq4-verdicts verdicts.jsonl --rq4-stages stages.jsonl --rq4-tasks results/tasks/rq4_tasks.txt] [--rq2 rq2.jsonl]
 """
 from __future__ import annotations
 
@@ -75,8 +76,14 @@ def artifacts(table: list[dict], labels: list[dict]) -> dict[str, str]:
     by_sample: dict[str, list[str]] = defaultdict(list)
     for row in table:
         by_sample[row["sample"]].append(clause_class(row))
-    return {r["sample_id"]: artifact_class(by_sample.get(r["sample_id"], []), r["triviality_state"] == "unfavorable")
-            for r in labels}
+    out = {}
+    for row in labels:
+        sample = row["sample_id"]
+        if row.get("formal_reliability_state") == "other" and sample not in by_sample:
+            out[sample] = "Undecided"     # the release has no L1 or L2 result for these
+        else:
+            out[sample] = artifact_class(by_sample.get(sample, []), row["triviality_state"] == "unfavorable")
+    return out
 
 
 def rq3(classes: dict[str, str], labels: list[dict], table: list[dict]) -> dict:
@@ -87,6 +94,46 @@ def rq3(classes: dict[str, str], labels: list[dict], table: list[dict]) -> dict:
             "outcome": dict(Counter(classes[s] for s in among)),
             "by_config": {c: dict(Counter(classes[r["sample_id"]] for r in labels if config(r["sample_id"]) == c))
                           for c in sorted({config(r["sample_id"]) for r in labels})}}
+
+
+def concordance(rows: list[dict], seed: int = 20261102) -> dict:
+    """Prompting pairs: same workflow and model, few-shot against zero-shot.
+
+    rows: one per generated artifact, with workflow, model, shot, accepted, original and certified, the last
+    two true when it passes that metric. Metrics are taken on accepted artifacts only. A pair is concordant
+    when the setting with higher acceptance also scores higher. The negative control shuffles certified
+    results among accepted artifacts, which shows how much relabeling alone moves the count.
+    """
+    def rate(group: list[dict], key: str) -> float:
+        kept = [r for r in group if r["accepted"]]
+        return sum(r[key] for r in kept) / len(kept) if kept else 0.0
+
+    def count(table: list[dict], key: str) -> tuple[int, int]:
+        pairs: dict[tuple, dict[str, list]] = defaultdict(lambda: defaultdict(list))
+        for row in table:
+            pairs[(row["workflow"], row["model"])][row["shot"]].append(row)
+        total = agree = 0
+        for shots in pairs.values():
+            few, zero = shots.get("few-shot", []), shots.get("zero-shot", [])
+            if not few or not zero:
+                continue
+            gap = sum(r["accepted"] for r in few) / len(few) - sum(r["accepted"] for r in zero) / len(zero)
+            if gap == 0:
+                continue
+            total += 1
+            agree += (rate(few, key) - rate(zero, key)) * gap > 0
+        return agree, total
+
+    rng = random.Random(seed)
+    accepted = [r for r in rows if r["accepted"]]
+    shuffled_labels = [r["certified"] for r in accepted]
+    rng.shuffle(shuffled_labels)
+    control = [dict(r) for r in rows]
+    labels = iter(shuffled_labels)
+    for row in control:
+        if row["accepted"]:
+            row["certified"] = next(labels)
+    return {"original": count(rows, "original"), "certified": count(rows, "certified"), "relabel_control": count(control, "certified")}
 
 
 def paired_bootstrap(left: list[int], right: list[int], rounds: int = 2000, seed: int = 20261102) -> tuple[float, float]:
@@ -118,17 +165,63 @@ def rq4(attempts: dict[str, dict[str, str]]) -> dict:
     return out
 
 
+def rq4_attempts(table: list[dict], labels: list[dict], haiku_table: list[dict], stages: list[dict],
+                 tasks: list[str]) -> dict[str, dict[str, str]]:
+    """Outcome per model and task on StarVerus few-shot. Triviality is not applied, because Haiku has no release label."""
+    by_sample: dict[str, list[str]] = defaultdict(list)
+    for row in [*table, *haiku_table]:
+        by_sample[row["sample"]].append(clause_class(row))
+    attempts: dict[str, dict[str, str]] = {"haiku-5-5": {t: "Not verified" for t in tasks}}
+    for row in stages:
+        if row["accepted"]:
+            attempts["haiku-5-5"][row["task"]] = artifact_class(by_sample.get(row["label"], []), False)
+    for row in labels:
+        if row["workflow"] == "StarVerus" and row["shot"] == "few-shot" and row["task_id"] in tasks:
+            model = attempts.setdefault(row["model"], {t: "Not verified" for t in tasks})
+            model[row["task_id"]] = artifact_class(by_sample.get(row["sample_id"], []), False)
+    return attempts
+
+
+def rq2(rows: list[dict]) -> dict:
+    """Tasks where a sound, same-code contract shows the reference rejects an input the code handles."""
+    counted = {r["task"] for r in rows if r["refuted"] and r["realized"]}
+    return {"tasks_searched": len({r["task"] for r in rows}), "tasks_counted": len(counted), "tasks": sorted(counted)}
+
+
+def rows_of(path: Path) -> list[dict]:
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--verdicts", type=Path, required=True)
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--rq4-verdicts", type=Path)
+    parser.add_argument("--rq4-stages", type=Path)
+    parser.add_argument("--rq4-tasks", type=Path)
+    parser.add_argument("--rq2", type=Path)
+    parser.add_argument("--all-labels", type=Path, help="labels for every artifact, for the prompting pairs")
     args = parser.parse_args()
-    table = [json.loads(line) for line in args.verdicts.read_text().splitlines() if line.strip()]
+    table = rows_of(args.verdicts)
     with args.labels.open() as stream:
         labels = [r for r in csv.DictReader(stream) if r["verification_stage"] == "accepted" and r["analysis_eligible"] == "True"]
     classes = artifacts(table, labels)
     report = {"rq1": rq1(table), "artifacts": dict(Counter(classes.values())), "rq3": rq3(classes, labels, table)}
+    if args.all_labels:
+        with args.all_labels.open() as stream:
+            everything = [r for r in csv.DictReader(stream) if r["analysis_eligible"] == "True"]
+        report["concordance"] = concordance([
+            {"workflow": r["workflow"], "model": r["model"], "shot": r["shot"], "accepted": r["verification_stage"] == "accepted",
+             "original": r["formal_reliability_state"] == "favorable", "certified": classes.get(r["sample_id"]) in ("Clean", "Sound")}
+            for r in everything])
+    if args.rq2:
+        report["rq2"] = rq2(rows_of(args.rq2))
+    if args.rq4_verdicts:
+        haiku = rows_of(args.rq4_verdicts)
+        for row in haiku:
+            row["sample"] = row.get("sample") or row["label"]
+        report["rq4"] = rq4(rq4_attempts(table, labels, haiku, rows_of(args.rq4_stages), args.rq4_tasks.read_text().split()))
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "tables.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: report[k] for k in ("rq1", "artifacts")}, indent=1))

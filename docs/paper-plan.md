@@ -1,6 +1,6 @@
 # Paper plan: certifying rejected comparisons in VerusEval
 
-Status: revision 5, 1 November 2026, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Not frozen. Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+Status: revision 6, 2 November 2026, frozen for the census, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
 
 ## The paper in one paragraph
 
@@ -104,7 +104,7 @@ Obligations are the unit of inference. Artifacts are a summary, in this order: T
 ## Validation
 
 1. **Authors' variants.** `data/evidence/contract_variants` has 943 retained variants and 395 identity bases (reviewer confirmed the counts and operator mapping). Stronger preconditions and weaker postconditions must be refuted, and weaker preconditions and stronger postconditions must clear.
-2. **Hard true cases.** The variant bases are easy, because they were selected as already equivalent. Add the 7 model-proved rows from `regrade-30`, the proofs in `proofs/`, and any others with a checked proof.
+2. **Hard true cases.** The variant bases are easy, because they were selected as already equivalent. Add the 17 clauses from the `regrade-30` rows, the proofs in `proofs/`, and any others with a checked proof.
 3. **Known false cases.** Natural obligations with a failing correct or wrong-output case. These are limited to development tasks, 71 artifacts, because the other cases sit on census tasks and would expose census data before the freeze.
 4. **Both engines.** On validation sets only, run prover and refuter on every lemma. Any lemma with both verdicts is a soundness bug and stops the run.
 5. **Stability.** Run the frozen grader twice on 200 development lemmas and report the flip rate.
@@ -124,6 +124,8 @@ A second, non-Claude proposer runs on a random 200 Undecided lemmas, to show how
 ## RQ2 analysis
 
 Unit: task. A task counts when at least one accepted artifact meets all of these: same executable code as the input under the fixed lynette build from microsoft/verus-proof-synthesis#53, all L1 and L2 valid or proved, and an L3 witness the reference rejects. One such artifact is enough, because it shows the code is safe and the contract is sound on that input.
+
+The search is `analysis/rq2_check.py`: same code under the fixed lynette, then the frozen `witness.py` on L3, counting only plain witnesses that compiled and ran.
 
 Reviewer counts outside the numeric list: 159 same-code tasks, 109 with L2 valid, 103 with L1 and L2 valid. So the result is close to known, and RQ2 is an estimate, not a test. 0 of 762 inputs contain `requires` or `ensures` (reviewer measured), and 10 have a non-empty `main` (measured), so nearly all inputs give no signal. The 10 are tagged.
 
@@ -177,9 +179,9 @@ Solo blinding is not enforceable, so the protection is the hash. Agent assistanc
 
 Live status, spend and gates are in [`docs/status.md`](status.md). This section records the method.
 
-The census runs in three layers, stopping at the first verdict: a free search over small literal values (`analysis/tier_free.py`), then one-shot Haiku and then Sonnet through the Batches API with structured output (`analysis/tier_batch.py`). On 128 development clauses this settled 95 of the 103 no-preconditions verdicts that agents had settled, and 78 of 79 valid-inputs verdicts, with no conflicts, at about $0.01 per clause (measured). That gives about $19 to $32 for all 3,043 clauses, which is an estimate from a small sample. It uses an API key, because Anthropic's terms say Agent SDK developers "should use API key authentication".
+The census runs through `analysis/census.py`, stopping at the first verdict: `analysis/witness.py` for counterexamples, then proofs with no model (`analysis/gate2_tier0.py`), then one-shot Haiku and then Sonnet through the Batches API with structured output (`analysis/tier_batch.py`). Model counterexamples are checked by `analysis/gate2_check.py`, which builds them in exec code and verifies them, without compiling and running them. On all 656 development clauses this cost $2.26 (measured), so about $8 for the other 2,387, which is an estimate. On the 100 sampled development clauses it found all 32 proofs and 46 of the 47 refutations that agents had settled, with no conflicts. It uses an API key and the Batches API because that is the pipeline we tested.
 
-The pipeline leaves more undecided than agents did, 26 against 21 of 100 on the development sample, so Undecided shares in the paper describe this pipeline.
+Undecided shares in the paper describe this pipeline, which left 18 of 100 development clauses undecided against 21 for agents. Two runs on 200 clauses gave no flips between proved and refuted, and 97.8% of verdicts were identical.
 
 ICPC 2027 RENE (abstract 11 December, paper 18 December) stays optional, because arXiv is the primary target.
 

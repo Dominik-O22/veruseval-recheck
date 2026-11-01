@@ -19,6 +19,9 @@ both forms are one formula they share a verdict. A lemma with both verdicts stop
     python3 -I analysis/census.py open --regen regen.jsonl --harness DIR --witness out.jsonl --tier0 tier0.jsonl \\
         [--batch verdicts.jsonl ...] --out open.jsonl
     python3 -I analysis/census.py verdicts ... --out verdicts.jsonl
+
+For RQ4, `rq4-items` runs in the container on rq4_generate.py's finals. It records each program's
+verification stage and writes items for the accepted ones, and the steps above then run as usual.
 """
 from __future__ import annotations
 
@@ -75,13 +78,33 @@ def items(args: argparse.Namespace) -> None:
     print(write_jsonl(args.out, out), "clauses,", len({i["sample"] for i in out}), "artifacts,", len({i["task"] for i in out}), "tasks")
 
 
+def rq4_items(args: argparse.Namespace) -> None:
+    import os
+    sys.path.insert(0, str(args.release))
+    os.chdir(args.release)
+    from metrics_rebuild.share.verus_runner import verus_staged_verification_to_dict
+    targets = {r["task_id"]: r["target_function"] for r in csv_rows(args.release / "data/evaluation/target_functions.csv")}
+    stages, out = [], []
+    for row in rows_of(args.finals):
+        accepted = verus_staged_verification_to_dict(row["generated"]).get("success") is True
+        stages.append({"task": row["task"], "accepted": accepted, "label": f"{args.label}|{row['task']}"})
+        if accepted:
+            for direction in ("L1", "L2"):
+                out.append({"id": f"{args.label}__{row['task']}__{direction}", "label": f"{args.label}|{row['task']}", "direction": direction,
+                            "task": row["task"], "generated": row["generated"], "function": targets[row["task"]]})
+    write_jsonl(args.stages, stages)
+    print(write_jsonl(args.out, out), "items,", sum(s["accepted"] for s in stages), "of", len(stages), "accepted")
+
+
 def jobs(args: argparse.Namespace) -> None:
     root = args.release
     generated = {r["sample_id"]: r["generated_path"] for r in csv_rows(root / "data/generated/manifest.csv")}
     targets = {r["task_id"]: r for r in csv_rows(root / "data/evaluation/target_functions.csv")}
     grouped: dict[str, dict] = {}
     for item in rows_of(args.items):
-        grouped.setdefault(item["sample"], {"task": item["task"], "directions": set()})["directions"].add(item["direction"])
+        sample = item.get("sample") or item["label"]
+        generated.setdefault(sample, item.get("generated"))
+        grouped.setdefault(sample, {"task": item["task"], "directions": set()})["directions"].add(item["direction"])
     out = [{"sample": sample, "generated": generated[sample], "reference": targets[g["task"]]["reference_path"],
             "task_reference": targets[g["task"]]["reference_path"], "function": targets[g["task"]]["target_function"],
             "directions": sorted(g["directions"]), "forms": ["unconditional", "guarded"], "only_status": ["invalid"],
@@ -108,6 +131,7 @@ def settle(args: argparse.Namespace) -> tuple[list[dict], list[dict]]:
     ids = {}
     for row in regen:
         check = row["check"]
+        row["sample"] = row.get("sample") or row["label"]
         form_keys = {"uncond": ("single" if row["direction"] == "L1" else "unconditional", check)}
         if row["direction"] == "L2":
             form_keys["guarded"] = ("guarded", f"guarded_{check}")
@@ -178,6 +202,13 @@ def main() -> None:
     one.add_argument("--split", choices=("dev", "census"), required=True)
     one.add_argument("--out", type=Path, required=True)
     one.set_defaults(run=items)
+    four = commands.add_parser("rq4-items")
+    four.add_argument("--release", type=Path, required=True)
+    four.add_argument("--finals", type=Path, required=True)
+    four.add_argument("--label", default="haiku-5-5")
+    four.add_argument("--stages", type=Path, required=True)
+    four.add_argument("--out", type=Path, required=True)
+    four.set_defaults(run=rq4_items)
     two = commands.add_parser("jobs")
     two.add_argument("--release", type=Path, required=True)
     two.add_argument("--items", type=Path, required=True)

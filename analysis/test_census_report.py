@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from census_report import CLASSES, artifacts, clause_class, paired_bootstrap, rq1, rq3, rq4
+from census_report import CLASSES, artifacts, clause_class, concordance, paired_bootstrap, rq1, rq2, rq3, rq4, rq4_attempts
 
 P, R, U = {"verdict": "proved"}, {"verdict": "refuted"}, {"verdict": "undecided"}
 C = {"verdict": "refuted", "computed": True}
@@ -55,4 +55,30 @@ assert four["gpt-4o"]["verified"] == 5 and four["gpt-4o"]["sound_low"] == 2
 low, high = four["gpt-4o"]["haiku_minus_model_sound"]
 assert 0 < low <= 0.6 <= high
 assert paired_bootstrap([1] * 20, [1] * 20) == (0, 0)
+unavailable = artifacts([], [{"sample_id": "q|m|s|t", "triviality_state": "favorable", "formal_reliability_state": "other"}])
+assert unavailable == {"q|m|s|t": "Undecided"}
+
+star = [{"sample_id": f"StarVerus|{m}|few-shot|{t}", "workflow": "StarVerus", "model": m, "shot": "few-shot", "task_id": t}
+        for m, t in [("gpt-4o", "t1"), ("gpt-4o", "t2")]]
+original = [clause("StarVerus|gpt-4o|few-shot|t2", R, R)]
+new = [{**clause("haiku-5-5|t1", P, U)}]
+stages = [{"task": "t1", "accepted": True, "label": "haiku-5-5|t1"}, {"task": "t3", "accepted": False, "label": "haiku-5-5|t3"}]
+got = rq4_attempts(original, star, new, stages, ["t1", "t2", "t3"])
+assert got["haiku-5-5"] == {"t1": "Undecided", "t2": "Not verified", "t3": "Not verified"}
+assert got["gpt-4o"] == {"t1": "Clean", "t2": "Difference", "t3": "Not verified"}
+
+two = rq2([{"task": "a", "refuted": True, "realized": True}, {"task": "b", "refuted": True, "realized": False}, {"task": "c", "refuted": False, "realized": None}])
+assert two == {"tasks_searched": 3, "tasks_counted": 1, "tasks": ["a"]}
+def art(workflow, shot, accepted, original, certified):
+    return {"workflow": workflow, "model": "m", "shot": shot, "accepted": accepted, "original": original, "certified": certified}
+
+
+# Pair A: few-shot accepts more and scores higher on both. Pair B: few-shot accepts more, certified only agrees.
+rows = [art("A", "few-shot", True, True, True), art("A", "few-shot", True, True, True),
+        art("A", "zero-shot", True, False, False), art("A", "zero-shot", False, False, False),
+        art("B", "few-shot", True, False, True), art("B", "few-shot", True, False, True),
+        art("B", "zero-shot", True, True, False), art("B", "zero-shot", False, False, False)]
+result = concordance(rows)
+assert result["original"] == (1, 2) and result["certified"] == (2, 2)
+assert result["relabel_control"][1] == 2
 print("all known answers match")
