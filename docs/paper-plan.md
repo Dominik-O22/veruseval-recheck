@@ -62,7 +62,7 @@ The census covers accepted artifacts only. The other 2,199 artifacts with reject
 
 One rule: only a positive Verus result produces a verdict. A timeout or failed attempt never does.
 
-**Regeneration.** The stored `formal_recheck` harnesses cover 214 artifacts (measured), and those are `proof_failed` artifacts, not this population (reviewer measured). So we regenerate through the release's `metrics/_clause_implication.py` and require a match on the stored `obligation_sha256` before using a lemma. This is gate 1.
+**Regeneration.** The stored `formal_recheck` harnesses cover 214 artifacts (measured), and those are `proof_failed` artifacts, not this population (reviewer measured). So we regenerate through the release's `metrics/_clause_implication.py` and require the regenerated `obligation_context` and status to match the released record before using a lemma. This is gate 1.
 
 **Two forms.** Unconditional is the paper's form. Guarded adds both preconditions to the antecedent. A guarded refutation is also an unconditional refutation with the same witness, and an unconditional proof is also a guarded proof, so results propagate and each pair needs at most two searches. Where neither side has a real precondition, the two forms are one formula and get one search.
 
@@ -105,7 +105,7 @@ Obligations are the unit of inference. Artifacts are a summary, in this order: T
 4. **Both engines.** On validation sets only, run prover and refuter on every lemma. Any lemma with both verdicts is a soundness bug and stops the run.
 5. **Stability.** Run the frozen grader twice on 200 development lemmas and report the flip rate.
 
-Early signal for gate 1: with the antecedent reduced to the generated postcondition, a no-model rerun reproduced the released L2 label on 30 of 31 regrade checks (measured). That compares labels, not hashes, so the hash check still stands.
+Early signal for gate 1: with the antecedent reduced to the generated postcondition, a no-model rerun reproduced the released L2 label on all 30 target functions (measured). A review run of the release's per-clause path matched context and status on 57 of 57 L2 clauses. Stored hashes can't be used, because digests depend on absolute paths and the Verus binary, and the stored `obligation_sha256` does not match its own stored context. L1 uses a different path and is untested.
 
 Gates, fixed now: zero soundness bugs, at least 90% recall on refutation and on proof for the variants. Recall on the hard sets is reported, because those define the real instrument error. RQ1 is a census, so it has no sampling interval, but instrument error is real and is reported next to every share.
 
@@ -162,7 +162,7 @@ Stop at the first verdict on the census. The pilot cost about $0.05 per obligati
 
 | By | Gate | If it fails |
 |---|---|---|
-| 8 Nov | Gate 1: regenerate lemmas with matching hashes | Narrow to what regenerates, or stop |
+| 8 Nov | Gate 1: regenerated `obligation_context` and status match the released records, for L1 and L2 | Narrow to what regenerates, or stop |
 | 10 Nov | Gate 2: literal-witness template works on L1 and L2 for each type class | Report type classes as Undecided |
 | 14 Nov | Validation passes, cost measured | Fix, and move every date below |
 | 15 Nov | Freeze, Zenodo | No confirmatory run before this |
