@@ -1,0 +1,9 @@
+{"key": "fixture:struct:refute|target|L1", "inputs": {"p": [1, 7]}, "output": {"r": 1}, "note": "x > 0 and y < 10 hold, y < 5 fails"}
+{"key": "fixture:struct:clear|target|L1", "inputs": {"p": [1, 7]}, "output": {"r": 1}, "note": "same values on the true lemma, must not refute"}
+{"key": "fixture:string:refute|target|L2", "inputs": {"s": "ab"}, "output": {"r": 3}, "note": "r = len + 1 satisfies the generated post, not the reference"}
+{"key": "fixture:string:clear|target|L2", "inputs": {"s": "ab"}, "output": {"r": 3}, "note": "same values on the true lemma"}
+{"key": "fixture:nested_vec_string:refute|target|L1", "inputs": {"v": [""]}, "output": {"r": 0}, "note": "one empty string"}
+{"key": "fixture:nested_vec_string:clear|target|L1", "inputs": {"v": [""]}, "output": {"r": 0}}
+{"key": "fixture:f64:refute|target|L1", "inputs": {"v": [1.5]}, "output": {"r": 0}, "note": "v[0] == 1.5 satisfies the reference, not v[0] == 2.5"}
+{"key": "fixture:f64:clear|target|L1", "inputs": {"v": [1.5]}, "output": {"r": 0}}
+{"key": "StarVerus|deepseek-chat|few-shot|MBPP-verified_task_73|is_non_prime|L2", "inputs": {"n": 0}, "output": {"result": true}, "note": "authors' counterexample: generated post allows result = true at n = 0, which the reference precondition excludes"}

@@ -23,10 +23,10 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 | 1 | Rebuild the paper's checks | Regenerated context and status match the released records on L1 and L2 | **Passed** | 151 of 151 clauses here, 117 of 117 in the cloud session |
 | 2a | Proofs and counterexamples work | Verdicts reproduce independently on this machine | **Passed** | 182 verdicts on 128 clauses, 0 failed, 0 controls tripped |
 | 2b | Cheap pipeline works | No conflicts with verified answers, cost measured | **Passed** | 95 of 103 and 78 of 79 settled, 0 conflicts, about $0.01 per clause |
-| 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Waiting** | Cloud session `gate2-witness` still running |
+| 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Passed** | 719 of 728 in the paper's form, 713 of 728 guarded, 0 proved lemmas refuted, 0 must-clear variants refuted. Re-run here: 7,558 lemmas, 0 changes, no API spend. Cloud cost not reported. `results/gate2/witness_verify.json`, `docs/gate2-witness.md` |
 | 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Passed** | 63 of 69 confirmed, 6 reported as unconfirmed, about $0.01. `results/gate2/guard_final.jsonl` |
 | 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Passed** | 13 answers on 7 clauses rechecked, not 7, 1 clause newly proved, no API spend. 262 other stored answers unchanged. `results/gate2/tier_axiom.jsonl` |
-| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | Blocked by 2c | |
+| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | **Next** | |
 | 4 | Census | All 3,043 clauses run on the 80% of tasks not used in development, plus development tasks reported apart | Blocked by 3 | |
 | 5 | Analysis | RQ1 to RQ3 scored as written in the plan | Blocked by 4 | |
 | 6 | Draft | Every number traces to a results file, every reference checked by hand | Blocked by 5 | |
@@ -34,7 +34,13 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 
 ## Next action
 
-Wait for gate 2c. When it passes, gate 3 opens.
+Start gate 3 when Dom gives the go-ahead. It ends with telling the authors, so it needs his go-ahead on that message.
+
+Before the freeze:
+
+- Run the plan's Validation 2 and 3 (hard true cases, known false cases). No gate has covered them yet. Validation 5 (stability) still needs a run on the proof tiers. `witness.py` already shows 0 changes between two machines.
+- Choose the free tier. Recommended: `witness.py` in place of `tier_free.py`, because on the 100 development clauses in the paper's form it takes the pipeline from 26 undecided to 21, the same as agents, with 0 conflicts and no API spend.
+- Treat the 98.76% as an upper estimate. The proposer reads the same I/O suites the authors used to confirm these variants. On the natural development lemmas it found 48 of the 72 refutations already verified here.
 
 ## Budget
 

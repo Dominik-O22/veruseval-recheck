@@ -1,0 +1,64 @@
+{
+  "engine": {
+    "file": "analysis/witness.py",
+    "sha256": "7776d1f8a9520b26634d6580a350e703b54cda5c93aa1130a70601805bb0e0e5",
+    "frozen_commit": "918983c"
+  },
+  "rerun_here": {
+    "date": "2026-11-01",
+    "verus": "0.2025.09.25.04e8687",
+    "image": "veruseval:haiku",
+    "job_ids_matched": "854 holdout, 89 dev variant, 457 census, 1 control, all rebuilt by analysis/witness_jobs.py"
+  },
+  "holdout": {
+    "lemmas": 5040,
+    "outcome_changes": 0,
+    "refuted": 1079,
+    "witnesses_identical": 1079,
+    "controls_clean": 1079,
+    "must_refute": 728,
+    "refuted_paper_form": 719,
+    "refuted_guarded": 713,
+    "must_clear_variants_refuted": 0,
+    "proved_lemmas_refuted": 0,
+    "proved_lemmas": 3937,
+    "realized": 1005
+  },
+  "dev_variants": {
+    "lemmas": 557,
+    "outcome_changes": 0,
+    "witnesses_identical": 121
+  },
+  "dev_census": {
+    "lemmas": 1961,
+    "outcome_changes": 0,
+    "witnesses_identical": 306,
+    "realized": 294,
+    "unrepresentable": 12
+  },
+  "hand_witnesses": {
+    "lemmas": 8,
+    "outcome_matches": 8
+  },
+  "positive_control": "MBPP-verified_task_73 reproduced: unconditional refuted by n=1 and n=0, guarded not refuted",
+  "bare_verus": {
+    "note": "witness.rs and control.rs of every holdout refutation run through verus with no engine code",
+    "witnesses_verified_and_controls_failed": 1079,
+    "of": 1079
+  },
+  "not_rerun": [
+    "54 fixture lemmas, so 4,375 of the report's 4,410 proved lemmas were re-run here"
+  ],
+  "against_verdicts_here": {
+    "note": "dev census against results/gate2 verdicts, every form",
+    "lemmas_joined": 169,
+    "proved_here_refuted_by_witness": 0,
+    "refuted_here": 72,
+    "also_refuted_by_witness": 48
+  },
+  "dev100_paper_form_undecided": {
+    "pipeline": 26,
+    "pipeline_plus_witness": 21,
+    "agents": 21
+  }
+}
