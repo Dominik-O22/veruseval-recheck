@@ -41,7 +41,7 @@ Harnesses, references and the release are not in this repo and must not be commi
 ## Running things
 
 - Verus 0.2025.09.25.04e8687 is in podman image `veruseval:haiku`. Run from the release root with the release mounted at `/workspace`. Use `python -I` for anything reading release data.
-- Model calls use an API key, never the subscription token. Anthropic's terms say Agent SDK developers should use API keys. `analysis/tier_batch.py` runs on the host with the `anthropic` package and `ANTHROPIC_API_KEY`, for example from a venv.
+- Census model calls use the API key through the Batches API, because that is the pipeline we tested and it stays reproducible. This is a method choice. Anthropic's API key requirement is aimed at developers building products or services, so personal use of a plan is a separate question, and any switch would need re-validating. `analysis/tier_batch.py` runs on the host with the `anthropic` package and `ANTHROPIC_API_KEY`, for example from a venv.
 - Cloud sessions start only from a real terminal, with `CCR_FORCE_BUNDLE=1 claude --cloud "$(cat brief.txt)"`, so Dom has to start them. They are good for agent work and spend the cloud credit. Their files vanish when the VM is reclaimed, so results must be pushed or pasted.
 
 ## Writing
