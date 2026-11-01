@@ -1221,11 +1221,14 @@ def search(lemma: Lemma, cases: list[dict], proposals: dict, evidence_root: Opti
         evidence = evidence_root / hashlib.sha256(lemma.key.encode()).hexdigest()[:16]
         evidence.mkdir(parents=True, exist_ok=True)
         (evidence / "key.txt").write_text(lemma.key + "\n")
-    tiers = [("propagated", list(propagated or []))] if propagated else []
+    carried = list(propagated or [])
+    plain = [c for c in carried if not any(computed_leaves(c))]
+    tiers = [("propagated", plain)] if plain else []
     tiers += [("model", model_candidates(lemma, proposals))] if proposals else []
     mechanical = mechanical_candidates(lemma, cases)
     tiers.append(("io_and_boundary", mechanical))
-    tiers.append(("computed", computed_candidates(lemma, mechanical)))
+    # Last, so a plain witness that can be run always wins over a computed one.
+    tiers.append(("computed", [c for c in carried if c not in plain] + computed_candidates(lemma, mechanical)))
     attempts = 0
     for tier, candidates in tiers:
         if not candidates:
