@@ -22,7 +22,7 @@ Per-clause rows: [`clauses.csv`](clauses.csv), keyed by sample ID and check name
 | Haiku: invalid unconditional L2 in `haiku-fair20` and `haiku-fair20-rest` | 12 | 7 tasks, 8 functions; no released record, so no context match is possible |
 | dev100: seeded sample (seed 20261102) of rejected L1/L2 clauses on dev tasks | 100 (23 L1, 77 L2) | pool of 656 (144 L1, 512 L2) on 457 accepted artifacts, 108 tasks |
 
-One dev100 clause (VS0054 `L2__003`) is also a regrade-14 clause. It was searched once and is counted in both sets: 128 unique clauses.
+One dev100 clause (VerusAge deepseek-chat VT0269 `L2__003`) is also a regrade-14 clause. It was searched once and is counted in both sets: 128 unique clauses.
 
 ## Results: guarded × unconditional grid
 
