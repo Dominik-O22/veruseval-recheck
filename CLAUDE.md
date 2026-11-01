@@ -36,7 +36,7 @@ Harnesses, references and the release are not in this repo and must not be commi
 - Regenerated harnesses and tier outputs: `.../run-artifacts/gate2-run`
 - Paper text: `.../run-artifacts/paper-text`
 - Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`. Merged only on local branch `gate2-local`, which holds the scripts, not on `main`. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
-- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen at `5bc30a5` after gate 2f, sha256 `a568da38...`, so do not edit it before gate 3. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
+- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen at `5bc30a5` after gate 2f, sha256 `a568da38...`. See `results/gate3/freeze.sha256`, and treat any change to those files as a logged deviation. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
 
 ## Running things
 

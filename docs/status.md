@@ -45,7 +45,7 @@ Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condi
 | 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | **Passed.** 0 both verdicts, 0 proved refuted. Hard true: 16 of 17 guarded proofs. Known false: 69 of 71 refuted, 0 proved. 0 flips on 200 clauses, 97.8% identical. `results/gate3/validation.json` |
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
-| 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
+| 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
 | 3e | Tell the authors | Dom approves the message and it is sent | Waits for Dom |
 
 Spending cap for gate 3: $10 of the API key.
