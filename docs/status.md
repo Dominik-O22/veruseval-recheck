@@ -23,7 +23,7 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 | 1 | Rebuild the paper's checks | Regenerated context and status match the released records on L1 and L2 | **Passed** | 151 of 151 clauses here, 117 of 117 in the cloud session |
 | 2a | Proofs and counterexamples work | Verdicts reproduce independently on this machine | **Passed** | 182 verdicts on 128 clauses, 0 failed, 0 controls tripped |
 | 2b | Cheap pipeline works | No conflicts with verified answers, cost measured | **Passed** | 95 of 103 and 78 of 79 settled, 0 conflicts, about $0.01 per clause |
-| 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Passed** | 719 of 728 in the paper's form, 713 of 728 guarded, 0 proved lemmas refuted, 0 must-clear variants refuted. Re-run here: 7,558 lemmas, 0 changes, no API spend. Cloud cost not reported. `results/gate2/witness_verify.json`, `docs/gate2-witness.md` |
+| 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Passed** | 719 of 728 in the paper's form, 713 of 728 guarded, 0 proved lemmas refuted, 0 must-clear variants refuted. Re-run here: 7,558 lemmas, 0 changes, no API spend. Cloud session cost $14.79. `results/gate2/witness_verify.json`, `docs/gate2-witness.md` |
 | 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Passed** | 63 of 69 confirmed, 6 reported as unconfirmed, about $0.01. `results/gate2/guard_final.jsonl` |
 | 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Passed** | 13 answers on 7 clauses rechecked, not 7, 1 clause newly proved, no API spend. 262 other stored answers unchanged. `results/gate2/tier_axiom.jsonl` |
 | 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | **Next** | |
@@ -47,7 +47,7 @@ Before the freeze:
 | Source | Available | Spent | Use |
 |---|---|---|---|
 | API key | $100 | $1.43 | Census (about $19 to $32, estimated from 128 clauses) |
-| Cloud credit, expires 5 Nov 08:59 | $219 left | $31 | Gate 2c only, unless a gate needs agents |
+| Cloud credit, expires 5 Nov 08:59 | $204.21 left | $45.79 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
 
