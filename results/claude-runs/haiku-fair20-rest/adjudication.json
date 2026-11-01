@@ -1,0 +1,228 @@
+[
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VA0115_vericoded",
+    "task_id": "VeriCoding_VA0115_vericoded",
+    "model": "haiku-5-5",
+    "function": "solve",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VD0578_vericoded",
+    "task_id": "VeriCoding_VD0578_vericoded",
+    "model": "haiku-5-5",
+    "function": "filter_vowels_array",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-sonnet-5-5",
+    "calls": 4,
+    "proof": "proof fn lemma_fv_eq_filter(s: Seq<char>, p: spec_fn(char) -> bool)\n    requires\n        forall|c: char| #[trigger] p(c) == is_lower_vowel(c),\n    ensures\n        filter_vowels(s) == s.filter(p),\n    decreases s.len()\n{\n    reveal_with_fuel(Seq::filter, 2);\n    if s.len() == 0 {\n        assert(s =~= Seq::<char>::empty());\n    } else {\n        let n = s.len() as int;\n        let p0 = s.subrange(0, n - 1);\n        assert(p0 =~= s.drop_last());\n        lemma_fv_eq_filter(p0, p);\n        let last = s[n - 1];\n        assert(last == s.last());\n        assert(vowels().contains(last) == is_lower_vowel(last));\n        assert(p(last) == is_lower_vowel(last));\n        if vowels().contains(last) {\n            assert(p(last));\n            assert(filter_vowels(s) == filter_vowels(p0).add(seq![last]));\n            assert(s.filter(p) == s.drop_last().filter(p).push(s.last()));\n            assert(filter_vowels(p0).add(seq![last]) =~= p0.filter(p).push(last));\n        } else {\n            assert(!p(last));\n            assert(filter_vowels(s) == filter_vowels(p0));\n            assert(s.filter(p) == s.drop_last().filter(p));\n        }\n    }\n}\nlet p = |c: char| is_lower_vowel(c);\nassert(forall|c: char| #[trigger] p(c) == is_lower_vowel(c));\nlemma_fv_eq_filter(__arg0@, p);\nassert(__ret0@ == __arg0@.filter(p));\nassert(filter_vowels(__arg0@) == __ret0@);\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VH0074_vericoded",
+    "task_id": "VeriCoding_VH0074_vericoded",
+    "model": "haiku-5-5",
+    "function": "smallest_change",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "proof fn lemma_count_eq_k(s: Seq<i8>, f: spec_fn(int, i8) -> int, k: int)\n    requires\n        0 <= k,\n        k <= s.len() as int / 2,\n        forall|i: int, x: i8| #[trigger] f(i, x) == x as int,\n    ensures\n        count_mismatches(s, k) == count_mismatched_pairs_up_to(s.map(f), k),\n    decreases k\n{\n    if k <= 0 {\n    } else {\n        lemma_count_eq_k(s, f, k - 1);\n        let m = s.map(f);\n        assert(m.len() == s.len());\n        let j = s.len() as int - k;\n        assert(0 <= k - 1 < s.len());\n        assert(0 <= j < s.len());\n        assert(m[k - 1] == f(k - 1, s[k - 1]));\n        assert(m[j] == f(j, s[j]));\n        assert(f(k - 1, s[k - 1]) == s[k - 1] as int);\n        assert(f(j, s[j]) == s[j] as int);\n        assert((s[k - 1] != s[j]) == (m[k - 1] != m[j]));\n        assert(count_mismatches(s, k) == count_mismatches(s, k - 1) + (if s[k - 1] != s[j] { 1int } else { 0int }));\n        assert(count_mismatched_pairs_up_to(m, k) == (if m[k - 1] != m[j] { 1int } else { 0int }) + count_mismatched_pairs_up_to(m, k - 1));\n    }\n}\n\nproof fn lemma_count_eq_forall(s: Seq<i8>)\n    ensures\n        forall|f: spec_fn(int, i8) -> int|\n            (forall|i: int, x: i8| #[trigger] f(i, x) == x as int) ==>\n                #[trigger] count_mismatched_pairs(s.map(f)) == count_mismatches(s, s.len() as int / 2),\n{\n    assert forall|f: spec_fn(int, i8) -> int|\n        (forall|i: int, x: i8| #[trigger] f(i, x) == x as int) implies\n        #[trigger] count_mismatched_pairs(s.map(f)) == count_mismatches(s, s.len() as int / 2) by {\n        lemma_count_eq_k(s, f, s.len() as int / 2);\n        let m = s.map(f);\n        assert(m.len() == s.len());\n        assert(count_mismatched_pairs(m) == count_mismatched_pairs_up_to(m, m.len() as int / 2));\n    }\n}\nlemma_count_eq_forall(__arg0@);\nif __arg0@.len() <= 1 {\n    assert(__arg0@.len() as int / 2 == 0);\n    assert(count_mismatches(__arg0@, 0) == 0);\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0026_vericoded",
+    "task_id": "VeriCoding_VT0026_vericoded",
+    "model": "haiku-5-5",
+    "function": "meshgrid",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-sonnet-5-5",
+    "calls": 4,
+    "proof": "{\n    assert forall|i: int| 0 <= i < __arg1.len()\n        implies (__ret0.0[i].len() == __arg0.len() && __ret0.1[i].len() == __arg0.len()) by {\n        let _l0 = __ret0.0[i].len();\n        let _l1 = __ret0.1[i].len();\n        assert(__ret0.0[i].len() == __arg0.len() && __ret0.1[i].len() == __arg0.len());\n    };\n\n    assert forall|i: int, j: int| 0 <= i < __arg1.len() && 0 <= j < __arg0.len()\n        implies (__ret0.0[i][j] == __arg0[j] && __ret0.1[i][j] == __arg1[i]) by {\n        let _a = __ret0.0[i][j];\n        let _b = __ret0.1[i][j];\n        assert(__ret0.0[i][j] == __arg0[j] && __ret0.1[i][j] == __arg1[i]);\n    };\n\n    assert forall|i: int| 0 <= i < __arg1.len()\n        implies __ret0.0[i].len() == __arg0.len() by {\n        let _l0 = __ret0.0[i].len();\n        let _l1 = __ret0.1[i].len();\n        assert(__ret0.0[i].len() == __arg0.len() && __ret0.1[i].len() == __arg0.len());\n    };\n\n    assert forall|i: int| 0 <= i < __arg1.len()\n        implies __ret0.1[i].len() == __arg0.len() by {\n        let _l0 = __ret0.0[i].len();\n        let _l1 = __ret0.1[i].len();\n        assert(__ret0.0[i].len() == __arg0.len() && __ret0.1[i].len() == __arg0.len());\n    };\n\n    assert forall|i: int, j: int| 0 <= i < __arg1.len() && 0 <= j < __arg0.len()\n        implies __ret0.0[i][j] == __arg0[j] by {\n        let _a = __ret0.0[i][j];\n        let _b = __ret0.1[i][j];\n        assert(__ret0.0[i][j] == __arg0[j] && __ret0.1[i][j] == __arg1[i]);\n    };\n\n    assert forall|i: int, j: int| 0 <= i < __arg1.len() && 0 <= j < __arg0.len()\n        implies __ret0.1[i][j] == __arg1[i] by {\n        let _a = __ret0.0[i][j];\n        let _b = __ret0.1[i][j];\n        assert(__ret0.0[i][j] == __arg0[j] && __ret0.1[i][j] == __arg1[i]);\n    };\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0048_vericoded",
+    "task_id": "VeriCoding_VT0048_vericoded",
+    "model": "haiku-5-5",
+    "function": "copyto",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0048_vericoded",
+    "task_id": "VeriCoding_VT0048_vericoded",
+    "model": "haiku-5-5",
+    "function": "copyto",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0111_vericoded",
+    "task_id": "VeriCoding_VT0111_vericoded",
+    "model": "haiku-5-5",
+    "function": "infinity_f32",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0111_vericoded",
+    "task_id": "VeriCoding_VT0111_vericoded",
+    "model": "haiku-5-5",
+    "function": "inf",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0178_vericoded",
+    "task_id": "VeriCoding_VT0178_vericoded",
+    "model": "haiku-5-5",
+    "function": "singleton_vec_i8",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0178_vericoded",
+    "task_id": "VeriCoding_VT0178_vericoded",
+    "model": "haiku-5-5",
+    "function": "copy_vec_i8",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0178_vericoded",
+    "task_id": "VeriCoding_VT0178_vericoded",
+    "model": "haiku-5-5",
+    "function": "ix_",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 2,
+    "proof": "assert(__ret0.0@.len() == __arg0@.len());\nassert(__ret0.1@.len() == 1);\nassert(__ret0.1@[0]@ == __arg1@);\n\nassert forall|i: int| 0 <= i < __arg0@.len() implies __ret0.0@[i]@.len() == 1 && __ret0.0@[i]@[0] == __arg0@[i] by {\n    assert(0 <= i < __ret0.0@.len());\n}\n\nassert forall|i: int| 0 <= i < __arg0@.len() implies __ret0.0@[i].len() == 1 by {\n    assert(__ret0.0@[i]@.len() == 1);\n}\n\nassert forall|i: int| 0 <= i < __arg0@.len() implies __ret0.0@[i][0] == __arg0@[i] by {\n    assert(__ret0.0@[i]@[0] == __arg0@[i]);\n}\n\nassert forall|j: int| 0 <= j < __arg1@.len() implies __ret0.1@[0][j] == __arg1@[j] by {\n    assert(__ret0.1@[0]@[j] == __arg1@[j]);\n}\n\nassert forall|i: int, j: int| 0 <= i < __arg0@.len() && 0 <= j < __arg1@.len() implies\n    (__ret0.0@[i][0] == __arg0@[i] && __ret0.1@[0][j] == __arg1@[j]) by {\n    assert(__ret0.0@[i]@[0] == __arg0@[i]);\n    assert(__ret0.1@[0]@[j] == __arg1@[j]);\n}\n"
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0187_vericoded",
+    "task_id": "VeriCoding_VT0187_vericoded",
+    "model": "haiku-5-5",
+    "function": "place",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0187_vericoded",
+    "task_id": "VeriCoding_VT0187_vericoded",
+    "model": "haiku-5-5",
+    "function": "place",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0376_vericoded",
+    "task_id": "VeriCoding_VT0376_vericoded",
+    "model": "haiku-5-5",
+    "function": "chebyshev",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0457_vericoded",
+    "task_id": "VeriCoding_VT0457_vericoded",
+    "model": "haiku-5-5",
+    "function": "make_unit_interval",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0457_vericoded",
+    "task_id": "VeriCoding_VT0457_vericoded",
+    "model": "haiku-5-5",
+    "function": "assemble_laguerre",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VeriCoding_VT0457_vericoded",
+    "task_id": "VeriCoding_VT0457_vericoded",
+    "model": "haiku-5-5",
+    "function": "make_laguerre",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_Diffy_condm",
+    "task_id": "VerusBench_Diffy_condm",
+    "model": "haiku-5-5",
+    "function": "myfun",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_Diffy_condm",
+    "task_id": "VerusBench_Diffy_condm",
+    "model": "haiku-5-5",
+    "function": "myfun",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_18",
+    "task_id": "VerusBench_MBPP_task_id_18",
+    "model": "haiku-5-5",
+    "function": "contains",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_18",
+    "task_id": "VerusBench_MBPP_task_id_18",
+    "model": "haiku-5-5",
+    "function": "remove_chars",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_262",
+    "task_id": "VerusBench_MBPP_task_id_262",
+    "model": "haiku-5-5",
+    "function": "split_array",
+    "direction": "pre_ref_to_gen",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_262",
+    "task_id": "VerusBench_MBPP_task_id_262",
+    "model": "haiku-5-5",
+    "function": "split_array",
+    "direction": "post_gen_to_ref",
+    "verdict": "valid_on_recheck",
+    "calls": 0
+  },
+  {
+    "sample": "StarVerus|haiku-5-5|few-shot|VerusBench_MBPP_task_id_807",
+    "task_id": "VerusBench_MBPP_task_id_807",
+    "model": "haiku-5-5",
+    "function": "find_first_odd",
+    "direction": "post_gen_to_ref",
+    "verdict": "proved",
+    "by": "claude-haiku-5-5",
+    "calls": 1,
+    "proof": "proof fn lemma_take_filter_even_helper(s: Seq<u32>, n: int)\n    requires\n        0 <= n <= s.len(),\n        forall|k: int| 0 <= k < n ==> s[k] % 2 == 0,\n    ensures\n        s.take(n) =~= s.take(n).filter(|x: u32| x % 2 == 0),\n    decreases n\n{\n    reveal(Seq::filter);\n    if n > 0 {\n        lemma_take_filter_even_helper(s, n - 1);\n        let t = s.take(n);\n        assert(t.len() == n);\n        assert(t.drop_last() =~= s.take(n - 1));\n        assert(t.last() == s[n - 1]);\n        assert(s[n - 1] % 2 == 0);\n        assert(t.drop_last().filter(|x: u32| x % 2 == 0) =~= s.take(n - 1).filter(|x: u32| x % 2 == 0));\n        assert(t.filter(|x: u32| x % 2 == 0) =~= t.drop_last().filter(|x: u32| x % 2 == 0).push(t.last()));\n        assert(s.take(n - 1).push(s[n - 1]) =~= s.take(n));\n    }\n}\nmatch __ret0 {\n    Some(idx) => {\n        assert(idx < __arg0.len());\n        assert forall|k: int| 0 <= k < idx as int implies (#[trigger] __arg0@[k]) % 2 == 0 by {\n            assert(__arg0[k] % 2 == 0);\n        }\n        lemma_take_filter_even_helper(__arg0@, idx as int);\n    }\n    None => {}\n}\n"
+  }
+]

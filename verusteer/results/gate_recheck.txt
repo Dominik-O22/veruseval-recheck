@@ -1,0 +1,13 @@
+VeruSteer	autoverus	old pass	fixed pass	98
+VeruSteer	verusage	old pass	fixed pass	96
+all verified paths	autoverus	old pass	fixed pass	202
+all verified paths	verusage	old pass	fixed pass	274
+default rule	autoverus	old pass	fixed pass	96
+default rule	verusage	old pass	fixed pass	89
+verdict changed on 0 verified paths, listed in runs/gate_changed.csv
+s30-pipe-haiku: recorded 6, old 6, fixed 6 of 30
+  s30-agent-haiku: DAFNY2VERUS-COLLECTION_44 autoverus accepted False -> True
+s30-agent-haiku: recorded 10, old 10, fixed 11 of 30
+  s30-agent-ds: MBPP-verified_task_32 autoverus accepted False -> True
+  s30-agent-ds: DAFNY2VERUS-COLLECTION_54 verusage accepted False -> True
+s30-agent-ds: recorded 9, old 9, fixed 11 of 30
