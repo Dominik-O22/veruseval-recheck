@@ -35,7 +35,17 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 
 ## Next action
 
-Start gate 3 when Dom gives the go-ahead. It ends with telling the authors, so it needs his go-ahead on that message.
+Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+
+| Step | Work | Pass condition | Status |
+|---|---|---|---|
+| 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | Open |
+| 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | Open |
+| 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | Open |
+| 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
+| 3e | Tell the authors | Dom approves the message and it is sent | Waits for Dom |
+
+Spending cap for gate 3: $10 of the API key.
 
 Before the freeze:
 
