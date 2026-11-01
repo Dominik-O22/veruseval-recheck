@@ -35,11 +35,13 @@ The authors reviewed an earlier re-check and confirmed the two forms: their repo
 
 **RQ3, what changes.** Descriptive only. How do I/O screening and the configuration comparisons look once rejections are certified?
 
+**RQ4, a current model.** On a random sample of tasks, how do contracts from Claude Haiku 5.5 compare with the original models' once rejections are certified? The aim is to test whether the paper's results carry over to current models. We chose Haiku because it is the same class of model as the originals, not a frontier model.
+
 ## Out of scope
 
 The workflow experiment becomes a separate note. VeruSteer's result is a replay-only selector gain, and its paper says that design "does not describe an end-to-end benchmark". Requirements for that note, from review: one agent harness for both models, no shared host mount, a calibration arm on the released pipeline, pinned spec fns, an AST-based bypass check, zero acceptance on frozen-unfixable trees as a negative control, runs keyed by `tree_id`, no token cap, arms interleaved by tree, and the 30 pilot trees excluded.
 
-Also out: `tasks_fair20.csv`, the 12 Haiku tasks, the blind-review finding, the frontend failure statistics, and any model ranking. They stay in the repo as exploratory. L3 and L4 stay out of the census, which means this paper cannot retest the 63.2% equivalence figure, and it says so.
+Also out: `tasks_fair20.csv`, the 12 Haiku tasks, the blind-review finding, the frontend failure statistics, and any ranking among the original models. They stay in the repo as exploratory. L3 and L4 stay out of the census, which means this paper cannot retest the 63.2% equivalence figure, and it says so.
 
 ## Population
 
@@ -117,7 +119,7 @@ Report the grid by lemma, form, configuration and type class. Report the search 
 
 Predictions, logged now and scored afterward, with no pass or fail attached. On the 1,909 obligations with no failing I/O case: proved in some form 40%, certified false 35%, Undecided 25% (guess from the pilot's 9 proved, 16 claimed and 1 unresolved of 26, all guarded). Premise-only share of rejected L2: above 20% (guess, because 537 is an upper hint, not a count).
 
-A second, non-Claude proposer runs on a random 200 Undecided lemmas, to show how much the result depends on the prover. In this paper the subjects are DeepSeek, Qwen, GPT-4o and Llama, so Claude is an instrument here and not a subject.
+A second, non-Claude proposer runs on a random 200 Undecided lemmas, to show how much the result depends on the prover. For RQ1 to RQ3 the subjects are DeepSeek, Qwen, GPT-4o and Llama, so Claude is an instrument there and not a subject. RQ4 is the exception, and its analysis says so.
 
 ## RQ2 analysis
 
@@ -139,12 +141,26 @@ Descriptive, in a fixed order, with no claim that a finding reverses.
 4. **Does rejection track contract size?** Exploratory, because this was seen before the freeze. Within the same task, failing artifacts are larger on L1 (216 tasks against 41) and L4 (180 against 84), with no difference on L2 (144 against 139), and failing the correct-output suite also goes with larger contracts (78 against 32) (measured, `analysis/size_by_check.py`). Pooled rates by size mostly compare tasks, so only within-task results are reported. Once rejections are certified, report whether larger contracts turn out sound and stronger, or overconstrained.
 5. **Two-way audit.** Exploratory. A one-way correction can only raise scores. Dominik labels 60 artifacts, 20 each from Clean, Sound and Difference, with class hidden, after calibrating on the paper's 61 reference reviews. This is descriptive and is not a mitigation for the reference problem.
 
+## RQ4 analysis
+
+Sample: the 100 tasks in `results/tasks/rq4_tasks.txt`, a random draw with seed 20261102 from the 654 tasks outside the development set, taken before any Haiku program exists. Tasks were not chosen on any model's results.
+
+Generation: Claude Haiku 5.5 through the paper's StarVerus few-shot adapter, one run per task, with the API key. Comparators: the release's StarVerus few-shot artifacts for the same 100 tasks from all five original models.
+
+Grading: the frozen grader, unchanged. Haiku artifacts run after the census, so the grader cannot have been tuned on them.
+
+Report per attempt, on all 100 tasks, so failures to verify count against each model: verified, sound in the paper's form, sound in the guarded form, Difference, Undecided. Compare Haiku with each original model by paired bootstrap across tasks. Undecided is never counted either way, so give a low and high bound for each sound rate. Descriptive, with no pass or fail.
+
+Prediction, logged now and scored afterward: Haiku verifies more often than every original model on these tasks (from a biased sample of 20, 20 against 8 to 13). We make no prediction on sound rate, because no earlier data can answer that.
+
+Limits: one model from one vendor, so this does not speak for current models in general. Claude also writes proofs in the grader, and Verus decides each verdict, but Haiku's contracts may suit Claude's proofs better. Sonnet stays in the grader for every model, so all are judged the same way. The reference is still not ground truth, and the authors' point holds: a score here measures comparison with the reference, not whether a contract is correct.
+
 ## Procedure
 
 1. Choose one seeded 20% of tasks as the development set. All pilots, costs, stability checks and thresholds use it. Report results with and without those tasks, and with the 30 regrade artifacts removed.
 2. Pass gates 1 and 2, then validation.
 3. Freeze: tag the commit, record tool and model versions, hash the analysis script, and run it on synthetic data. Tell the authors first, then post to Zenodo.
-4. Run. No grader changes. A found bug means a logged deviation and a rerun of that tier.
+4. Run the census, then RQ4 generation and grading. No grader changes. A found bug means a logged deviation and a rerun of that tier.
 
 Solo blinding is not enforceable, so the protection is the hash. Agent assistance on the plan, code and analysis is disclosed.
 

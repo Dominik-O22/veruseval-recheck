@@ -6,6 +6,8 @@ This is the single source of truth for what we are doing and why. `docs/paper-pl
 
 What are the rejected soundness checks in VerusEval really: solver limits, differences outside valid inputs, or real differences?
 
+And do the paper's results carry over to a current model? This was the project's starting point, and it is RQ4 in the plan.
+
 ## Rules
 
 1. **Work comes from this page.** A new idea goes under Ideas, not into a run. It moves up only by an explicit decision.
@@ -41,6 +43,7 @@ Gate 3 is running, on Dom's go-ahead of 2 November. Each step has its pass condi
 |---|---|---|---|
 | 3a | One census driver: regenerate, `witness.py`, no-model proofs, Haiku, Sonnet, one verdict table | Runs end to end on all development tasks, regenerated context and status match the release, every verdict comes from Verus | **Passed.** `analysis/census.py`. 656 of 656 clauses matched, 0 lemmas with both verdicts, about $2.26. In the paper's form: 194 proved, 334 refuted, 128 undecided. Pilot data. `results/gate3/verdicts_dev.jsonl` |
 | 3b | Plan's Validation 2 to 5 on development tasks | No lemma has both verdicts, no proved lemma refuted, recall reported on hard true and known false cases, flip rate reported from two runs on 200 lemmas | Open |
+| 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | Open |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | Open |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | Open |
 | 3e | Tell the authors | Dom approves the message and it is sent | Waits for Dom |
@@ -57,13 +60,14 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | $3.69 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses) |
+| API key | $100 | $3.69 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), then RQ4 |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
 
 | Date | Decision | Why |
 |---|---|---|
+| 2 Nov | Add RQ4: Haiku 5.5 on 100 random tasks through the frozen grader, written into the plan before the freeze. Haiku only | It is Dom's original point, and the census gives it a fair baseline. Haiku is the same class as the original models |
 | 1 Nov | First paper certifies rejected checks, and the workflow study is a separate note | It tests a different claim and needs its own design |
 | 1 Nov | No collaboration pitch yet | Bring results first |
 | 1 Nov | Do not race the credit deadline | A wrong run costs more than lost credit |
@@ -84,6 +88,5 @@ Each needs a decision before it runs.
 - Sort computed refutations by evidence: look for a real implementation that passes the generated contract and fails the reference. One hand test on `VD0138`: wiping the list passes the generated contract and fails the reference.
 - Blind review, confirmatory run. Pilot: 18 of 22 real differences caught, 7 of 60 clear units alarmed.
 - Sample of about 100 "promises more" checks on the largest contracts, for the longer-contracts question.
-- Current models on 100 random tasks, for the weak-models question.
 - Workflow note: agent against pipeline.
 - Telling the authors about the lynette copies, or about pilot results. Wait for gate 5.
