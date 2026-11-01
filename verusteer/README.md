@@ -14,7 +14,7 @@ The question here: why do 85% of repairs fail, and does a current agent that can
 
 That count is a floor. The 30-task sample below was drawn only from failures the classifier rated possibly fixable. Reading every result showed 8 of the 30 blocked by the rules anyway, 10 with contracts that are false or unprovable as written, and 1 unclear. 11 were really fixable, counting one whose broken spec function the rules let a repair rewrite.
 
-**2. Most failed runs never touch the program.** In 796 of 1,085 failed runs, 73%, the final program is byte-identical to the input after five rounds. In VeruSAGE's recorded trees, 98.7% of repair rounds on non-compiling programs keep the original. On one task we re-ran, the default rule sent all five rounds to a rule-based type fixer that never calls the model, reproducing the recorded trajectory error count for error count. [`results/trajectory_stats.txt`](results/trajectory_stats.txt) has these numbers.
+**2. Most failed runs never touch the program.** In 796 of 1,085 failed runs, 73%, the program never changes across its recorded repair rounds. In VeruSAGE's recorded trees, 98.7% of repair rounds on non-compiling programs keep the original. On one task we re-ran, the default rule sent all five rounds to a rule-based type fixer that never calls the model, reproducing the recorded trajectory error count for error count. [`results/trajectory_stats.txt`](results/trajectory_stats.txt) has these numbers.
 
 **3. With the same inputs and the same model, an agent fixes more.** 30 failing test trees, half per pipeline, sampled from trees where every recorded repair path failed ([`scripts/sample_fixable.py`](scripts/sample_fixable.py)). Each result counts only if Verus verifies it and it passes that tree's own lynette check. The agents got the pipeline's rules in their prompt and were told to write `UNPROVABLE.md` with a counterexample if the contract is false.
 
@@ -43,7 +43,7 @@ The agents also flagged the broken contracts, which the pipeline has no way to d
 
 AutoVerus's check ignores spec functions entirely, so rewriting `is_sorted` to `true` turns a sorting contract vacuous and the program verifies. In the 30-task run, the pipeline and both agents used that freedom on `VH0036`, where the generated spec function returns 0 for every input. All three rewrote it to count what the code counts, which matches the obvious intent but is still a contract change.
 
-The last row is a lynette bug, fixed in [microsoft/verus-proof-synthesis#53](https://github.com/microsoft/verus-proof-synthesis/pull/53). An `if` with a ghost-only branch disappears from the program lynette compares, so changing `x = x + 1` to `x = 0` inside it passes both checks, and adding or deleting a ghost-only `else` is rejected.
+The last row is a lynette bug, with a proposed fix in [microsoft/verus-proof-synthesis#53](https://github.com/microsoft/verus-proof-synthesis/pull/53), which is still open. VeruSteer ships its own two copies of lynette, so that fix will not reach them on its own. An `if` with a ghost-only branch disappears from the program lynette compares, so changing `x = x + 1` to `x = 0` inside it passes both checks, and adding or deleting a ghost-only `else` is rejected.
 
 [`scripts/gate_recheck.py`](scripts/gate_recheck.py) re-runs each tree's own check with the fix ([`results/gate_recheck.txt`](results/gate_recheck.txt)). No recorded success depended on the bug: all 476 verified test paths pass under both versions, including the 185 default and 194 VeruSteer successes. `frozen_check.py` built on the fixed lynette gives an identical classification, so the 744 stands.
 
@@ -53,11 +53,11 @@ The bug did cost the agents. Under the fix, three repairs that were rejected onl
 
 ## Authors' response
 
-The authors [replied](https://github.com/Dominik-O22/veruseval-recheck/issues/2) on 1 November 2026. They note that VeruSteer changes only error-type selection, so unfixable specifications and stagnating repairs come from the underlying methods and acceptance rules. They plan to add specification repair to the candidate actions and an agent-based repair workflow as an additional baseline. Their own text-based audit found no contract or spec-function changes among VeruSteer's additional successes, which agrees with finding 4.
+The authors [replied](https://github.com/Dominik-O22/veruseval-recheck/issues/2) on 1 November 2026. They note that VeruSteer changes only error-type selection, so unfixable specifications and stagnating repairs come from the underlying methods and acceptance rules. They plan to add specification repair to the candidate actions and an agent-based repair workflow as an additional baseline. Their own text-based audit found no contract or spec-function changes among VeruSteer's additional successes. Finding 4 concerns what the checks allow, so the two do not conflict.
 
 ## What holds up
 
-The artifact is careful. It reproduces 185 and 194 exactly and documents its own data anomalies. The contract freeze works as intended on their successes: 184 of 185 verified programs pass lynette against their starting program. VeruSteer's gain on the recorded trees is real, and the abstract reports it as the small number it is.
+The artifact is careful. It reproduces 185 and 194 exactly and documents its own data anomalies. The contract freeze works as intended on their successes: 184 of 185 verified programs pass AutoVerus's `compare -t` against their starting program, and all 185 pass their own pipeline's check. VeruSteer's gain on the recorded trees is real, and the abstract reports it as the small number it is.
 
 The problem is what it optimizes. Most failures are decided before the first round: the selector picks which error to repair in programs no allowed repair can fix. The paper never runs a baseline that gives the model a shell with Verus. Its replay design could not: it selects among stored trajectories and, as the paper says, does not describe an end-to-end benchmark.
 
