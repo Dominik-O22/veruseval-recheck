@@ -1,0 +1,11 @@
+source,outcome,checks,mean_s,median_s,p90_s,max_s,total_s
+variants_dev,refuted,121,2.743,2.711,3.343,4.422,332.0
+variants_dev,undecided,436,1.487,1.401,2.183,4.283,648.2
+variants_holdout,refuted,1079,2.626,2.519,3.242,11.655,2833.0
+variants_holdout,undecided,3961,1.544,1.303,1.968,174.196,6115.3
+fixtures,refuted,19,2.074,2.083,2.328,2.419,39.4
+fixtures,undecided,35,0.578,0.477,0.983,1.078,20.2
+census_dev,refuted,306,2.522,2.42,3.136,4.397,771.8
+census_dev,undecided,661,1.244,1.09,1.793,5.566,822.3
+control,refuted,2,2.139,2.139,2.366,2.234,4.3
+control,undecided,2,0.922,0.922,1.364,1.106,1.8

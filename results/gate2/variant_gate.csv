@@ -1,0 +1,5 @@
+split,forms,must_refute,refuted,recall,must_clear_rows,unexpected_refutations
+dev,"paper form (L1, unconditional L2)",81,81,1.0,97,0
+dev,guarded L2 in place of unconditional,81,81,1.0,97,0
+holdout,"paper form (L1, unconditional L2)",728,719,0.9876,980,0
+holdout,guarded L2 in place of unconditional,728,713,0.9794,980,0
