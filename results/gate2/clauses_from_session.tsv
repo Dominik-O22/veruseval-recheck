@@ -1,0 +1,129 @@
+sample	check	set	type	guarded	uncond	by
+AlphaVerus|llama|few-shot|VeriCoding_VA0085_vericoded	L2 002	dev100	scalar	P	R	try2
+AlphaVerus|llama|zero-shot|VeriCoding_VT0022_vericoded	L2 001	dev100	float	R	R	try1
+AlphaVerus|llama|zero-shot|VeriCoding_VT0377_vericoded	L2 001	dev100	int/bool collection	R	R	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VB0061_vericoded	L1 001	dev100	char/string	R	R	try3
+AutoVerus|gpt-4o|few-shot|VeriCoding_VD0167_vericoded	L2 002	dev100	int/bool collection	P	P	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VD0749_vericoded	L2 001	dev100	scalar	P	P	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VJ0148_vericoded	L2 002	dev100	int/bool collection	R	R	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VT0006_vericoded	L2 003	dev100	float	P	R	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VT0022_vericoded	L2 003	dev100	float	P	P	try1
+AutoVerus|gpt-4o|few-shot|VeriCoding_VT0192_vericoded	L2 004	dev100	struct/enum/generic	P	R	try1
+AutoVerus|gpt-4o|few-shot|VerusBench_Misc_trigger	L2 001	dev100	int/bool collection	P	R	try1
+AutoVerus|gpt-4o|zero-shot|DAFNY2VERUS-COLLECTION_100	L1 001	dev100	int/bool collection	R	R	try1
+AutoVerus|gpt-4o|zero-shot|VeriCoding_VA0253_vericoded	L2 003	dev100	int/bool collection	R	R	try1
+AutoVerus|gpt-4o|zero-shot|VeriCoding_VA0253_vericoded	L2 004	dev100	int/bool collection	R	R	try1
+AutoVerus|gpt-4o|zero-shot|VeriCoding_VA0667_vericoded	L2 001	dev100	char/string	P	P	try1
+AutoVerus|gpt-4o|zero-shot|VeriCoding_VD0197_vericoded	L1 001	dev100	spec int/collection	P	P	try1
+AutoVerus|gpt-4o|zero-shot|VeriCoding_VD0197_vericoded	L2 001	dev100	spec int/collection	P	P	try1
+AutoVerus|gpt-4o|zero-shot|VerusBench_MBPP_task_id_460	L1 001	dev100	nested collection	R	R	try1
+AutoVerus|gpt-4o|zero-shot|VerusBench_MBPP_task_id_807	L2 001	dev100	int/bool collection	P	P	try1
+StarVerus|deepseek-chat|few-shot|DAFNY2VERUS-COLLECTION_54	L1 001	dev100	int/bool collection	R	R	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VA0580_vericoded	L1 001	dev100	char/string	R	R	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VB0061_vericoded	L2 003	dev100	char/string	P	P	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded	L2 001	dev100	scalar	P	P	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VT0477_vericoded	L1 005	dev100	float	R	R	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VT0477_vericoded	L1 006	dev100	float	R	R	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VT0477_vericoded	L2 002	dev100	float	P	R	try1
+StarVerus|deepseek-chat|few-shot|VeriCoding_VT0593_vericoded	L2 001	dev100	int/bool collection	P	P	try1
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VA0253_vericoded	L2 005	dev100	int/bool collection	P	R	try1
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VD0454_vericoded	L2 003	dev100	int/bool collection	R	R	try1
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VH0012_vericoded	L2 001	dev100	char/string	U	U	-
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VV0079_vericoded	L2 004	dev100	int/bool collection	R	R	try1
+StarVerus|deepseek-reasoner|few-shot|DAFNY2VERUS-COLLECTION_104	L1 001	dev100	spec int/collection	R	R	try1
+StarVerus|deepseek-reasoner|few-shot|MBPP-verified_task_10	L2 002	dev100	nested collection	P	P	try1
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VD0197_vericoded	L2 001	dev100	spec int/collection	P	P	try1
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VD0431_vericoded	L2 001	dev100	spec int/collection	P	U	-
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VD0749_vericoded	L2 001	dev100	scalar	P	P	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VA0057_vericoded	L2 001	dev100	scalar	P	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VA0487_vericoded	L2 002	dev100	scalar	P	U	-
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VA0580_vericoded	L2 001	dev100	char/string	U	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VD0167_vericoded	L2 002	dev100	int/bool collection	P	P	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VD0577_vericoded	L2 002	dev100	int/bool collection	P	P	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VD0744_vericoded	L1 001	dev100	int/bool collection	U	U	-
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VT0081_vericoded	L2 002	dev100	float	R	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VT0269_vericoded	L2 003	dev100	int/bool collection	P	P	try1
+StarVerus|deepseek-reasoner|zero-shot|VerusBench_MBPP_task_id_769	L2 001	dev100	int/bool collection	P	P	try1
+StarVerus|gpt-4o|few-shot|VeriCoding_VD0138_vericoded	L2 001	dev100	int/bool collection	U	U	-
+StarVerus|gpt-4o|few-shot|VeriCoding_VD0167_vericoded	L2 002	dev100	int/bool collection	P	P	try1
+StarVerus|gpt-4o|few-shot|VeriCoding_VJ0148_vericoded	L1 001	dev100	int/bool collection	P	P	try1
+StarVerus|gpt-4o|few-shot|VeriCoding_VT0048_vericoded	L2 002	dev100	int/bool collection	P	R	try1
+StarVerus|gpt-4o|few-shot|VeriCoding_VT0377_vericoded	L2 003	dev100	int/bool collection	P	R	try1
+StarVerus|gpt-4o|few-shot|VeriCoding_VT0477_vericoded	L2 003	dev100	float	P	R	try1
+StarVerus|gpt-4o|zero-shot|VeriCoding_VA0083_vericoded	L2 001	dev100	scalar	P	R	try1
+StarVerus|gpt-4o|zero-shot|VeriCoding_VD0749_vericoded	L2 001	dev100	scalar	P	P	try1
+StarVerus|gpt-4o|zero-shot|VeriCoding_VT0192_vericoded	L2 004	dev100	struct/enum/generic	P	R	try1
+StarVerus|gpt-4o|zero-shot|VeriCoding_VT0477_vericoded	L2 003	dev100	float	P	R	try1
+StarVerus|llama|few-shot|VeriCoding_VH0029_vericoded	L2 001	dev100	scalar	P	R	try1
+StarVerus|llama|few-shot|VeriCoding_VT0256_vericoded	L2 002	dev100	char/string	P	P	try1
+StarVerus|llama|zero-shot|MBPP-verified_task_74	L1 001	dev100	char/string	U	U	-
+StarVerus|llama|zero-shot|VeriCoding_VA0176_vericoded	L1 003	dev100	scalar	R	R	try1
+StarVerus|llama|zero-shot|VeriCoding_VT0081_vericoded	L1 001	dev100	float	U	U	-
+StarVerus|llama|zero-shot|VeriCoding_VT0457_vericoded	L2 003	dev100	float	U	U	-
+StarVerus|llama|zero-shot|VeriCoding_VT0593_vericoded	L2 001	dev100	int/bool collection	P	P	try1
+StarVerus|qwen-coder|few-shot|MBPP-verified_task_70	L2 001	dev100	int/bool collection	P	P	try1
+StarVerus|qwen-coder|few-shot|MBPP-verified_task_70	L2 002	dev100	int/bool collection	P	P	try1
+StarVerus|qwen-coder|few-shot|VeriCoding_VD0454_vericoded	L2 003	dev100	int/bool collection	R	R	try1
+StarVerus|qwen-coder|few-shot|VeriCoding_VD0714_vericoded	L2 001	dev100	int/bool collection	P	P	try2
+StarVerus|qwen-coder|few-shot|VeriCoding_VT0006_vericoded	L2 005	dev100	float	P	U	-
+StarVerus|qwen-coder|few-shot|VerusBench_Misc_trigger	L2 001	dev100	int/bool collection	P	R	try1
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0176_vericoded	L1 003	dev100	scalar	R	R	try1
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0569_vericoded	L2 002	dev100	char/string	P	P	try1
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0671_vericoded	L2 001	dev100	scalar	R	R	try3
+StarVerus|qwen-coder|zero-shot|VeriCoding_VA0671_vericoded	L2 002	dev100	scalar	R	R	try3
+StarVerus|qwen-coder|zero-shot|VeriCoding_VJ0052_vericoded	L2 001	dev100	int/bool collection	P	U	-
+StarVerus|qwen-coder|zero-shot|VeriCoding_VT0006_vericoded	L2 005	dev100	float	P	R	try1
+StarVerus|qwen-coder|zero-shot|VeriCoding_VT0081_vericoded	L1 002	dev100	float	U	U	-
+StarVerus|qwen-coder|zero-shot|VeriCoding_VT0256_vericoded	L2 002	dev100	char/string	P	P	try1
+StarVerus|qwen-coder|zero-shot|VeriCoding_VV0175_vericoded	L2 001	dev100	int/bool collection	R	R	try1
+VerusAge|deepseek-chat|few-shot|DAFNY2VERUS-COLLECTION_54	L1 001	dev100	int/bool collection	R	R	try2
+VerusAge|deepseek-chat|few-shot|MBPP-verified_task_57	L2 002	dev100	int/bool collection	P	U	-
+VerusAge|deepseek-chat|few-shot|VeriCoding_VA0085_vericoded	L2 002	dev100	scalar	P	R	try2
+VerusAge|deepseek-chat|few-shot|VeriCoding_VH0029_vericoded	L2 001	dev100	scalar	P	P	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VJ0043_vericoded	L2 001	dev100	int/bool collection	P	R	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0006_vericoded	L2 005	dev100	float	P	U	-
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0192_vericoded	L2 005	dev100	struct/enum/generic	P	R	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0477_vericoded	L1 003	dev100	float	U	U	-
+VerusAge|deepseek-chat|few-shot|VerusBench_MBPP_task_id_436	L2 001	dev100	int/bool collection	P	P	try1
+VerusAge|deepseek-chat|zero-shot|VeriCoding_VA0253_vericoded	L2 003	dev100	int/bool collection	P	R	try1
+VerusAge|deepseek-chat|zero-shot|VeriCoding_VV0112_vericoded	L2 002	dev100	int/bool collection	P	U	-
+VerusAge|qwen-coder|few-shot|HumanEval-Verus_task_75	L1 002	dev100	int/bool collection	R	R	try1
+VerusAge|qwen-coder|few-shot|VeriCoding_VA0176_vericoded	L1 001	dev100	scalar	R	R	try1
+VerusAge|qwen-coder|few-shot|VeriCoding_VA0253_vericoded	L2 003	dev100	int/bool collection	P	R	try1
+VerusAge|qwen-coder|few-shot|VeriCoding_VA0253_vericoded	L2 004	dev100	int/bool collection	P	U	-
+VerusAge|qwen-coder|few-shot|VeriCoding_VA0253_vericoded	L2 005	dev100	int/bool collection	P	U	-
+VerusAge|qwen-coder|few-shot|VeriCoding_VD0749_vericoded	L2 001	dev100	scalar	P	P	try1
+VerusAge|qwen-coder|few-shot|VeriCoding_VT0269_vericoded	L2 003	dev100	int/bool collection	P	P	try1
+VerusAge|qwen-coder|zero-shot|MBPP-verified_task_53	L1 001	dev100	char/string	U	U	-
+VerusAge|qwen-coder|zero-shot|VeriCoding_VT0047_vericoded	L1 001	dev100	float	U	U	-
+VerusAge|qwen-coder|zero-shot|VeriCoding_VT0055_vericoded	L1 001	dev100	float	U	U	-
+VerusAge|qwen-coder|zero-shot|VeriCoding_VV0112_vericoded	L2 003	dev100	int/bool collection	P	U	-
+haiku-5-5|haiku-fair20|MBPP-verified_task_72 (is_sub_array)	L2 001	haiku7	int/bool collection	P	P	try1
+haiku-5-5|haiku-fair20|MBPP-verified_task_72 (sub_array_at_index)	L2 001	haiku7	int/bool collection	P	U	-
+haiku-5-5|haiku-fair20-rest|VeriCoding_VA0115_vericoded	L2 001	haiku7	char/string	P	U	-
+haiku-5-5|haiku-fair20-rest|VeriCoding_VD0578_vericoded	L2 001	haiku7	char/string	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VH0074_vericoded	L2 002	haiku7	int/bool collection	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VH0074_vericoded	L2 004	haiku7	int/bool collection	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VH0074_vericoded	L2 005	haiku7	int/bool collection	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VT0026_vericoded	L2 005	haiku7	float	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VT0026_vericoded	L2 006	haiku7	float	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VT0178_vericoded	L2 003	haiku7	nested collection	P	P	try1
+haiku-5-5|haiku-fair20-rest|VeriCoding_VT0178_vericoded	L2 007	haiku7	nested collection	P	P	try2
+haiku-5-5|haiku-fair20-rest|VerusBench_MBPP_task_id_807	L2 001	haiku7	int/bool collection	P	P	try1
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_47	L2 001	regrade14	int/bool collection	P	P	try1
+StarVerus|deepseek-chat|few-shot|MBPP-verified_task_73	L2 001	regrade14	scalar	P	R	try1
+StarVerus|deepseek-chat|zero-shot|VeriCoding_VT0044_vericoded	L2 001	regrade14	nested collection	P	R	try1
+StarVerus|deepseek-reasoner|few-shot|VeriCoding_VA0523_vericoded	L2 001	regrade14	scalar	P	U	-
+StarVerus|deepseek-reasoner|zero-shot|DAFNY2VERUS-COLLECTION_79	L2 001	regrade14	char/string	P	U	-
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded	L2 001	regrade14	int/bool collection	P	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0001_vericoded	L2 002	regrade14	int/bool collection	P	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded	L2 001	regrade14	int/bool collection	P	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded	L2 002	regrade14	int/bool collection	P	R	try1
+StarVerus|deepseek-reasoner|zero-shot|VeriCoding_VJ0142_vericoded	L2 003	regrade14	int/bool collection	P	R	try1
+StarVerus|qwen-coder|few-shot|VeriCoding_VA0123_vericoded	L2 001	regrade14	scalar	P	R	try1
+StarVerus|qwen-coder|few-shot|VeriCoding_VB0061_vericoded	L2 003	regrade14	char/string	P	P	try1
+StarVerus|qwen-coder|few-shot|VeriCoding_VS0054_vericoded	L2 003	regrade14	nested collection	P	P	try1
+StarVerus|qwen-coder|zero-shot|VerusBench_CloverBench_is_prime	L2 001	regrade14	scalar	P	R	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VA0383_vericoded	L2 001	regrade14	scalar	P	R	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VD0044_vericoded	L2 001	regrade14	int/bool collection	P	P	try1
+VerusAge|deepseek-chat|few-shot|VeriCoding_VT0269_vericoded	L2 003	regrade14+dev100	int/bool collection	P	P	try1

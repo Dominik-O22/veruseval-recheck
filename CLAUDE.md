@@ -1,0 +1,47 @@
+# veruseval-recheck
+
+A re-check of VerusEval (arXiv 2610.26464) and VeruSteer (arXiv 2610.29755) from Ding Wang's group, now turning into a short paper that certifies VerusEval's rejected contract comparisons.
+
+Start with `docs/status.md`. It is the single source of truth for what we are doing, the gates, spending and decisions. `docs/paper-plan.md` says how. Update `docs/status.md` whenever a gate moves.
+
+## Working rules
+
+- Work comes from `docs/status.md`. A new idea goes under Ideas until Dom decides to run it. Dom has twice had to pull this project back from being reactive, so do not start side experiments.
+- One gate at a time, with its pass condition written before the work starts.
+- A verdict counts only if Verus produced a positive result. A timeout or failed attempt is never a verdict, and a model's claim is never a verdict.
+- A number counts only after it is re-run on this machine. A session's summary is a report, not a result.
+- Everything so far is exploratory. Use only the tasks in `results/tasks/dev_tasks.txt`, plus cases the status page names, until the freeze.
+- Nothing goes public until its gate closes: README claims, email, Zulip, GitHub comments, the paper. Pushing, sending and commenting need Dom's go-ahead each time.
+- Before any public claim, check it against the paper text and the data. Read the paper before criticizing the code.
+
+## Facts that are easy to get wrong
+
+- **Verified** means Verus accepted the code against the model's own contract. The rejected checks are on contracts that did verify. They are not syntax failures.
+- **Rejected is not false.** Each comparison gets one Verus attempt with no proof guidance. The paper says this itself: "A rejected obligation is a failed proof attempt, not a confirmed semantic difference."
+- **Guarded versus unconditional.** The released L2 and L4 labels are unconditional, with `postcondition_premise_policy: no_preconditions`. `semantic_strength.py`, and so `scripts/adjudicate.py` and `scripts/reevaluate.py`, use the guarded form with both preconditions added. A guarded proof does not discharge a released L2. Never call one "evaluator wrong". This is the mistake the authors caught.
+- **Three tests, three names.** Exact-match test: the 42.3% headline, where stronger contracts fail. No-preconditions test: the paper's L1 and L2. Valid-inputs test: the same with both preconditions assumed. Do not say "strict test".
+- **The released labels come from the per-clause path** in `metrics_rebuild/share/smt.py`, not `semantic_strength.py`. Use `analysis/gate1_regenerate.py` and `analysis/gate2_regenerate.py`.
+- **An unresolved I/O check is incomplete, not flagged.** The paper has 3,790 flagged artifacts and 296 unflagged but incomplete.
+- **Stored hashes cannot be matched.** Digests depend on absolute paths and the Verus binary, and wrapper names carry path-dependent hashes. Gate 1 compares `obligation_context` and status. Spliced proofs must map `__sqm_gen_*` names, as `analysis/gate2_verify.py` does.
+- **Do not reuse `capture_checks` across threads.** It patches module globals.
+- Failing checks correlate with contract size mostly because hard tasks need bigger contracts. Compare within a task, as `analysis/size_by_check.py` does.
+
+## Where things are
+
+Harnesses, references and the release are not in this repo and must not be committed, because it does not redistribute them.
+
+- Release: `~/.t3/scratch/2026-10-26-how-costly-would-it-be-4c519b9c/veruseval-release`
+- VeruSteer artifact: `.../dl-verusteer-repo/VeruSteer`
+- Regenerated harnesses and tier outputs: `.../run-artifacts/gate2-run`
+- Paper text: `.../run-artifacts/paper-text`
+- Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`, not merged. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
+
+## Running things
+
+- Verus 0.2025.09.25.04e8687 is in podman image `veruseval:haiku`. Run from the release root with the release mounted at `/workspace`. Use `python -I` for anything reading release data.
+- Model calls use an API key, never the subscription token. Anthropic's terms say Agent SDK developers should use API keys. `analysis/tier_batch.py` runs on the host with the `anthropic` package and `ANTHROPIC_API_KEY`, for example from a venv.
+- Cloud sessions start only from a real terminal, with `CCR_FORCE_BUNDLE=1 claude --cloud "$(cat brief.txt)"`, so Dom has to start them. They are good for agent work and spend the cloud credit. Their files vanish when the VM is reclaimed, so results must be pushed or pasted.
+
+## Writing
+
+Use plain language. Every claim carries its evidence. Say what held up in the original papers as well as what did not.

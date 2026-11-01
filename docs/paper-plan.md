@@ -1,6 +1,6 @@
 # Paper plan: certifying rejected comparisons in VerusEval
 
-Status: revision 4, 1 November 2026, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Not frozen. The two feasibility gates below must pass first. Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+Status: revision 5, 1 November 2026, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Not frozen. Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
 
 ## The paper in one paragraph
 
@@ -134,7 +134,8 @@ Descriptive, in a fixed order, with no claim that a finding reverses.
 1. **Definition-only row first.** With released labels and no proofs, 736, 1,337 or 1,867 artifacts move depending on how I/O is treated (measured). These are redefinitions, reported as such, so they are never mistaken for grader results.
 2. **I/O screening.** Among 4,749 I/O-passing artifacts, 78.7% are proved sound on the released labels (measured). Of the 1,012 with a rejected L1 or L2, report how many become proved and how many become certified false. A certified difference on an I/O-passer supports the paper's concern, and we say so. Reporting 78.7% is not a retest of 63.2%, which needs L3 and L4.
 3. **Configuration comparisons.** Exploratory. Census coverage correlates with acceptance at 0.907 across configurations (reviewer measured), so relabeling alone tends to raise the acceptance link. We therefore recompute on accepted artifacts only, call that a new estimand, and publish a random-relabel negative control. On the 13 of 14 matched pairs with a clear acceptance gap, report how many are concordant for each metric, original versus certified, with paired bootstrap deltas.
-4. **Two-way audit.** Exploratory. A one-way correction can only raise scores. Dominik labels 60 artifacts, 20 each from Clean, Sound and Difference, with class hidden, after calibrating on the paper's 61 reference reviews. This is descriptive and is not a mitigation for the reference problem.
+4. **Does rejection track contract size?** Exploratory, because this was seen before the freeze. Within the same task, failing artifacts are larger on L1 (216 tasks against 41) and L4 (180 against 84), with no difference on L2 (144 against 139), and failing the correct-output suite also goes with larger contracts (78 against 32) (measured, `analysis/size_by_check.py`). Pooled rates by size mostly compare tasks, so only within-task results are reported. Once rejections are certified, report whether larger contracts turn out sound and stronger, or overconstrained.
+5. **Two-way audit.** Exploratory. A one-way correction can only raise scores. Dominik labels 60 artifacts, 20 each from Clean, Sound and Difference, with class hidden, after calibrating on the paper's 61 reference reviews. This is descriptive and is not a mitigation for the reference problem.
 
 ## Procedure
 
@@ -154,25 +155,15 @@ Solo blinding is not enforceable, so the protection is the hash. Agent assistanc
 - **Solo rater with a strong prior.** Audit is exploratory.
 - **External validity.** One evaluation, one verifier.
 
-## Budget
+## Budget and schedule
 
-Stop at the first verdict on the census. The pilot cost about $0.05 per obligation (measured, $1.30 for 26), and hard ones will cost more. A range of $150 to $300 is plausible, and running every ladder in full would approach $1,400 (reviewer inferred). The cap is $300. Measure on the development set before the freeze. Use an API key: Anthropic's terms say Agent SDK developers "should use API key authentication", and that subscription limits "assume ordinary, individual usage". The second proposer needs a pinned paid endpoint. If the cost exceeds the budget, use a seeded random half of tasks and report it.
+Live status, spend and gates are in [`docs/status.md`](status.md). This section records the method.
 
-## Timeline
+The census runs in three layers, stopping at the first verdict: a free search over small literal values (`analysis/tier_free.py`), then one-shot Haiku and then Sonnet through the Batches API with structured output (`analysis/tier_batch.py`). On 128 development clauses this settled 94 of the 103 no-preconditions verdicts that agents had settled, and 78 of 79 valid-inputs verdicts, with no conflicts, at about $0.01 per clause (measured). That gives about $19 to $32 for all 3,043 clauses, which is an estimate from a small sample. It uses an API key, because Anthropic's terms say Agent SDK developers "should use API key authentication".
 
-| By | Gate | If it fails |
-|---|---|---|
-| 8 Nov | Gate 1: regenerated `obligation_context` and status match the released records, for L1 and L2 | Narrow to what regenerates, or stop |
-| 10 Nov | Gate 2: literal-witness template works on L1 and L2 for each type class | Report type classes as Undecided |
-| 14 Nov | Validation passes, cost measured | Fix, and move every date below |
-| 15 Nov | Freeze, Zenodo | No confirmatory run before this |
-| 24 Nov | Census complete | Seeded half of tasks |
-| 29 Nov | Analysis | Report what holds |
-| 3 Dec | Draft to authors and potential endorsers | No posting without this |
-| 10 Dec | Responses handled | Note non-response |
-| 11 and 18 Dec | Optional ICPC 2027 RENE | arXiv only |
+The pipeline leaves more undecided than agents did, 27 against 21 of 100 on the development sample, so Undecided shares in the paper describe this pipeline.
 
-A slip of one to two weeks is likely (guess), and missing ICPC does no harm, because arXiv is the primary target. Endorsement runs in parallel.
+ICPC 2027 RENE (abstract 11 December, paper 18 December) stays optional, because arXiv is the primary target.
 
 ## Outline
 

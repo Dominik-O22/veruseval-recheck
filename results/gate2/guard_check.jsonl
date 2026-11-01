@@ -1,0 +1,69 @@
+{"id": "AlphaVerus__llama__few-shot__VeriCoding_VA0085_vericoded__L2__002", "uncond": "refuted", "status": "no input found", "tried": 119, "input": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VD0749_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 64, "input": {"__arg0": "0u64", "__ret0": "1u64"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0006_vericoded__L2__003", "uncond": "refuted", "status": "satisfiable", "tried": 120, "input": {"__arg0": "vec![]", "__arg1": "vec![]", "__arg2": "vec![]", "__arg3": "vec![]", "__ret0": "vec![]"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0022_vericoded__L2__003", "uncond": "proved", "status": "satisfiable", "tried": 104, "input": {"__arg0": "1usize", "__ret0": "vec![vec![1.0f64]]"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0192_vericoded__L2__004", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "AutoVerus__gpt-4o__few-shot__VerusBench_Misc_trigger__L2__001", "uncond": "refuted", "status": "no input found", "tried": 115, "input": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0667_vericoded__L2__001", "uncond": "proved", "status": "no input found", "tried": 85, "input": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VD0197_vericoded__L2__001", "uncond": "proved", "status": "unsupported type", "tried": 0}
+{"id": "AutoVerus__gpt-4o__zero-shot__VerusBench_MBPP_task_id_807__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 65, "input": {"__arg0": "&vec![0u32]", "__ret0": "None"}}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_47__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 81, "input": {"__arg0": "&vec![0i32]", "__ret0": "0i32"}}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_73__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 16, "input": {"__arg0": "2u64", "__ret0": "false"}}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 22, "input": {"__arg0": "0i8", "__ret0": "false"}}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L2__002", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0593_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 81, "input": {"__arg0": "vec![0i8]", "__ret0": "0i8"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__005", "uncond": "refuted", "status": "satisfiable", "tried": 119, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VT0044_vericoded__L2__001", "uncond": "refuted", "status": "no input found", "tried": 117, "input": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__MBPP-verified_task_10__L2__002", "uncond": "proved", "status": "no input found", "tried": 90, "input": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VA0523_vericoded__L2__001", "uncond": "undecided", "status": "satisfiable", "tried": 112, "input": {"__arg0": "0i8", "__arg1": "1i8", "__ret0": "0i8"}}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0431_vericoded__L2__001", "uncond": "undecided", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0749_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 64, "input": {"__arg0": "0u64", "__ret0": "1u64"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__DAFNY2VERUS-COLLECTION_79__L2__001", "uncond": "undecided", "status": "satisfiable", "tried": 81, "input": {"__arg0": "&[]", "__ret0": "-1i32"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0057_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 120, "input": {"__arg0": "127i8", "__arg1": "5i8", "__arg2": "5i8", "__arg3": "100i8", "__ret0": "-1i8"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0487_vericoded__L2__002", "uncond": "undecided", "status": "satisfiable", "tried": 78, "input": {"__arg0": "1i8", "__ret0": "1i8"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VD0577_vericoded__L2__002", "uncond": "proved", "status": "satisfiable", "tried": 118, "input": {"__arg0": "&[1i32]", "__arg1": "&[2i32]", "__ret0": "vec![1i32, 2i32]"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 115, "input": {"__arg0": "&vec![0u64]", "__arg1": "0u64", "__ret0": "0usize"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__002", "uncond": "refuted", "status": "satisfiable", "tried": 115, "input": {"__arg0": "&vec![0u64]", "__arg1": "0u64", "__ret0": "0usize"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__001", "uncond": "refuted", "status": "no input found", "tried": 120, "input": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__002", "uncond": "refuted", "status": "no input found", "tried": 120, "input": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__003", "uncond": "refuted", "status": "no input found", "tried": 120, "input": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0048_vericoded__L2__002", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0377_vericoded__L2__003", "uncond": "refuted", "status": "no input found", "tried": 90, "input": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0477_vericoded__L2__003", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VA0083_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 78, "input": {"__arg0": "1i8", "__ret0": "1i8"}}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VD0749_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 64, "input": {"__arg0": "0u64", "__ret0": "1u64"}}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0192_vericoded__L2__004", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0477_vericoded__L2__003", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VH0029_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 22, "input": {"__arg0": "2i8", "__ret0": "true"}}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VT0256_vericoded__L2__002", "uncond": "proved", "status": "satisfiable", "tried": 118, "input": {"__arg0": "&vec![]", "__arg1": "&vec![]", "__ret0": "vec![]"}}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VT0593_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 81, "input": {"__arg0": "vec![0i8]", "__ret0": "0i8"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VA0123_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 78, "input": {"__arg0": "2i8", "__ret0": "1i8"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VS0054_vericoded__L2__003", "uncond": "proved", "status": "satisfiable", "tried": 90, "input": {"__arg0": "vec![vec![]]", "__ret0": "vec![]"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VT0006_vericoded__L2__005", "uncond": "undecided", "status": "satisfiable", "tried": 120, "input": {"__arg0": "vec![]", "__arg1": "vec![]", "__arg2": "vec![]", "__arg3": "vec![]", "__ret0": "vec![]"}}
+{"id": "StarVerus__qwen-coder__few-shot__VerusBench_Misc_trigger__L2__001", "uncond": "refuted", "status": "no input found", "tried": 115, "input": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0569_vericoded__L2__002", "uncond": "proved", "status": "no input found", "tried": 90, "input": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VJ0052_vericoded__L2__001", "uncond": "undecided", "status": "no input found", "tried": 120, "input": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0006_vericoded__L2__005", "uncond": "refuted", "status": "satisfiable", "tried": 120, "input": {"__arg0": "vec![]", "__arg1": "vec![]", "__arg2": "vec![]", "__arg3": "vec![]", "__ret0": "vec![]"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0256_vericoded__L2__002", "uncond": "proved", "status": "satisfiable", "tried": 118, "input": {"__arg0": "&vec![]", "__arg1": "&vec![]", "__ret0": "vec![]"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VerusBench_CloverBench_is_prime__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 16, "input": {"__arg0": "2u64", "__ret0": "true"}}
+{"id": "VerusAge__deepseek-chat__few-shot__MBPP-verified_task_57__L2__002", "uncond": "undecided", "status": "no input found", "tried": 116, "input": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0085_vericoded__L2__002", "uncond": "refuted", "status": "no input found", "tried": 119, "input": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0383_vericoded__L2__001", "uncond": "refuted", "status": "satisfiable", "tried": 117, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "1i8", "__ret0": "true"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 22, "input": {"__arg0": "2i8", "__ret0": "true"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VJ0043_vericoded__L2__001", "uncond": "refuted", "status": "no input found", "tried": 120, "input": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0006_vericoded__L2__005", "uncond": "undecided", "status": "satisfiable", "tried": 120, "input": {"__arg0": "vec![]", "__arg1": "vec![]", "__arg2": "vec![]", "__arg3": "vec![]", "__ret0": "vec![]"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0192_vericoded__L2__005", "uncond": "refuted", "status": "unsupported type", "tried": 0}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__003", "uncond": "refuted", "status": "satisfiable", "tried": 119, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VV0112_vericoded__L2__002", "uncond": "undecided", "status": "satisfiable", "tried": 90, "input": {"__arg0": "&vec![0i32]", "__ret0": "vec![0i32]"}}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__003", "uncond": "refuted", "status": "satisfiable", "tried": 119, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__004", "uncond": "undecided", "status": "satisfiable", "tried": 119, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__005", "uncond": "undecided", "status": "satisfiable", "tried": 119, "input": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VD0749_vericoded__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 64, "input": {"__arg0": "0u64", "__ret0": "1u64"}}
+{"id": "VerusAge__qwen-coder__zero-shot__VeriCoding_VV0112_vericoded__L2__003", "uncond": "undecided", "status": "satisfiable", "tried": 90, "input": {"__arg0": "&vec![0i32]", "__ret0": "vec![0i32]"}}
+{"id": "haiku__MBPP-verified_task_72__is_sub_array__L2__001", "uncond": "proved", "status": "satisfiable", "tried": 105, "input": {"__arg0": "&vec![0i32]", "__arg1": "&vec![1i32]", "__ret0": "false"}}
+{"id": "haiku__MBPP-verified_task_72__sub_array_at_index__L2__001", "uncond": "undecided", "status": "satisfiable", "tried": 117, "input": {"__arg0": "&vec![]", "__arg1": "&vec![]", "__arg2": "0usize", "__ret0": "true"}}
+{"id": "haiku__VeriCoding_VA0115_vericoded__solve__L2__001", "uncond": "undecided", "status": "unsupported type", "tried": 0}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__005", "uncond": "proved", "status": "unsupported type", "tried": 0}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__006", "uncond": "proved", "status": "unsupported type", "tried": 0}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__003", "uncond": "proved", "status": "unsupported type", "tried": 0}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__007", "uncond": "proved", "status": "unsupported type", "tried": 0}

@@ -1,0 +1,208 @@
+{"id": "AlphaVerus__llama__few-shot__VeriCoding_VA0085_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "0i8", "__arg1": "0i8", "__arg2": "0i8", "__ret0": "0i8"}}
+{"id": "AlphaVerus__llama__few-shot__VeriCoding_VA0085_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "AlphaVerus__llama__zero-shot__VeriCoding_VT0022_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 104, "witness": {"__arg0": "0usize", "__ret0": "vec![vec![]]"}}
+{"id": "AlphaVerus__llama__zero-shot__VeriCoding_VT0377_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 90, "witness": {"__arg0": "vec![]", "__ret0": "vec![0i8]"}}
+{"id": "AlphaVerus__llama__zero-shot__VeriCoding_VT0377_vericoded__L2__001", "form": "guarded", "status": "refuted", "tried": 90, "witness": {"__arg0": "vec![]", "__ret0": "vec![0i8]"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VB0061_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VD0167_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 115, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 64, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 64, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VJ0148_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 118, "witness": {"__arg0": "&[0i32]", "__arg1": "0i32", "__ret0": "vec![]"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0006_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0006_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0022_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0022_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 104, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0192_vericoded__L2__004", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VeriCoding_VT0192_vericoded__L2__004", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "AutoVerus__gpt-4o__few-shot__VerusBench_Misc_trigger__L2__001", "form": "uncond", "status": "refuted", "tried": 115, "witness": {"__arg0": "vec![0u64]", "__arg1": "0usize", "__ret0": "0u64"}}
+{"id": "AutoVerus__gpt-4o__few-shot__VerusBench_Misc_trigger__L2__001", "form": "guarded", "status": "no witness", "tried": 115, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__DAFNY2VERUS-COLLECTION_100__L1__001", "form": "uncond", "status": "refuted", "tried": 114, "witness": {"__arg0": "&vec![]", "__arg1": "0i32", "__ret0": "0usize"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "0i8", "__arg2": "vec![0i8]", "__ret0": "0i8"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "guarded", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "vec![1i8]", "__ret0": "0i8"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0253_vericoded__L2__004", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "0i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0253_vericoded__L2__004", "form": "guarded", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "2i8", "__arg2": "vec![1i8]", "__ret0": "1i8"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0667_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 85, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VA0667_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 85, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VD0197_vericoded__L1__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VD0197_vericoded__L2__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VeriCoding_VD0197_vericoded__L2__001", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VerusBench_MBPP_task_id_460__L1__001", "form": "uncond", "status": "refuted", "tried": 90, "witness": {"__arg0": "&vec![]", "__ret0": "vec![]"}}
+{"id": "AutoVerus__gpt-4o__zero-shot__VerusBench_MBPP_task_id_807__L2__001", "form": "uncond", "status": "no witness", "tried": 65, "witness": null}
+{"id": "AutoVerus__gpt-4o__zero-shot__VerusBench_MBPP_task_id_807__L2__001", "form": "guarded", "status": "no witness", "tried": 65, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__DAFNY2VERUS-COLLECTION_54__L1__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_47__L2__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_47__L2__001", "form": "guarded", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_73__L2__001", "form": "uncond", "status": "refuted", "tried": 16, "witness": {"__arg0": "0u64", "__ret0": "true"}}
+{"id": "StarVerus__deepseek-chat__few-shot__MBPP-verified_task_73__L2__001", "form": "guarded", "status": "no witness", "tried": 16, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VA0580_vericoded__L1__001", "form": "uncond", "status": "refuted", "tried": 90, "witness": {"__arg0": "vec!['a', 'a']", "__ret0": "vec!['0', '0']"}}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VB0061_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 22, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 22, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L1__005", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L1__006", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L2__002", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L2__002", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0593_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-chat__few-shot__VeriCoding_VT0593_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__005", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "0i8", "__arg1": "0i8", "__arg2": "vec![]", "__ret0": "1i8"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__005", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VD0454_vericoded__L2__003", "form": "uncond", "status": "refuted", "tried": 104, "witness": {"__arg0": "&[0i32, 0i32]", "__ret0": "1usize"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VD0454_vericoded__L2__003", "form": "guarded", "status": "refuted", "tried": 104, "witness": {"__arg0": "&[0i32, 0i32]", "__ret0": "1usize"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VH0012_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 65, "witness": null}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VT0044_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 117, "witness": {"__arg0": "vec![]", "__arg1": "vec![0i8]", "__ret0": "(vec![], vec![0i8])"}}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VT0044_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 117, "witness": null}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VV0079_vericoded__L2__004", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__deepseek-chat__zero-shot__VeriCoding_VV0079_vericoded__L2__004", "form": "guarded", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__DAFNY2VERUS-COLLECTION_104__L1__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__MBPP-verified_task_10__L2__002", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__MBPP-verified_task_10__L2__002", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VA0523_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 112, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VA0523_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 112, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0197_vericoded__L2__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0431_vericoded__L2__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0431_vericoded__L2__001", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 64, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 64, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__DAFNY2VERUS-COLLECTION_79__L2__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__DAFNY2VERUS-COLLECTION_79__L2__001", "form": "guarded", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0057_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0057_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0487_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 78, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0487_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 78, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0580_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VA0580_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VD0167_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 115, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VD0577_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VD0577_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VD0744_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 26, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 115, "witness": {"__arg0": "&vec![]", "__arg1": "0u64", "__ret0": "0usize"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 115, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 115, "witness": {"__arg0": "&vec![1u64]", "__arg1": "0u64", "__ret0": "0usize"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0001_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 115, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 120, "witness": {"__arg0": "&[]", "__arg1": "0i32", "__arg2": "1isize", "__arg3": "0isize", "__ret0": "0isize"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VJ0142_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VT0081_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 118, "witness": {"__arg0": "vec![1.0f32, 1.0f32]", "__arg1": "vec![0.0f32, 0.0f32]", "__ret0": "vec![vec![0.0f32], vec![0.0f32]]"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VT0081_vericoded__L2__002", "form": "guarded", "status": "refuted", "tried": 118, "witness": {"__arg0": "vec![1.0f32, 1.0f32]", "__arg1": "vec![0.0f32, 0.0f32]", "__ret0": "vec![vec![0.0f32], vec![0.0f32]]"}}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VeriCoding_VT0269_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__deepseek-reasoner__zero-shot__VerusBench_MBPP_task_id_769__L2__001", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VD0138_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 119, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VD0167_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 115, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VJ0148_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0048_vericoded__L2__002", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0048_vericoded__L2__002", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0377_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0377_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0477_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__few-shot__VeriCoding_VT0477_vericoded__L2__003", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VA0083_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 78, "witness": {"__arg0": "-128i8", "__ret0": "-1i8"}}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VA0083_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 78, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 64, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 64, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0192_vericoded__L2__004", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0192_vericoded__L2__004", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0477_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__gpt-4o__zero-shot__VeriCoding_VT0477_vericoded__L2__003", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 22, "witness": {"__arg0": "0i8", "__ret0": "true"}}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 22, "witness": null}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VT0256_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__llama__few-shot__VeriCoding_VT0256_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__llama__zero-shot__MBPP-verified_task_74__L1__001", "form": "uncond", "status": "no witness", "tried": 111, "witness": null}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VA0176_vericoded__L1__003", "form": "uncond", "status": "refuted", "tried": 116, "witness": {"__arg0": "1i8", "__arg1": "2i8", "__ret0": "(0i8, 0i8)"}}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VT0081_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VT0457_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VT0593_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__llama__zero-shot__VeriCoding_VT0593_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 81, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__MBPP-verified_task_70__L2__001", "form": "uncond", "status": "no witness", "tried": 56, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__MBPP-verified_task_70__L2__002", "form": "uncond", "status": "no witness", "tried": 56, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VA0123_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 78, "witness": {"__arg0": "-1i8", "__ret0": "1i8"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VA0123_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 78, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VB0061_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VD0454_vericoded__L2__003", "form": "uncond", "status": "refuted", "tried": 104, "witness": {"__arg0": "&[0i32, 0i32]", "__ret0": "1usize"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VD0454_vericoded__L2__003", "form": "guarded", "status": "refuted", "tried": 104, "witness": {"__arg0": "&[0i32, 0i32]", "__ret0": "1usize"}}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VD0714_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VS0054_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VS0054_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__few-shot__VerusBench_Misc_trigger__L2__001", "form": "uncond", "status": "refuted", "tried": 115, "witness": {"__arg0": "vec![0u64]", "__arg1": "0usize", "__ret0": "0u64"}}
+{"id": "StarVerus__qwen-coder__few-shot__VerusBench_Misc_trigger__L2__001", "form": "guarded", "status": "no witness", "tried": 115, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0176_vericoded__L1__003", "form": "uncond", "status": "refuted", "tried": 116, "witness": {"__arg0": "127i8", "__arg1": "2i8", "__ret0": "(1i8, 2i8)"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0569_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0569_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0671_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "0i8", "__arg1": "0i8", "__arg2": "0i8", "__ret0": "0i8"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0671_vericoded__L2__001", "form": "guarded", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "1i8", "__ret0": "0i8"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0671_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "0i8", "__arg1": "0i8", "__arg2": "0i8", "__ret0": "0i8"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VA0671_vericoded__L2__002", "form": "guarded", "status": "refuted", "tried": 119, "witness": {"__arg0": "1i8", "__arg1": "1i8", "__arg2": "1i8", "__ret0": "0i8"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VJ0052_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VJ0052_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0081_vericoded__L1__002", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0256_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VT0256_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 118, "witness": null}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VV0175_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "&vec![]", "__arg1": "0usize", "__arg2": "0usize", "__ret0": "vec![0i32]"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VeriCoding_VV0175_vericoded__L2__001", "form": "guarded", "status": "refuted", "tried": 119, "witness": {"__arg0": "&vec![0i32]", "__arg1": "0usize", "__arg2": "0usize", "__ret0": "vec![]"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VerusBench_CloverBench_is_prime__L2__001", "form": "uncond", "status": "refuted", "tried": 16, "witness": {"__arg0": "0u64", "__ret0": "true"}}
+{"id": "StarVerus__qwen-coder__zero-shot__VerusBench_CloverBench_is_prime__L2__001", "form": "guarded", "status": "no witness", "tried": 16, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__DAFNY2VERUS-COLLECTION_54__L1__001", "form": "uncond", "status": "no witness", "tried": 81, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__MBPP-verified_task_57__L2__002", "form": "uncond", "status": "no witness", "tried": 116, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__MBPP-verified_task_57__L2__002", "form": "guarded", "status": "no witness", "tried": 116, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0085_vericoded__L2__002", "form": "uncond", "status": "refuted", "tried": 119, "witness": {"__arg0": "0i8", "__arg1": "0i8", "__arg2": "0i8", "__ret0": "0i8"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0085_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0383_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 117, "witness": {"__arg0": "10i8", "__arg1": "10i8", "__arg2": "-1i8", "__ret0": "false"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VA0383_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 117, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VD0044_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 22, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VH0029_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 22, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VJ0043_vericoded__L2__001", "form": "uncond", "status": "refuted", "tried": 120, "witness": {"__arg0": "&vec![]", "__old_arg0": "&vec![]", "__arg1": "&vec![0i32]", "__old_arg1": "&vec![]", "__arg2": "1i32"}}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VJ0043_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "uncond", "status": "no witness", "tried": 120, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0006_vericoded__L2__005", "form": "guarded", "status": "no witness", "tried": 120, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0192_vericoded__L2__005", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0192_vericoded__L2__005", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0269_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VeriCoding_VT0477_vericoded__L1__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "VerusAge__deepseek-chat__few-shot__VerusBench_MBPP_task_id_436__L2__001", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VV0112_vericoded__L2__002", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__deepseek-chat__zero-shot__VeriCoding_VV0112_vericoded__L2__002", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__HumanEval-Verus_task_75__L1__002", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0176_vericoded__L1__001", "form": "uncond", "status": "refuted", "tried": 116, "witness": {"__arg0": "2i8", "__arg1": "127i8", "__ret0": "(1i8, 2i8)"}}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__004", "form": "uncond", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__004", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__005", "form": "uncond", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VA0253_vericoded__L2__005", "form": "guarded", "status": "no witness", "tried": 119, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "uncond", "status": "no witness", "tried": 64, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VD0749_vericoded__L2__001", "form": "guarded", "status": "no witness", "tried": 64, "witness": null}
+{"id": "VerusAge__qwen-coder__few-shot__VeriCoding_VT0269_vericoded__L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "VerusAge__qwen-coder__zero-shot__MBPP-verified_task_53__L1__001", "form": "uncond", "status": "no witness", "tried": 26, "witness": null}
+{"id": "VerusAge__qwen-coder__zero-shot__VeriCoding_VT0047_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 118, "witness": null}
+{"id": "VerusAge__qwen-coder__zero-shot__VeriCoding_VT0055_vericoded__L1__001", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__qwen-coder__zero-shot__VeriCoding_VV0112_vericoded__L2__003", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "VerusAge__qwen-coder__zero-shot__VeriCoding_VV0112_vericoded__L2__003", "form": "guarded", "status": "no witness", "tried": 90, "witness": null}
+{"id": "haiku__MBPP-verified_task_72__is_sub_array__L2__001", "form": "uncond", "status": "no witness", "tried": 105, "witness": null}
+{"id": "haiku__MBPP-verified_task_72__is_sub_array__L2__001", "form": "guarded", "status": "no witness", "tried": 105, "witness": null}
+{"id": "haiku__MBPP-verified_task_72__sub_array_at_index__L2__001", "form": "uncond", "status": "no witness", "tried": 117, "witness": null}
+{"id": "haiku__MBPP-verified_task_72__sub_array_at_index__L2__001", "form": "guarded", "status": "no witness", "tried": 117, "witness": null}
+{"id": "haiku__VeriCoding_VA0115_vericoded__solve__L2__001", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VA0115_vericoded__solve__L2__001", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VD0578_vericoded__filter_vowels_array__L2__001", "form": "uncond", "status": "no witness", "tried": 90, "witness": null}
+{"id": "haiku__VeriCoding_VH0074_vericoded__smallest_change__L2__002", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "haiku__VeriCoding_VH0074_vericoded__smallest_change__L2__004", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "haiku__VeriCoding_VH0074_vericoded__smallest_change__L2__005", "form": "uncond", "status": "no witness", "tried": 104, "witness": null}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__005", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__005", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__006", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0026_vericoded__meshgrid__L2__006", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__003", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__003", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__007", "form": "uncond", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VeriCoding_VT0178_vericoded__ix___L2__007", "form": "guarded", "status": "unsupported type", "tried": 0, "witness": null}
+{"id": "haiku__VerusBench_MBPP_task_id_807__find_first_odd__L2__001", "form": "uncond", "status": "no witness", "tried": 65, "witness": null}
