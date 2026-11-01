@@ -127,6 +127,8 @@ def regenerate(item: dict) -> list[dict]:
         name for name, c in out["uncond"][0].items() if c.get("status") != "valid"]
     for name in checks:
         row = {**item, "check": name, "function": function}
+        if "check" not in item:  # programs with no released record: one id per clause
+            row["id"] = f"{item['id']}__{name.rsplit('_', 1)[-1]}"
         if released is not None:
             rel = next(d["implication_check"] for d in released["details"]
                        if d["implication_check"]["obligation_context"]["check_name"] == name)
