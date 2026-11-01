@@ -1,0 +1,57 @@
+{
+  "engine": {
+    "file": "analysis/witness.py",
+    "sha256": "a568da383baa0865ed1cac09e605aa355842694517535c55b8beeacb08e5bf98",
+    "commit": "5bc30a5"
+  },
+  "deviation": "The first holdout check, at 89cee07, replaced 3 plain refutations with a carried computed witness. Fixed in 5bc30a5 by trying plain witnesses first. The holdout was therefore run twice for this gate. The computed proposer did not change between the runs.",
+  "holdout": {
+    "lemmas": 5040,
+    "plain_refutations_unchanged": 1079,
+    "computed_refutations": 3,
+    "controls_clean": "3 of 3",
+    "proved_lemmas_refuted": 0,
+    "proved_lemmas": 3937,
+    "proved_lemmas_reaching_computed_tier": 1602,
+    "must_clear_variants_refuted": 0,
+    "must_refute": 728,
+    "refuted_paper_form": 719,
+    "refuted_guarded_plain": 713,
+    "refuted_guarded_with_computed": 716,
+    "realized_plain": 1005
+  },
+  "dev_variants": {
+    "lemmas": 557,
+    "plain_refutations_unchanged": 121,
+    "computed_refutations": 0,
+    "proved_lemmas_refuted": 0,
+    "proved_lemmas": 436
+  },
+  "dev_census": {
+    "lemmas": 1961,
+    "plain_refutations_unchanged": 306,
+    "computed_refutations": 15,
+    "controls_clean": "15 of 15",
+    "conflicts_with_proofs_verified_here": 0
+  },
+  "known_cases": {
+    "reproduced": "4 of 4",
+    "note": "hand witnesses, in results/gate2/computed_refutations.jsonl"
+  },
+  "safety_rule": {
+    "rejected": [
+      "self reference",
+      "computed reads computed",
+      "arithmetic",
+      "function call",
+      "quantifier",
+      "unbound name"
+    ],
+    "accepted": "a read inside if with suffixed literals"
+  },
+  "dev100_paper_form_undecided": {
+    "before": 21,
+    "generator_alone": 19,
+    "with_hand_witnesses": 17
+  }
+}

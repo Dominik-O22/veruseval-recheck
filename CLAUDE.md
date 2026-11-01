@@ -23,6 +23,7 @@ Start with `docs/status.md`. It is the single source of truth for what we are do
 - **The released labels come from the per-clause path** in `metrics_rebuild/share/smt.py`, not `semantic_strength.py`. Use `analysis/gate1_regenerate.py` and `analysis/gate2_regenerate.py`.
 - **An unresolved I/O check is incomplete, not flagged.** The paper has 3,790 flagged artifacts and 296 unflagged but incomplete.
 - **Stored hashes cannot be matched.** Digests depend on absolute paths and the Verus binary, and wrapper names carry path-dependent hashes. Gate 1 compares `obligation_context` and status. Spliced proofs must map `__sqm_gen_*` names, as `analysis/gate2_verify.py` does.
+- **A computed refutation is not a real difference.** It defines a value from a read Verus leaves unspecified, so it has no single concrete input and cannot be run. Report these as their own group. It refutes the lemma in Verus's logic, which may be noise or a real hole, as with `VD0138`.
 - **Do not reuse `capture_checks` across threads.** It patches module globals.
 - Failing checks correlate with contract size mostly because hard tasks need bigger contracts. Compare within a task, as `analysis/size_by_check.py` does.
 
@@ -35,7 +36,7 @@ Harnesses, references and the release are not in this repo and must not be commi
 - Regenerated harnesses and tier outputs: `.../run-artifacts/gate2-run`
 - Paper text: `.../run-artifacts/paper-text`
 - Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`. Merged only on local branch `gate2-local`, which holds the scripts, not on `main`. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
-- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen, so do not edit it before gate 3. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
+- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen at `5bc30a5` after gate 2f, sha256 `a568da38...`, so do not edit it before gate 3. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
 
 ## Running things
 
