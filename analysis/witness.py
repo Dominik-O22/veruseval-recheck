@@ -52,6 +52,7 @@ SCREEN_BATCH = 24          # candidates per screening batch
 SCREEN_RLIMIT = 2          # SMT budget per candidate during screening
 CONFIRM_RLIMIT = 10        # the release's default
 POOL_CAP = 400             # candidates generated before ranking
+COMPUTED_CAP = 72          # computed-value candidates per lemma
 FUEL_MIN, FUEL_MAX = 12, 64
 TIMING: dict[str, float] = {"verus_seconds": 0.0, "verus_runs": 0}
 
@@ -247,6 +248,41 @@ def is_length_only(value: Any) -> bool:
     return isinstance(value, dict) and set(value) == {"len"}
 
 
+# A computed value is {"computed": "<spec expression>"} in place of a scalar literal. It lets a witness
+# depend on a value Verus leaves unspecified, such as a read past the end of a sequence. The grammar has
+# reads, ==, if and suffixed literals only: no arithmetic, so the expression stays in its slot's type,
+# and no calls or quantifiers. Such a witness has no single concrete input, so it is tagged and never run.
+SLOT = re.compile(r"__old_arg\d+|__arg\d+|__ret\d+")
+COMPUTED_EXPR = re.compile(r"(?:\s|__old_arg\d+|__arg\d+|__ret\d+|@|\[-?\d+\]|[(){}]|==|\bif\b|\belse\b|\btrue\b|\bfalse\b"
+                           r"|-?\d+(?:\.\d+)?(?:[iu](?:8|16|32|64|128|size)|f32|f64))+")
+
+
+def is_computed(value: Any) -> bool:
+    return isinstance(value, dict) and set(value) == {"computed"}
+
+
+def computed_leaves(value: Any) -> Iterable[dict]:
+    if is_computed(value):
+        yield value
+    elif isinstance(value, dict):
+        for v in value.values():
+            yield from computed_leaves(v)
+    elif isinstance(value, (list, tuple)):
+        for v in value:
+            yield from computed_leaves(v)
+
+
+def check_computed(assignment: dict) -> None:
+    """A computed value may read only parameters bound to plain literals, never itself or another
+    computed value, so the pins always have a solution. Raises LiteralError."""
+    plain = {slot for slot, value in assignment.items() if not any(computed_leaves(value))}
+    for value in assignment.values():
+        for leaf in computed_leaves(value):
+            text = leaf["computed"]
+            if not COMPUTED_EXPR.fullmatch(text) or not set(SLOT.findall(text)) <= plain:
+                raise LiteralError(f"bad computed value {text!r}")
+
+
 def pins(expr: str, ty: tuple, value: Any) -> list[str]:
     """Spec clauses that pin ``expr`` (of type ``ty``) to ``value``. Raises LiteralError."""
     kind = ty[0]
@@ -259,6 +295,10 @@ def pins(expr: str, ty: tuple, value: Any) -> list[str]:
         return pins(f"(*{expr})", ty[1], value)
     if kind == "unit":
         return []
+    if is_computed(value):
+        if not is_scalar(ty):
+            raise LiteralError(f"computed value at non-scalar type {ty!r}")
+        return [f"{expr} == ({value['computed']})"]
     lit = scalar_literal(ty, value) if is_scalar(ty) else None
     if lit is not None:
         if ty[0] == "int" and ty[1] in ("usize", "isize") and not -(2**31) <= value <= 2**32 - 1:
@@ -281,7 +321,7 @@ def pins(expr: str, ty: tuple, value: Any) -> list[str]:
             raise LiteralError(f"not a sequence: {value!r}")
         if kind == "array" and len(value) != ty[2]:
             raise LiteralError("array length mismatch")
-        if is_scalar(elem) and value:
+        if is_scalar(elem) and value and not any(map(is_computed, value)):
             out = [f"{view} == seq![{', '.join(scalar_literal(elem, v) for v in value)}]"]
             out += [f"{view}[{i}] == {scalar_literal(elem, v)}" for i, v in enumerate(value)]
             return out
@@ -587,6 +627,7 @@ def leaves(value: Any) -> Iterable[Any]:
 def witness_fn(lemma: Lemma, assignment: dict, name: str, *, control: bool = False) -> str:
     """The fixed template. Raises LiteralError if a value cannot be bound at its type."""
     registry = registry_for(lemma)
+    check_computed(assignment)
     signature = ", ".join(f"{n}: {t}" for n, t in lemma.params)
     requires = []
     for pname, ptype in lemma.params:
@@ -934,6 +975,72 @@ def python_score(lemma: Lemma, assignment: dict) -> int:
     return 1
 
 
+def scalar_pair(ty: tuple) -> Optional[tuple[str, str]]:
+    """Two literals of a type, used to build a value that differs from an unknown one."""
+    if ty[0] == "int":
+        return int_literal(0, ty[1]), int_literal(1, ty[1])
+    if ty[0] == "float":
+        return float_literal(1.0, ty[1]), float_literal(2.0, ty[1])
+    if ty[0] == "bool":
+        return "true", "false"
+    return None
+
+
+def read_slots(lemma: Lemma) -> list[str]:
+    """Collection parameters that the clauses index into, consequent first."""
+    out: list[str] = []
+    for call in (*lemma.consequent, *lemma.antecedent):
+        wrapper = lemma.wrappers.get(call.split("(")[0])
+        for name, _, argument in (wrapper.params if wrapper else []):
+            if argument in lemma.slots and argument not in out and re.search(rf"\b{re.escape(name)}@?\[", wrapper.body):
+                out.append(argument)
+    return out
+
+
+def computed_candidates(lemma: Lemma, pool: list[dict]) -> list[dict]:
+    """Literal seeds with one scalar replaced by a value built from an out-of-bounds read."""
+    registry = registry_for(lemma)
+    types = {slot: parse_type(info["type"], registry) for slot, info in lemma.slots.items()}
+
+    def unref(ty: tuple) -> tuple:
+        return unref(ty[1]) if ty[0] in ("ref", "box") else ty
+
+    def seqs(slot: str) -> Optional[tuple]:
+        ty = unref(types[slot])
+        return ty[1] if ty[0] in ("vec", "slice", "seq") else None
+
+    seeds = [seed for seed in pool if not any(is_length_only(v) for v in seed.values())]
+    seeds.sort(key=lambda seed: sum(len(v) for v in seed.values() if isinstance(v, list)))
+    out, seen = [], set()
+    for seed in seeds:
+        for read in read_slots(lemma):
+            elem, value = seqs(read), seed.get(read)
+            pair = scalar_pair(elem) if elem and is_scalar(elem) else None
+            if pair is None or not isinstance(value, list):
+                continue
+            view = read if types[read][0] == "seq" else f"{read}@"
+            for index in dict.fromkeys((len(value), -1)):
+                term = f"{view}[{index}]"
+                values = (term, f"if {term} == {pair[0]} {{ {pair[1]} }} else {{ {pair[0]} }}")
+                for slot in types:
+                    target = unref(types[slot])
+                    if slot == read:
+                        continue
+                    for computed in values:
+                        leaf = {"computed": computed}
+                        if target == elem:
+                            candidate = {**seed, slot: leaf}
+                        elif seqs(slot) == elem:
+                            candidate = {**seed, slot: [leaf, *(seed.get(slot) or [])[1:]]}
+                        else:
+                            continue
+                        key = json.dumps(candidate, sort_keys=True, default=str)
+                        if key not in seen and len(out) < COMPUTED_CAP:
+                            seen.add(key)
+                            out.append(candidate)
+    return out
+
+
 def model_candidates(lemma: Lemma, proposals: dict) -> list[dict]:
     """Hand-written literal values (this session's model tier), keyed by lemma key or sample|function|direction."""
     out = []
@@ -1016,6 +1123,8 @@ def confirm(lemma: Lemma, assignment: dict, evidence: Optional[Path]) -> dict:
 
 def realize(lemma: Lemma, assignment: dict, evidence: Optional[Path]) -> dict:
     """Build the witness values with exec code, verify the same formulas about them, compile and run."""
+    if any(computed_leaves(assignment)):
+        return {"realized": None, "reason": "computed value, no single concrete input"}
     registry = registry_for(lemma)
     lets, args = [], {}
     try:
@@ -1114,13 +1223,15 @@ def search(lemma: Lemma, cases: list[dict], proposals: dict, evidence_root: Opti
         (evidence / "key.txt").write_text(lemma.key + "\n")
     tiers = [("propagated", list(propagated or []))] if propagated else []
     tiers += [("model", model_candidates(lemma, proposals))] if proposals else []
-    tiers.append(("io_and_boundary", mechanical_candidates(lemma, cases)))
+    mechanical = mechanical_candidates(lemma, cases)
+    tiers.append(("io_and_boundary", mechanical))
+    tiers.append(("computed", computed_candidates(lemma, mechanical)))
     attempts = 0
     for tier, candidates in tiers:
         if not candidates:
             continue
-        ranked = rank(lemma, candidates)
-        batch = [candidates[i] for i in ranked[:SCREEN_BATCH]]
+        ranked = range(len(candidates)) if tier == "computed" else rank(lemma, candidates)
+        batch = [candidates[i] for i in ranked[:COMPUTED_CAP if tier == "computed" else SCREEN_BATCH]]
         attempts += len(batch)
         hits = screen(lemma, batch, log=record.setdefault("screens", []))
         hits.sort(key=lambda i: any(is_length_only(v) for v in batch[i].values()))
@@ -1128,6 +1239,7 @@ def search(lemma: Lemma, cases: list[dict], proposals: dict, evidence_root: Opti
             outcome = confirm(lemma, batch[hit], evidence)
             if outcome["verdict"] == "refuted":
                 record.update(verdict="refuted", tier=tier, witness=batch[hit], confirmation=outcome,
+                              computed=any(computed_leaves(batch[hit])),
                               assumes_64bit_usize=assumes_64bit(lemma, batch[hit]))
                 if realize_witness:
                     record["realization"] = realize(lemma, batch[hit], evidence)
