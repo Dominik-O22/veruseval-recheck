@@ -26,7 +26,8 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 | 2c | Grader on the authors' known cases | 0 soundness bugs, at least 90% recall on the held-out variants | **Passed** | 719 of 728 in the paper's form, 713 of 728 guarded, 0 proved lemmas refuted, 0 must-clear variants refuted. Re-run here: 7,558 lemmas, 0 changes, no API spend. Cloud session cost $14.79. `results/gate2/witness_verify.json`, `docs/gate2-witness.md` |
 | 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Passed** | 63 of 69 confirmed, 6 reported as unconfirmed, about $0.01. `results/gate2/guard_final.jsonl` |
 | 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Passed** | 13 answers on 7 clauses rechecked, not 7, 1 clause newly proved, no API spend. 262 other stored answers unchanged. `results/gate2/tier_axiom.jsonl` |
-| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | **Next** | |
+| 2f | Witnesses can use computed values | Changed on dev data only, then frozen before the holdout. With the frozen change: 0 proved lemmas and 0 must-clear variants refuted on dev and holdout, every earlier refutation unchanged, each computed refutation has a clean control, uses only values bound to literals, fits its type and carries its own tag, and the 4 known cases reproduce. The computed proposer must actually run on the holdout, so this tests something | **Open** | |
+| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | Blocked by 2f | |
 | 4 | Census | All 3,043 clauses run on the 80% of tasks not used in development, plus development tasks reported apart | Blocked by 3 | |
 | 5 | Analysis | RQ1 to RQ3 scored as written in the plan | Blocked by 4 | |
 | 6 | Draft | Every number traces to a results file, every reference checked by hand | Blocked by 5 | |
@@ -34,7 +35,7 @@ What are the rejected soundness checks in VerusEval really: solver limits, diffe
 
 ## Next action
 
-Start gate 3 when Dom gives the go-ahead. It ends with telling the authors, so it needs his go-ahead on that message.
+Gate 2f is running. Gate 3 follows when Dom gives the go-ahead. It ends with telling the authors, so it needs his go-ahead on that message.
 
 Before the freeze:
 
@@ -58,6 +59,7 @@ Before the freeze:
 | 1 Nov | Do not race the credit deadline | A wrong run costs more than lost credit |
 | 1 Nov | Census instead of a 600-check sample, if the pipeline holds at gate 3 | Measured cost fits the key |
 | 1 Nov | No general retry step | $0.56 bought 3 proofs in 40 |
+| 1 Nov | No "Undefined only" class. Computed refutations get their own group, never counted as real differences | Second opinion showed the class would state false things, and a read of nothing can be noise or a real hole (`VD0138`) |
 | 1 Nov | Gate work stays on local branch `gate2-local`, nothing pushed | Pushing would publish pilot numbers |
 
 ## Open questions for others
@@ -69,6 +71,7 @@ Before the freeze:
 
 Each needs a decision before it runs.
 
+- Sort computed refutations by evidence: look for a real implementation that passes the generated contract and fails the reference. One hand test on `VD0138`: wiping the list passes the generated contract and fails the reference.
 - Blind review, confirmatory run. Pilot: 18 of 22 real differences caught, 7 of 60 clear units alarmed.
 - Sample of about 100 "promises more" checks on the largest contracts, for the longer-contracts question.
 - Current models on 100 random tasks, for the weak-models question.
