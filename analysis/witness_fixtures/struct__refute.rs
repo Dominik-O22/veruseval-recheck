@@ -1,0 +1,17 @@
+use vstd::prelude::*;
+
+verus! {
+
+pub struct Point { pub x: i32, pub y: i32 }
+
+fn target(p: Point) -> (r: i32)
+    requires
+        p.x > 0,
+        p.y < 5,
+    ensures
+        r == p.x,
+{ p.x }
+
+} // verus!
+
+fn main() {}
