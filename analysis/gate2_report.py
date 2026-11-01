@@ -150,6 +150,16 @@ def write(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
+def markdown(path: Path) -> str:
+    rows = list(csv.DictReader(path.open())) if path.exists() and path.read_text().strip() else []
+    if not rows:
+        return "(none)\n"
+    keys = list(rows[0])
+    lines = ["| " + " | ".join(keys) + " |", "|" + "---|" * len(keys)]
+    lines += ["| " + " | ".join(str(r.get(k) or "") for k in keys) + " |" for r in rows]
+    return "\n".join(lines) + "\n"
+
+
 def slim(records: list[dict]) -> list[dict]:
     keep = []
     for r in records:
@@ -200,6 +210,10 @@ def main() -> None:
                   for records in sources.values() for r in records)
     print(f"== both verdicts (Verus-proved lemma also refuted): {len(both)} of {checked} proved lemmas searched")
     write(args.out / "timing.csv", times)
+    with (args.out / "tables.md").open("w") as md:
+        for name in ("variant_gate.csv", "variant_recall_by_operator.csv", "variant_unexpected_refutations.csv",
+                     "both_verdicts.csv", "type_classes.csv", "timing.csv"):
+            md.write(f"### {name}\n\n{markdown(args.out / name)}\n")
     for name in ("variant_gate.csv", "variant_recall_by_operator.csv", "variant_unexpected_refutations.csv"):
         print(f"== {name}")
         print((args.out / name).read_text())
