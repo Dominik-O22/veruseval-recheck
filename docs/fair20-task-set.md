@@ -46,20 +46,20 @@ For 10 tasks the reference precondition is stricter than the one in Haiku's veri
 
 On these 10 tasks a clean score requires the model to add a restriction that its own verified contract shows the code does not need. Nine of them also fail the I/O suite's invalid-input cases for the same reason. The model could guess the restriction from the example calls, but it cannot derive it from the code.
 
-The other 8 flags and the 2 clean results split as follows.
+The remaining 10 tasks split as follows. An unresolved I/O check is incomplete in the paper's terms, not a flag, so 14 of the 20 are flagged, 4 are incomplete and 2 are clean. All of these results use the guarded comparison.
 
-| Evaluator result on Haiku's contract | Tasks |
+| Result on Haiku's contract | Tasks |
 |---|---|
 | Clean | 2: `HumanEval-Verus_task_63`, `VerusBench_MBPP_task_id_18` |
-| Formal check passes, I/O check unresolved | 4: `MBPP-verified_task_36`, `VeriCoding_VT0048`, `VT0111`, `VT0457` |
-| Stronger postcondition than the reference, I/O check unresolved | 1: `VeriCoding_VT0187` |
-| `post_gen_to_ref` reported invalid, then proved by the adjudicator | 3: `VeriCoding_VD0578`, `VH0074`, `VerusBench_MBPP_task_id_807` |
+| Incomplete: formal check passes, I/O check unresolved | 4: `MBPP-verified_task_36`, `VeriCoding_VT0048`, `VT0111`, `VT0457` |
+| Flagged: stronger postcondition than the reference, I/O check unresolved | 1: `VeriCoding_VT0187` |
+| Flagged: guarded `post_gen_to_ref` rejected, then proved by the adjudicator | 3: `VeriCoding_VD0578`, `VH0074`, `VerusBench_MBPP_task_id_807` |
 
 ## What the set does support
 
 A correct contract is reachable from the input alone on all 20 tasks, because Haiku produced one. Here correct means Verus accepted the program, both reliability directions hold (reference precondition implies Haiku's, and Haiku's postcondition implies the reference's under both preconditions, which is weaker than the unconditional form the paper's labels use), and no valid or wrong-output I/O case failed. The hidden clauses above make the contract more general than the reference, which is the safe direction.
 
-So the accurate description is this. These 20 tasks are solvable from the given code, and half of them cannot be scored clean without matching a precondition the input never states.
+So the accurate description is this. On the guarded comparison, these 20 tasks are solvable from the given code, and half of them cannot be scored clean without matching a precondition the input never states. On the paper's unconditional L2, 7 of the 20 are still rejected on a first attempt (`MBPP-verified_task_72`, `VeriCoding_VA0115`, `VD0578`, `VH0074`, `VT0026`, `VT0178`, `VerusBench_MBPP_task_id_807`), and those are undecided, so this claim does not yet extend to that form. As the authors point out, a clause the code does not need may still be a requirement of the original task, which this audit has not checked.
 
 ## Limits
 

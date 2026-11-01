@@ -1,6 +1,6 @@
 # Paper plan: certifying rejected comparisons in VerusEval
 
-Status: revision 3, 1 November 2026, after two rounds of adversarial review. Not frozen. The two feasibility gates below must pass first. Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+Status: revision 4, 1 November 2026, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Not frozen. The two feasibility gates below must pass first. Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
 
 ## The paper in one paragraph
 
@@ -23,13 +23,15 @@ We credit the following directly.
 - Postcondition comparisons deliberately carry no precondition premises. Its own `min_array` note says an artifact fails L2 "only because the postcondition comparison does not assume |a| > 0".
 - Higher acceptance "does not consistently come with" higher correctness. The word "consistently" matters, and the paper notes that prompting moves both together.
 
-The 2,370 rejected obligations are a gap the paper describes and leaves open. It is not an error we are correcting. Email the corresponding author, Dugang Liu, as well as Ding Wang.
+The 2,370 rejected obligations are a gap the paper describes and leaves open. It is not an error we are correcting.
+
+The authors reviewed an earlier re-check and confirmed the two forms: their reported L2 and L4 are unconditional, and a guarded proof does not establish them. Their example is `MBPP-verified_task_73`, where the generated postcondition permits `result = true` at `n = 0`, an input the reference precondition excludes. They verified that counterexample in Verus. That is a Premise only case below. They also agreed that the `invalid` label is misleading.
 
 ## Research questions
 
 **RQ1, what the rejections are.** For each rejected L1 and L2 lemma, what does certification find under each comparison form?
 
-**RQ2, stricter references.** On how many tasks outside the 148 numeric-list tasks does a sound, same-code contract show that the reference's precondition rejects inputs the code handles?
+**RQ2, stricter references.** On how many tasks outside the 148 numeric-list tasks does a sound, same-code contract show that the reference's precondition rejects inputs the code handles, and is that restriction stated in the original task?
 
 **RQ3, what changes.** Descriptive only. How do I/O screening and the configuration comparisons look once rejections are certified?
 
@@ -103,6 +105,8 @@ Obligations are the unit of inference. Artifacts are a summary, in this order: T
 4. **Both engines.** On validation sets only, run prover and refuter on every lemma. Any lemma with both verdicts is a soundness bug and stops the run.
 5. **Stability.** Run the frozen grader twice on 200 development lemmas and report the flip rate.
 
+Early signal for gate 1: with the antecedent reduced to the generated postcondition, a no-model rerun reproduced the released L2 label on 30 of 31 regrade checks (measured). That compares labels, not hashes, so the hash check still stands.
+
 Gates, fixed now: zero soundness bugs, at least 90% recall on refutation and on proof for the variants. Recall on the hard sets is reported, because those define the real instrument error. RQ1 is a census, so it has no sampling interval, but instrument error is real and is reported next to every share.
 
 ## RQ1 analysis
@@ -118,6 +122,8 @@ A second, non-Claude proposer runs on a random 200 Undecided lemmas, to show how
 Unit: task. A task counts when at least one accepted artifact meets all of these: same executable code as the input under the fixed lynette build from microsoft/verus-proof-synthesis#53, all L1 and L2 valid or proved, and an L3 witness the reference rejects. One such artifact is enough, because it shows the code is safe and the contract is sound on that input.
 
 Reviewer counts outside the numeric list: 159 same-code tasks, 109 with L2 valid, 103 with L1 and L2 valid. So the result is close to known, and RQ2 is an estimate, not a test. 0 of 762 inputs contain `requires` or `ensures` (reviewer measured), and 10 have a non-empty `main` (measured), so nearly all inputs give no signal. The 10 are tagged.
+
+A restriction the code does not need can still be a requirement of the original task, as the authors point out, so a witness alone does not make a clause a defect. Each counted task is therefore checked against its original task statement and labeled stated, unstated, or no statement available. Only unstated restrictions are headlined. Sources are to be confirmed with the authors, and the public HumanEval and MBPP statements cover those subsets.
 
 Comparator: 148 numeric-list tasks. The 36 candidate reference defects are a different construct and are tracked separately. Hand-label a random 60 counted tasks to estimate precision.
 
@@ -156,7 +162,6 @@ Stop at the first verdict on the census. The pilot cost about $0.05 per obligati
 
 | By | Gate | If it fails |
 |---|---|---|
-| 3 Nov | Public README correction pushed, authors told about the premise policy | No outreach until done |
 | 8 Nov | Gate 1: regenerate lemmas with matching hashes | Narrow to what regenerates, or stop |
 | 10 Nov | Gate 2: literal-witness template works on L1 and L2 for each type class | Report type classes as Undecided |
 | 14 Nov | Validation passes, cost measured | Fix, and move every date below |
