@@ -28,7 +28,7 @@ A rough scan found that on 66 of 78 hidden-constant tasks with text, not all of 
 The I/O suites do not give an independent check, because the paper says they "rest on the same reference as specification correctness". So all three checks depend on the reference. We say so.
 
 
-Status: revision 7, 2 November 2026, not frozen, reframed on Dom's decision. `freeze-1` holds revision 6. Earlier: two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+Status: revision 7, 2 November 2026, frozen as `freeze-2`, reframed on Dom's decision. `freeze-1` holds revision 6. Earlier: two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
 
 ## Part D in one paragraph
 

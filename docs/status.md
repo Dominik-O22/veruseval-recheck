@@ -37,7 +37,7 @@ The plan has four parts. Part D is the original question: what are the rejected 
 
 ## Next action
 
-**Reframed on 2 November by Dom's decision, and revision 7 of the plan is signed off.** Steps 3f to 3h are running. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+**Reframed on 2 November by Dom's decision, and revision 7 of the plan is signed off.** Steps 3f to 3h have passed. Next are Dom's go-ahead to push `freeze-2` and his approval of the authors' message. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
@@ -48,8 +48,8 @@ The plan has four parts. Part D is the original question: what are the rejected 
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
 | 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | **Passed.** 79.3% of pre-proof failures are Verus-specific by the rule, which agreed on 56 of 60 read by Claude. `results/part_a/` |
 | 3g | Task text test (RQ5) | Text matched to tasks by a script, Haiku runs both ways on 5 development tasks, output grades | **Passed.** 5 of 5 both ways, about $0.24, labels matched the release 480 of 480 on 120 development artifacts. `analysis/task_text.py`, `analysis/rq5_labels.py` |
-| 3h | Second freeze | Plan, scripts and samples hashed and tagged `freeze-2` | Open |
-| 3e | Tell the authors | Dom approves the message and it is sent | Branch and tag pushed. Message on hold |
+| 3h | Second freeze | Plan, scripts and samples hashed and tagged `freeze-2` | **Passed.** Local tag `freeze-2`, not pushed. `results/gate3/freeze2.sha256` |
+| 3e | Tell the authors | Dom approves the message and it is sent | Rewritten for `freeze-2`, waits for Dom |
 
 Spending cap for gate 3: $10 of the API key.
 
@@ -63,7 +63,7 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | about $5 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), then RQ4 |
+| API key | $100 | about $6 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), RQ4 about $3, RQ5 about $5 |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions

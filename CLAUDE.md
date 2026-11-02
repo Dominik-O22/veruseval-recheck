@@ -1,6 +1,6 @@
 # veruseval-recheck
 
-A re-check of VerusEval (arXiv 2610.26464) and VeruSteer (arXiv 2610.29755) from Ding Wang's group, now turning into a short paper that certifies VerusEval's rejected contract comparisons.
+A re-check of VerusEval (arXiv 2610.26464) and VeruSteer (arXiv 2610.29755) from Ding Wang's group, now turning into a short paper on what a VerusEval score measures. Certifying rejected contract comparisons is one part of it.
 
 Start with `docs/status.md`. It is the single source of truth for what we are doing, the gates, spending and decisions. `docs/paper-plan.md` says how. Update `docs/status.md` whenever a gate moves.
 
@@ -21,6 +21,8 @@ Start with `docs/status.md`. It is the single source of truth for what we are do
 - **Guarded versus unconditional.** The released L2 and L4 labels are unconditional, with `postcondition_premise_policy: no_preconditions`. `semantic_strength.py`, and so `scripts/adjudicate.py` and `scripts/reevaluate.py`, use the guarded form with both preconditions added. A guarded proof does not discharge a released L2. Never call one "evaluator wrong". This is the mistake the authors caught.
 - **Three tests, three names.** Exact-match test: the 42.3% headline, where stronger contracts fail. No-preconditions test: the paper's L1 and L2. Valid-inputs test: the same with both preconditions assumed. Do not say "strict test".
 - **The released labels come from the per-clause path** in `metrics_rebuild/share/smt.py`, not `semantic_strength.py`. Use `analysis/gate1_regenerate.py` and `analysis/gate2_regenerate.py`.
+- **All three checks rest on the reference.** The paper says the I/O suites "rest on the same reference as specification correctness", so they are not an independent check.
+- **Models see only code.** The 762 inputs have no task description, and the only comment is `// verus!`. Public text exists for 435 tasks, used only in RQ5.
 - **An unresolved I/O check is incomplete, not flagged.** The paper has 3,790 flagged artifacts and 296 unflagged but incomplete.
 - **Stored hashes cannot be matched.** Digests depend on absolute paths and the Verus binary, and wrapper names carry path-dependent hashes. Gate 1 compares `obligation_context` and status. Spliced proofs must map `__sqm_gen_*` names, as `analysis/gate2_verify.py` does.
 - **A computed refutation is not a real difference.** It defines a value from a read Verus leaves unspecified, so it has no single concrete input and cannot be run. Report these as their own group. It refutes the lemma in Verus's logic, which may be noise or a real hole, as with `VD0138`.
@@ -36,7 +38,7 @@ Harnesses, references and the release are not in this repo and must not be commi
 - Regenerated harnesses and tier outputs: `.../run-artifacts/gate2-run`
 - Paper text: `.../run-artifacts/paper-text`
 - Gate 2 scripts and proofs: branch `gate2-proofs` on GitHub, commit `6a9b970`. Merged only on local branch `gate2-local`, which holds the scripts, not on `main`. `analysis/tier_free.py`, `tier_batch.py` and `guard_check.py` import its `gate2_check.py`.
-- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen at `5bc30a5` after gate 2f, sha256 `a568da38...`. See `results/gate3/freeze.sha256`, and treat any change to those files as a logged deviation. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
+- Counterexample engine: `analysis/witness.py`, branch `gate2-witness` on GitHub, commit `18c99cb`, also merged only on `gate2-local`. Frozen at `5bc30a5` after gate 2f, sha256 `a568da38...`. See `results/gate3/freeze2.sha256`, and treat any change to those files as a logged deviation. It runs in the container with `python3.11 -I` from the release root. `analysis/witness_jobs.py` rebuilds its job files from the results tables, and `analysis/witness_report.py` is its report, renamed because `gate2_report.py` already existed.
 
 ## Running things
 
