@@ -5,6 +5,8 @@ patches/starverus-agent-sdk.patch. Run in the container from the release root, w
 
     python3 -I analysis/rq4_generate.py --tasks results/tasks/rq4_tasks.txt --out DIR
 Writes DIR/finals.jsonl, one row per task that produced a final program: {"task", "generated"}.
+
+For RQ5, --text adds each task's description as comments at the top of the input, and nothing else changes.
 """
 from __future__ import annotations
 
@@ -33,12 +35,14 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--model", default="claude-haiku-5-5")
     parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--text", type=Path, help="JSONL of {task, text}")
     args = parser.parse_args()
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("AGENT_SDK_USAGE_LOG", str(out / "usage.jsonl"))
     config = out / "starverus.yaml"
     config.write_text(yaml.safe_dump(runtime_config("/opt/verus/verus", args.model, "agent-sdk", "unused")))
+    text = {r["task"]: r["text"] for r in map(json.loads, args.text.read_text().splitlines())} if args.text else {}
     subsets: dict[str, list[str]] = {}
     for task in args.tasks.read_text().split():
         subset = next(p.parent.name for p in GENERATION.glob(f"X_code/*/{task}.rs"))
@@ -48,7 +52,11 @@ def main() -> None:
         source = out / "input" / subset
         source.mkdir(parents=True, exist_ok=True)
         for task in tasks:
-            shutil.copy(GENERATION / "X_code" / subset / f"{task}.rs", source)
+            target = source / f"{task}.rs"
+            shutil.copy(GENERATION / "X_code" / subset / f"{task}.rs", target)
+            if text:
+                comment = "".join(f"// {line}\n" for line in ["Task description:", *text[task].splitlines()])
+                target.write_text(comment + target.read_text())
         log = out / "logs" / f"{subset}.log"
         log.parent.mkdir(exist_ok=True)
         with log.open("w") as stream:

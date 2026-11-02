@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from census_report import CLASSES, artifacts, clause_class, concordance, paired_bootstrap, rq1, rq2, rq3, rq4, rq4_attempts
+from census_report import CLASSES, artifacts, clause_class, concordance, paired_bootstrap, rq1, rq2, rq3, rq4, rq4_attempts, rq5
 
 P, R, U = {"verdict": "proved"}, {"verdict": "refuted"}, {"verdict": "undecided"}
 C = {"verdict": "refuted", "computed": True}
@@ -81,4 +81,14 @@ rows = [art("A", "few-shot", True, True, True), art("A", "few-shot", True, True,
 result = concordance(rows)
 assert result["original"] == (1, 2) and result["certified"] == (2, 2)
 assert result["relabel_control"][1] == 2
+def attempt(arm, task, accepted, l3="invalid"):
+    return {"arm": arm, "task": task, "accepted": accepted, "L1": "valid", "L2": "valid", "L3": l3 if accepted else None, "L4": "valid"}
+
+
+five = rq5([attempt("plain", "h1", True), attempt("text", "h1", True, "valid"), attempt("plain", "o1", False),
+            attempt("text", "o1", True, "valid"), attempt("plain", "o2", True, "valid"), attempt("text", "o2", True, "valid")], {"h1"})
+assert five["all"]["tasks"] == 3 and five["hidden_constant"]["tasks"] == 1 and five["other"]["tasks"] == 2
+assert five["all"]["verified"]["plain"] == 2 and five["all"]["verified"]["text"] == 3
+assert five["all"]["L3"]["plain"] == 1 and five["all"]["L3"]["text"] == 3
+assert five["hidden_constant"]["L3"] == {"plain": 0, "text": 1, "text_minus_plain": (1.0, 1.0)}
 print("all known answers match")

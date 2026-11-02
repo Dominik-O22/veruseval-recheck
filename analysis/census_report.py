@@ -188,6 +188,31 @@ def rq2(rows: list[dict]) -> dict:
     return {"tasks_searched": len({r["task"] for r in rows}), "tasks_counted": len(counted), "tasks": sorted(counted)}
 
 
+def rq5(rows: list[dict], hidden: set[str]) -> dict:
+    """Paired by task: Haiku with task text against without. rows carry arm plain or text, task, accepted and L1 to L4.
+
+    A task that does not verify counts as not passing, so failing to verify is not hidden.
+    """
+    arms: dict[str, dict[str, dict]] = defaultdict(dict)
+    for row in rows:
+        arms[row["arm"]][row["task"]] = row
+    tasks = sorted(set(arms["plain"]) & set(arms["text"]))
+
+    def passed(arm: str, task: str, key: str) -> int:
+        row = arms[arm][task]
+        return int(bool(row["accepted"]) if key == "verified" else row.get(key) == "valid")
+
+    def table(group: list[str]) -> dict:
+        out: dict = {"tasks": len(group)}
+        for key in ("verified", "L1", "L2", "L3", "L4"):
+            text, plain = [passed("text", t, key) for t in group], [passed("plain", t, key) for t in group]
+            out[key] = {"plain": sum(plain), "text": sum(text), "text_minus_plain": paired_bootstrap(text, plain) if group else None}
+        return out
+
+    return {"all": table(tasks), "hidden_constant": table([t for t in tasks if t in hidden]),
+            "other": table([t for t in tasks if t not in hidden])}
+
+
 def rows_of(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
@@ -201,6 +226,8 @@ def main() -> None:
     parser.add_argument("--rq4-stages", type=Path)
     parser.add_argument("--rq4-tasks", type=Path)
     parser.add_argument("--rq2", type=Path)
+    parser.add_argument("--rq5", type=Path, help="labels with arm in the label field, as plain|task or text|task")
+    parser.add_argument("--hidden", type=Path, help="hidden-constant task list, for RQ5")
     parser.add_argument("--all-labels", type=Path, help="labels for every artifact, for the prompting pairs")
     args = parser.parse_args()
     table = rows_of(args.verdicts)
@@ -217,6 +244,8 @@ def main() -> None:
             for r in everything])
     if args.rq2:
         report["rq2"] = rq2(rows_of(args.rq2))
+    if args.rq5:
+        report["rq5"] = rq5([{**r, "arm": r["label"].split("|")[0]} for r in rows_of(args.rq5)], set(args.hidden.read_text().split()))
     if args.rq4_verdicts:
         haiku = rows_of(args.rq4_verdicts)
         for row in haiku:
