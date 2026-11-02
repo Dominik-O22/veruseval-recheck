@@ -25,7 +25,7 @@ Predictions, logged now and scored afterward: text raises L3 pass rate on the ot
 
 A rough scan found that on 66 of 78 hidden-constant tasks with text, not all of the reference's constants appear in the text. The scan also catches type bounds, so it overstates. If the limit is not in the text either, no reader could have known it. Report these separately after reading a sample.
 
-The I/O suites do not give an independent check, because the paper says they "rest on the same reference as specification correctness". So all three checks depend on the reference. We say so.
+The I/O suites do not give an independent check, because the paper says they "rest on the same reference as specification correctness". So the I/O and contract checks both depend on the reference. The third check, triviality, looks at the generated contract alone and flags 104 of 7,081. We say so.
 
 
 Status: revision 7, 2 November 2026, frozen as `freeze-2`, reframed on Dom's decision. `freeze-1` holds revision 6. Earlier: two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
