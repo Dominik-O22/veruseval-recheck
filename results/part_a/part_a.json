@@ -1,0 +1,171 @@
+{
+  "attempts": 13659,
+  "verified": 7081,
+  "stages": {
+    "parse_failed": 1814,
+    "proof_failed": 1774,
+    "frontend_failed": 2990,
+    "accepted": 7081
+  },
+  "failure_classes": {
+    "Malformed output": 452,
+    "Verus-specific": 3811,
+    "General Rust": 541
+  },
+  "first_error_int_index": 902,
+  "first_error_by_message": [
+    [
+      "mismatched types",
+      1362
+    ],
+    [
+      "expected curly braces",
+      332
+    ],
+    [
+      "expected `_`",
+      253
+    ],
+    [
+      "cannot find value `_` in this scope",
+      249
+    ],
+    [
+      "This block would be parsed as the function/loop body, but it is follow",
+      202
+    ],
+    [
+      "unexpected closing delimiter: `_`",
+      154
+    ],
+    [
+      "type annotations needed",
+      154
+    ],
+    [
+      "unexpected token, expected `_`",
+      150
+    ],
+    [
+      "cannot call function `_` with mode exec",
+      144
+    ],
+    [
+      "no message",
+      124
+    ],
+    [
+      "unresolved import `_`",
+      124
+    ],
+    [
+      "forall, choose, and exists do not allow parentheses, use `_` instead",
+      116
+    ]
+  ],
+  "class_by_model": {
+    "deepseek-chat": {
+      "Verus-specific": 898,
+      "General Rust": 149,
+      "Malformed output": 30
+    },
+    "deepseek-reasoner": {
+      "Verus-specific": 165,
+      "Malformed output": 8,
+      "General Rust": 21
+    },
+    "gpt-4o": {
+      "Verus-specific": 851,
+      "General Rust": 103,
+      "Malformed output": 17
+    },
+    "llama": {
+      "Malformed output": 242,
+      "Verus-specific": 1368,
+      "General Rust": 208
+    },
+    "qwen-coder": {
+      "Malformed output": 155,
+      "Verus-specific": 529,
+      "General Rust": 60
+    }
+  },
+  "class_by_shot": {
+    "few-shot": {
+      "Malformed output": 297,
+      "Verus-specific": 782,
+      "General Rust": 153
+    },
+    "zero-shot": {
+      "Verus-specific": 3029,
+      "Malformed output": 155,
+      "General Rust": 388
+    }
+  },
+  "variance_explained": {
+    "workflow": 0.0807,
+    "model": 0.0683,
+    "shot": 0.1064,
+    "task_id": 0.2502
+  },
+  "config_range": {
+    "low": 0.05511811023622047,
+    "high": 0.8853754940711462
+  },
+  "prompting_pairs": [
+    {
+      "workflow": "StarVerus",
+      "model": "qwen-coder",
+      "few": 0.7898259705488622,
+      "zero": 0.6202365308804205
+    },
+    {
+      "workflow": "StarVerus",
+      "model": "deepseek-reasoner",
+      "few": 0.8853754940711462,
+      "zero": 0.6486842105263158
+    },
+    {
+      "workflow": "AlphaVerus",
+      "model": "llama",
+      "few": 0.2962962962962963,
+      "zero": 0.05511811023622047
+    },
+    {
+      "workflow": "VerusAge",
+      "model": "qwen-coder",
+      "few": 0.5879265091863517,
+      "zero": 0.32808398950131235
+    },
+    {
+      "workflow": "StarVerus",
+      "model": "deepseek-chat",
+      "few": 0.800524934383202,
+      "zero": 0.4553805774278215
+    },
+    {
+      "workflow": "StarVerus",
+      "model": "llama",
+      "few": 0.6433289299867899,
+      "zero": 0.2631578947368421
+    },
+    {
+      "workflow": "StarVerus",
+      "model": "gpt-4o",
+      "few": 0.7332457293035479,
+      "zero": 0.3527027027027027
+    },
+    {
+      "workflow": "VerusAge",
+      "model": "deepseek-chat",
+      "few": 0.6259842519685039,
+      "zero": 0.2178477690288714
+    },
+    {
+      "workflow": "AutoVerus",
+      "model": "gpt-4o",
+      "few": 0.7703412073490814,
+      "zero": 0.2585301837270341
+    }
+  ]
+}

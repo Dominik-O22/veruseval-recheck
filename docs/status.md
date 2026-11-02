@@ -46,7 +46,7 @@ The plan has four parts. Part D is the original question: what are the rejected 
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
-| 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | Open |
+| 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | **Passed.** 79.3% of pre-proof failures are Verus-specific by the rule, which agreed on 56 of 60 read by Claude. `results/part_a/` |
 | 3g | Task text test (RQ5) | Text matched to tasks by a script, Haiku runs both ways on 5 development tasks, output grades | Open |
 | 3h | Second freeze | Plan, scripts and samples hashed and tagged `freeze-2` | Open |
 | 3e | Tell the authors | Dom approves the message and it is sent | Branch and tag pushed. Message on hold |
