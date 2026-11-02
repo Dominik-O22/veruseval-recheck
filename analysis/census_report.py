@@ -189,28 +189,33 @@ def rq2(rows: list[dict]) -> dict:
 
 
 def rq5(rows: list[dict], hidden: set[str]) -> dict:
-    """Paired by task: Haiku with task text against without. rows carry arm plain or text, task, accepted and L1 to L4.
+    """Paired by task across Haiku's four arms: few or zero examples, with or without task text.
 
+    rows carry arm (few-plain, few-text, zero-plain or zero-text), task, accepted and L1 to L4.
     A task that does not verify counts as not passing, so failing to verify is not hidden.
     """
     arms: dict[str, dict[str, dict]] = defaultdict(dict)
     for row in rows:
         arms[row["arm"]][row["task"]] = row
-    tasks = sorted(set(arms["plain"]) & set(arms["text"]))
 
     def passed(arm: str, task: str, key: str) -> int:
         row = arms[arm][task]
         return int(bool(row["accepted"]) if key == "verified" else row.get(key) == "valid")
 
-    def table(group: list[str]) -> dict:
+    def compare(left: str, right: str, group: list[str]) -> dict:
         out: dict = {"tasks": len(group)}
         for key in ("verified", "L1", "L2", "L3", "L4"):
-            text, plain = [passed("text", t, key) for t in group], [passed("plain", t, key) for t in group]
-            out[key] = {"plain": sum(plain), "text": sum(text), "text_minus_plain": paired_bootstrap(text, plain) if group else None}
+            a, b = [passed(left, t, key) for t in group], [passed(right, t, key) for t in group]
+            out[key] = {left: sum(a), right: sum(b), "difference": paired_bootstrap(a, b) if group else None}
         return out
 
-    return {"all": table(tasks), "hidden_constant": table([t for t in tasks if t in hidden]),
-            "other": table([t for t in tasks if t not in hidden])}
+    report = {}
+    for name, (left, right) in {"text_with_examples": ("few-text", "few-plain"), "text_without_examples": ("zero-text", "zero-plain"),
+                                "examples_without_text": ("few-plain", "zero-plain")}.items():
+        tasks = sorted(set(arms[left]) & set(arms[right]))
+        report[name] = {"all": compare(left, right, tasks), "hidden_constant": compare(left, right, [t for t in tasks if t in hidden]),
+                        "other": compare(left, right, [t for t in tasks if t not in hidden])}
+    return report
 
 
 def rows_of(path: Path) -> list[dict]:
@@ -226,7 +231,7 @@ def main() -> None:
     parser.add_argument("--rq4-stages", type=Path)
     parser.add_argument("--rq4-tasks", type=Path)
     parser.add_argument("--rq2", type=Path)
-    parser.add_argument("--rq5", type=Path, help="labels with arm in the label field, as plain|task or text|task")
+    parser.add_argument("--rq5", type=Path, help="labels with arm in the label field, as few-plain|task and so on")
     parser.add_argument("--hidden", type=Path, help="hidden-constant task list, for RQ5")
     parser.add_argument("--all-labels", type=Path, help="labels for every artifact, for the prompting pairs")
     args = parser.parse_args()

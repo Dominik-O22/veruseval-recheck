@@ -85,10 +85,17 @@ def attempt(arm, task, accepted, l3="invalid"):
     return {"arm": arm, "task": task, "accepted": accepted, "L1": "valid", "L2": "valid", "L3": l3 if accepted else None, "L4": "valid"}
 
 
-five = rq5([attempt("plain", "h1", True), attempt("text", "h1", True, "valid"), attempt("plain", "o1", False),
-            attempt("text", "o1", True, "valid"), attempt("plain", "o2", True, "valid"), attempt("text", "o2", True, "valid")], {"h1"})
-assert five["all"]["tasks"] == 3 and five["hidden_constant"]["tasks"] == 1 and five["other"]["tasks"] == 2
-assert five["all"]["verified"]["plain"] == 2 and five["all"]["verified"]["text"] == 3
-assert five["all"]["L3"]["plain"] == 1 and five["all"]["L3"]["text"] == 3
-assert five["hidden_constant"]["L3"] == {"plain": 0, "text": 1, "text_minus_plain": (1.0, 1.0)}
+five = rq5([attempt("few-plain", "h1", True), attempt("few-text", "h1", True, "valid"), attempt("few-plain", "o1", False),
+            attempt("few-text", "o1", True, "valid"), attempt("few-plain", "o2", True, "valid"), attempt("few-text", "o2", True, "valid"),
+            attempt("zero-plain", "h1", False), attempt("zero-text", "h1", True), attempt("zero-plain", "o1", True, "valid"),
+            attempt("zero-text", "o1", True, "valid"), attempt("zero-plain", "o2", False), attempt("zero-text", "o2", False)], {"h1"})
+few = five["text_with_examples"]
+assert few["all"]["tasks"] == 3 and few["hidden_constant"]["tasks"] == 1 and few["other"]["tasks"] == 2
+assert few["all"]["verified"]["few-plain"] == 2 and few["all"]["verified"]["few-text"] == 3
+assert few["all"]["L3"]["few-plain"] == 1 and few["all"]["L3"]["few-text"] == 3
+assert few["hidden_constant"]["L3"] == {"few-text": 1, "few-plain": 0, "difference": (1.0, 1.0)}
+zero = five["text_without_examples"]["all"]
+assert zero["verified"]["zero-text"] == 2 and zero["verified"]["zero-plain"] == 1
+shots = five["examples_without_text"]["all"]
+assert shots["verified"]["few-plain"] == 2 and shots["verified"]["zero-plain"] == 1
 print("all known answers match")

@@ -6,7 +6,8 @@ patches/starverus-agent-sdk.patch. Run in the container from the release root, w
     python3 -I analysis/rq4_generate.py --tasks results/tasks/rq4_tasks.txt --out DIR
 Writes DIR/finals.jsonl, one row per task that produced a final program: {"task", "generated"}.
 
-For RQ5, --text adds each task's description as comments at the top of the input, and nothing else changes.
+For RQ5, --text adds each task's description as comments at the top of the input, and --mode zero-shot drops the
+five worked examples. Nothing else changes.
 """
 from __future__ import annotations
 
@@ -36,6 +37,7 @@ def main() -> None:
     parser.add_argument("--model", default="claude-haiku-5-5")
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--text", type=Path, help="JSONL of {task, text}")
+    parser.add_argument("--mode", choices=("few-shot", "zero-shot"), default="few-shot")
     args = parser.parse_args()
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -60,7 +62,7 @@ def main() -> None:
         log = out / "logs" / f"{subset}.log"
         log.parent.mkdir(exist_ok=True)
         with log.open("w") as stream:
-            subprocess.run([sys.executable, str(UPSTREAM), "--config", str(config), "--mode", "few-shot",
+            subprocess.run([sys.executable, str(UPSTREAM), "--config", str(config), "--mode", args.mode,
                             "--model_name", "configured-model", "--source_bench_dir", str(source),
                             "--x_dir", str(GENERATION / "X_code"), "--y_dir", str(GENERATION / "Y"),
                             "--knn_json_path", str(GENERATION / "knn_similar.json"),
