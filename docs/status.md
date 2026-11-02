@@ -37,7 +37,7 @@ The plan has four parts. Part D is the original question: what are the rejected 
 
 ## Next action
 
-**Reframed on 2 November by Dom's decision.** Dom needs to sign off revision 7 of the plan before steps 3f to 3h start. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+**Reframed on 2 November by Dom's decision, and revision 7 of the plan is signed off.** Steps 3f to 3h are running. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
@@ -70,6 +70,7 @@ Before the freeze:
 
 | Date | Decision | Why |
 |---|---|---|
+| 2 Nov | Target is arXiv and a public repo. No ICPC RENE, no second proposer, and the hand audit stays optional | Keeps it one paper, about $20 more |
 | 2 Nov | The paper asks what a VerusEval score measures, in four parts. The census becomes Part D | Evidence below, and Dom chose this over a fairness-only or a models-only paper |
 | 2 Nov | Pause the census and rethink the paper around verification failures and fairness | The census covers about 16% of attempts, 48% never verify, and models are marked down on limits they cannot see |
 | 2 Nov | Push `gate2-local` and `freeze-1`, leave `main` as it is. The census start was later paused | A public commit dates the method |

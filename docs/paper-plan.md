@@ -141,7 +141,7 @@ Report the grid by lemma, form, configuration and type class. Report the search 
 
 Predictions, logged now and scored afterward, with no pass or fail attached. On the 1,909 obligations with no failing I/O case: proved in some form 40%, certified false 35%, Undecided 25% (guess from the pilot's 9 proved, 16 claimed and 1 unresolved of 26, all guarded). Premise-only share of rejected L2: above 20% (guess, because 537 is an upper hint, not a count).
 
-A second, non-Claude proposer runs on a random 200 Undecided lemmas, to show how much the result depends on the prover. For RQ1 to RQ3 the subjects are DeepSeek, Qwen, GPT-4o and Llama, so Claude is an instrument there and not a subject. RQ4 is the exception, and its analysis says so.
+For RQ1 to RQ3 the subjects are DeepSeek, Qwen, GPT-4o and Llama, so Claude is an instrument there and not a subject. RQ4 is the exception, and its analysis says so.
 
 ## RQ2 analysis
 
@@ -205,7 +205,7 @@ The census runs through `analysis/census.py`, stopping at the first verdict: `an
 
 Undecided shares in the paper describe this pipeline, which left 18 of 100 development clauses undecided against 21 for agents. Two runs on 200 clauses gave no flips between proved and refuted, and 97.8% of verdicts were identical.
 
-ICPC 2027 RENE (abstract 11 December, paper 18 December) stays optional, because arXiv is the primary target.
+The target is an arXiv paper and a public repository. ICPC 2027 RENE is dropped: the question is not a replication, and reviewers would ask why a recent preprint matters. VerusEval is the case study, because it has a full public release.
 
 ## Outline
 
