@@ -44,7 +44,7 @@ def main() -> None:
     parser.add_argument("--bare", action="store_true")
     args = parser.parse_args()
     out = args.out.resolve()
-    out.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=False)      # never mix with an earlier run's files
     os.environ.setdefault("AGENT_SDK_USAGE_LOG", str(out / "usage.jsonl"))
     config = out / "starverus.yaml"
     settings = runtime_config("/opt/verus/verus", args.model, "agent-sdk", "unused")
@@ -77,12 +77,13 @@ def main() -> None:
                             "--x_dir", str(GENERATION / "X_code"), "--y_dir", str(GENERATION / "Y"),
                             "--knn_json_path", str(GENERATION / "knn_similar.json"),
                             "--result_save_path", str(out / "generation"), "--repair_save_path", str(out / "repair"),
-                            "--num_workers", str(args.workers)], cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT, check=True)
+                            "--num_workers", str(args.workers)], cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
         if args.bare:
             for task in tasks:
                 generated = next((out / "generation").glob(f"**/{task}/*/result_0.rs"), None)
                 if generated:
                     finals[task] = str(generated)
+            (out / "finals.jsonl").write_text("".join(json.dumps({"task": t, "generated": p}) + "\n" for t, p in sorted(finals.items())))
             continue
         for name, final in re.findall(r"\[TASK (?:VERIFIED|DONE)\] (.*?): generated=\d+, selected=(.*)", log.read_text()):
             finals[Path(name).stem] = final.strip()

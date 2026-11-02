@@ -10,6 +10,7 @@ from census_report import CLASSES, artifacts, clause_class, concordance, paired_
 
 P, R, U = {"verdict": "proved"}, {"verdict": "refuted"}, {"verdict": "undecided"}
 C = {"verdict": "refuted", "computed": True}
+H = {"verdict": "refuted", "realized": False}
 
 
 def clause(sample, guarded, uncond, direction="L2"):
@@ -26,13 +27,14 @@ EXPECTED = [
     (clause("f|m|s|t", P, C), "Computed"),
     (clause("g|m|s|t", U, C), "Computed"),
     (clause("h|m|s|t", U, U), "Undecided"),
+    (clause("i|m|s|t", H, H, "L1"), "Unrepresentable"),
 ]
 for row, want in EXPECTED:
     assert clause_class(row) == want, (row, want)
 
 table = [row for row, _ in EXPECTED]
 one = rq1(table)
-assert one["clauses"] == 9 and sum(one["classes"].values()) == 9 and set(one["classes"]) == set(CLASSES)
+assert one["clauses"] == 10 and sum(one["classes"].values()) == 10 and set(one["classes"]) == set(CLASSES)
 assert one["classes"]["Difference"] == 2 and one["classes"]["Computed"] == 2 and one["impossible_cell"] == 0
 assert rq1([clause("x|m|s|t", R, P)])["impossible_cell"] == 1
 
@@ -55,8 +57,11 @@ assert four["gpt-4o"]["verified"] == 5 and four["gpt-4o"]["sound_low"] == 2
 low, high = four["gpt-4o"]["haiku_minus_model_sound"]
 assert 0 < low <= 0.6 <= high
 assert paired_bootstrap([1] * 20, [1] * 20) == (0, 0)
-unavailable = artifacts([], [{"sample_id": "q|m|s|t", "triviality_state": "favorable", "formal_reliability_state": "other"}])
-assert unavailable == {"q|m|s|t": "Undecided"}
+unavailable = artifacts([], [{"sample_id": "q|m|s|t", "triviality_state": "favorable", "formal_reliability_state": "other"},
+                             {"sample_id": "r|m|s|t", "triviality_state": "favorable", "formal_reliability_state": "unfavorable"},
+                             {"sample_id": "s|m|s|t", "triviality_state": "favorable", "formal_reliability_state": "favorable"}])
+assert unavailable == {"q|m|s|t": "Undecided", "r|m|s|t": "Undecided", "s|m|s|t": "Clean"}
+assert artifacts([clause("i|m|s|t", H, H, "L1")], [{"sample_id": "i|m|s|t", "triviality_state": "favorable"}]) == {"i|m|s|t": "Undecided"}
 
 star = [{"sample_id": f"StarVerus|{m}|few-shot|{t}", "workflow": "StarVerus", "model": m, "shot": "few-shot", "task_id": t}
         for m, t in [("gpt-4o", "t1"), ("gpt-4o", "t2")]]
@@ -88,7 +93,11 @@ def attempt(arm, task, accepted, l3="invalid"):
 five = rq5([attempt("few-plain", "h1", True), attempt("few-text", "h1", True, "valid"), attempt("few-plain", "o1", False),
             attempt("few-text", "o1", True, "valid"), attempt("few-plain", "o2", True, "valid"), attempt("few-text", "o2", True, "valid"),
             attempt("zero-plain", "h1", False), attempt("zero-text", "h1", True), attempt("zero-plain", "o1", True, "valid"),
-            attempt("zero-text", "o1", True, "valid"), attempt("zero-plain", "o2", False), attempt("zero-text", "o2", False)], {"h1"})
+            attempt("zero-text", "o1", True, "valid"), attempt("zero-plain", "o2", False), attempt("zero-text", "o2", False)], {"h1"}, ["h1", "o1", "o2"], 0.25)
+# Hidden gains 1 of 1, other gains 1 of 2 (0.5), so weighted 0.25 * 1 + 0.75 * 0.5.
+assert five["text_with_examples"]["pool_weighted"]["L3"] == 0.625
+missing = rq5([attempt("few-text", "t", True, "valid")], set(), ["t", "u"], 0.0)["text_with_examples"]["all"]
+assert missing["tasks"] == 2 and missing["verified"] == {"few-text": 1, "few-plain": 0, "difference": missing["verified"]["difference"]}
 few = five["text_with_examples"]
 assert few["all"]["tasks"] == 3 and few["hidden_constant"]["tasks"] == 1 and few["other"]["tasks"] == 2
 assert few["all"]["verified"]["few-plain"] == 2 and few["all"]["verified"]["few-text"] == 3

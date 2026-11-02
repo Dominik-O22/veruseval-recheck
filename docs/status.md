@@ -37,7 +37,7 @@ The plan has four parts. Part D is the original question: what are the rejected 
 
 ## Next action
 
-**Reframed on 2 November by Dom's decision, and revision 7 of the plan is signed off.** Steps 3f to 3h have passed. Next are Dom's go-ahead to push `freeze-2` and his approval of the authors' message. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+**Reframed on 2 November by Dom's decision, and revision 7 of the plan is signed off.** Steps 3f to 3h have passed. `freeze-2` is pushed and the runs are next. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
@@ -46,10 +46,10 @@ The plan has four parts. Part D is the original question: what are the rejected 
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
-| 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | **Passed.** 79.3% of pre-proof failures are Verus-specific by the rule, which agreed on 56 of 60 read by Claude. `results/part_a/` |
+| 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | **Passed.** 57.8% to 79.3% of pre-proof failures are Verus-specific, depending on whether echoed source counts. `results/part_a/` |
 | 3g | Task text test (RQ5) | Text matched to tasks by a script, Haiku runs both ways on 5 development tasks, output grades | **Passed.** 5 of 5 both ways, about $0.24, labels matched the release 480 of 480 on 120 development artifacts. `analysis/task_text.py`, `analysis/rq5_labels.py` |
 | 3h | Second freeze | Plan, scripts and samples hashed and tagged `freeze-2` | **Passed.** Local tag `freeze-2`, not pushed. `results/gate3/freeze2.sha256` |
-| 3e | Tell the authors | Dom approves the message and it is sent | Rewritten for `freeze-2`, waits for Dom |
+| 3e | Tell the authors | After the data, by Dom's decision | Draft needs rewriting after the runs, and it must disclose what the plan discloses |
 
 Spending cap for gate 3: $10 of the API key.
 
@@ -63,13 +63,15 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | about $6 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), RQ4 about $5 with both arms, RQ5 about $4 |
+| API key | $100 | about $6 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), RQ4 about $5 with both arms, RQ5 about $7 |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
 
 | Date | Decision | Why |
 |---|---|---|
+| 2 Nov | Delay the authors' message: push the frozen method, run, then decide | Reruns are cheap and nothing depends on their reply. A public commit dates the method |
+| 2 Nov | RQ5 grows to 200 tasks with one primary outcome, and headlines use verified and Difference | Opus and GLM reviews: power, too many comparisons, and Claude writes proofs for Claude |
 | 2 Nov | RQ4 adds a bare arm, one try with no repair, and RQ5 runs bare throughout | Dom's point: a handicap can only work against Haiku, so a win is stronger, and one try leaves more room to see differences |
 | 2 Nov | RQ5 gets zero-shot arms, four arms in all | Few-shot examples are the benchmark's own solutions, so they may hide the effect of task text, and zero-shot tests Haiku with no guide for the first time |
 | 2 Nov | Target is arXiv and a public repo. No ICPC RENE, no second proposer, and the hand audit stays optional | Keeps it one paper, about $20 more |

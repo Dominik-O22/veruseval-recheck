@@ -8,11 +8,13 @@ A clause lands in one class, by its guarded and unconditional verdicts:
     Guarded only   proved guarded, undecided unconditionally
     Certified false, unlocated   refuted unconditionally by a plain witness, guarded undecided
     Computed       the only refutation uses a computed value, which is never a real difference
+    Unrepresentable  the only refutation needs a value no program can build, such as a Vec of usize::MAX
     Undecided      nothing established
 
 An artifact is, in order: Trivial if the paper's check holds, Difference if any clause is, Sound if every
-rejected clause is Solver limit or Premise only, otherwise Undecided. Artifacts with no rejected clause are
-Clean. L3 and L4 are out of scope, so none of these means equivalent or correct.
+rejected clause is Solver limit or Premise only, otherwise Undecided. Artifacts the release did not reject on
+L1 or L2 are Clean. One the release rejected with no clause row stays Undecided. L3 and L4 are out of scope,
+so none of these means equivalent or correct.
 
     python3 -I analysis/census_report.py --verdicts verdicts.jsonl --labels rq1_artifact_labels.csv --out DIR \\
         [--rq4-verdicts verdicts.jsonl --rq4-stages stages.jsonl --rq4-tasks results/tasks/rq4_tasks.txt] [--rq2 rq2.jsonl]
@@ -26,12 +28,18 @@ import json
 from pathlib import Path
 import random
 
-CLASSES = ("Difference", "Premise only", "Solver limit", "Guarded only", "Certified false, unlocated", "Computed", "Undecided")
+CLASSES = ("Difference", "Premise only", "Solver limit", "Guarded only", "Certified false, unlocated", "Computed",
+           "Unrepresentable", "Undecided")
 ARTIFACTS = ("Trivial", "Clean", "Sound", "Difference", "Undecided")
 
 
 def plain_refuted(entry: dict) -> bool:
-    return entry["verdict"] == "refuted" and not entry.get("computed")
+    return entry["verdict"] == "refuted" and not entry.get("computed") and entry.get("realized") is not False
+
+
+def weak_refutation(*entries: dict) -> str:
+    """The class of a refutation that is not a plain, runnable one."""
+    return "Computed" if any(e.get("computed") for e in entries) else "Unrepresentable"
 
 
 def clause_class(row: dict) -> str:
@@ -43,10 +51,10 @@ def clause_class(row: dict) -> str:
             return "Solver limit"
         if plain_refuted(uncond):
             return "Premise only"
-        return "Computed" if uncond["verdict"] == "refuted" else "Guarded only"
+        return weak_refutation(uncond) if uncond["verdict"] == "refuted" else "Guarded only"
     if plain_refuted(uncond):
         return "Certified false, unlocated"
-    return "Computed" if "refuted" in (uncond["verdict"], guarded["verdict"]) else "Undecided"
+    return weak_refutation(uncond, guarded) if "refuted" in (uncond["verdict"], guarded["verdict"]) else "Undecided"
 
 
 def artifact_class(classes: list[str], trivial: bool) -> str:
@@ -72,18 +80,18 @@ def rq1(table: list[dict]) -> dict:
             "by_tier": dict(Counter((r["uncond"].get("tier") or "none").split(":")[0] for r in table))}
 
 
+def unsettled(row: dict, by_sample: dict) -> bool:
+    """The release did not pass this artifact on L1 and L2, and no clause row explains why."""
+    return row.get("formal_reliability_state") in ("other", "unfavorable") and row["sample_id"] not in by_sample
+
+
 def artifacts(table: list[dict], labels: list[dict]) -> dict[str, str]:
     by_sample: dict[str, list[str]] = defaultdict(list)
     for row in table:
         by_sample[row["sample"]].append(clause_class(row))
-    out = {}
-    for row in labels:
-        sample = row["sample_id"]
-        if row.get("formal_reliability_state") == "other" and sample not in by_sample:
-            out[sample] = "Undecided"     # the release has no L1 or L2 result for these
-        else:
-            out[sample] = artifact_class(by_sample.get(sample, []), row["triviality_state"] == "unfavorable")
-    return out
+    return {row["sample_id"]: "Undecided" if unsettled(row, by_sample)
+            else artifact_class(by_sample.get(row["sample_id"], []), row["triviality_state"] == "unfavorable")
+            for row in labels}
 
 
 def rq3(classes: dict[str, str], labels: list[dict], table: list[dict]) -> dict:
@@ -115,7 +123,7 @@ def concordance(rows: list[dict], seed: int = 20261102) -> dict:
         total = agree = 0
         for shots in pairs.values():
             few, zero = shots.get("few-shot", []), shots.get("zero-shot", [])
-            if not few or not zero:
+            if not any(r["accepted"] for r in few) or not any(r["accepted"] for r in zero):
                 continue
             gap = sum(r["accepted"] for r in few) / len(few) - sum(r["accepted"] for r in zero) / len(zero)
             if gap == 0:
@@ -178,7 +186,7 @@ def rq4_attempts(table: list[dict], labels: list[dict], haiku_table: list[dict],
     for row in labels:
         if row["workflow"] == "StarVerus" and row["shot"] == "few-shot" and row["task_id"] in tasks:
             model = attempts.setdefault(row["model"], {t: "Not verified" for t in tasks})
-            model[row["task_id"]] = artifact_class(by_sample.get(row["sample_id"], []), False)
+            model[row["task_id"]] = "Undecided" if unsettled(row, by_sample) else artifact_class(by_sample.get(row["sample_id"], []), False)
     return attempts
 
 
@@ -188,19 +196,19 @@ def rq2(rows: list[dict]) -> dict:
     return {"tasks_searched": len({r["task"] for r in rows}), "tasks_counted": len(counted), "tasks": sorted(counted)}
 
 
-def rq5(rows: list[dict], hidden: set[str]) -> dict:
+def rq5(rows: list[dict], hidden: set[str], tasks: list[str], hidden_share: float) -> dict:
     """Paired by task across Haiku's four arms: few or zero examples, with or without task text.
 
     rows carry arm (few-plain, few-text, zero-plain or zero-text), task, accepted and L1 to L4.
-    A task that does not verify counts as not passing, so failing to verify is not hidden.
+    A task that does not verify, or produced no program, counts as not passing, so failure is not hidden.
     """
     arms: dict[str, dict[str, dict]] = defaultdict(dict)
     for row in rows:
         arms[row["arm"]][row["task"]] = row
 
     def passed(arm: str, task: str, key: str) -> int:
-        row = arms[arm][task]
-        return int(bool(row["accepted"]) if key == "verified" else row.get(key) == "valid")
+        row = arms[arm].get(task, {})
+        return int(bool(row.get("accepted")) if key == "verified" else row.get(key) == "valid")
 
     def compare(left: str, right: str, group: list[str]) -> dict:
         out: dict = {"tasks": len(group)}
@@ -209,12 +217,19 @@ def rq5(rows: list[dict], hidden: set[str]) -> dict:
             out[key] = {left: sum(a), right: sum(b), "difference": paired_bootstrap(a, b) if group else None}
         return out
 
+    def mean_difference(result: dict, left: str, right: str, key: str) -> float:
+        return (result[key][left] - result[key][right]) / result["tasks"] if result["tasks"] else 0.0
+
     report = {}
     for name, (left, right) in {"text_with_examples": ("few-text", "few-plain"), "text_without_examples": ("zero-text", "zero-plain"),
                                 "examples_without_text": ("few-plain", "zero-plain")}.items():
-        tasks = sorted(set(arms[left]) & set(arms[right]))
         report[name] = {"all": compare(left, right, tasks), "hidden_constant": compare(left, right, [t for t in tasks if t in hidden]),
-                        "other": compare(left, right, [t for t in tasks if t not in hidden])}
+                        "other": compare(left, right, [t for t in tasks if t not in hidden]),
+                        "vericoding": compare(left, right, [t for t in tasks if t.startswith("VeriCoding")]),
+                        "other_sources": compare(left, right, [t for t in tasks if not t.startswith("VeriCoding")])}
+        report[name]["pool_weighted"] = {key: round(hidden_share * mean_difference(report[name]["hidden_constant"], left, right, key)
+                                                    + (1 - hidden_share) * mean_difference(report[name]["other"], left, right, key), 4)
+                                         for key in ("verified", "L1", "L2", "L3", "L4")}
     return report
 
 
@@ -224,7 +239,8 @@ def rows_of(path: Path) -> list[dict]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--verdicts", type=Path, required=True)
+    parser.add_argument("--verdicts", type=Path, nargs="+", required=True, help="dev and census tables together")
+    parser.add_argument("--partial", action="store_true", help="dry runs only: accept a table that misses rejected artifacts")
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--rq4-verdicts", type=Path)
@@ -233,12 +249,19 @@ def main() -> None:
     parser.add_argument("--rq2", type=Path)
     parser.add_argument("--rq5", type=Path, help="labels with arm in the label field, as few-plain|task and so on")
     parser.add_argument("--hidden", type=Path, help="hidden-constant task list, for RQ5")
+    parser.add_argument("--rq5-tasks", type=Path, help="the sampled tasks, for RQ5")
+    parser.add_argument("--rq5-pool", type=Path, help="the pool they were drawn from, for weighting")
+    parser.add_argument("--drop", type=Path, nargs="*", help="task lists to leave out, one sensitivity check each")
     parser.add_argument("--all-labels", type=Path, help="labels for every artifact, for the prompting pairs")
     args = parser.parse_args()
-    table = rows_of(args.verdicts)
+    table = [row for path in args.verdicts for row in rows_of(path)]
     with args.labels.open() as stream:
         labels = [r for r in csv.DictReader(stream) if r["verification_stage"] == "accepted" and r["analysis_eligible"] == "True"]
     classes = artifacts(table, labels)
+    seen = {r["sample"] for r in table}
+    missing = [r["sample_id"] for r in labels if r["formal_reliability_state"] == "unfavorable" and r["sample_id"] not in seen]
+    if len(missing) > 1 and not args.partial:     # VT0541's only clause is unresolved, so one is expected
+        raise SystemExit(f"{len(missing)} rejected artifacts have no clause rows, so the verdict table is incomplete")
     report = {"rq1": rq1(table), "artifacts": dict(Counter(classes.values())), "rq3": rq3(classes, labels, table)}
     if args.all_labels:
         with args.all_labels.open() as stream:
@@ -250,12 +273,24 @@ def main() -> None:
     if args.rq2:
         report["rq2"] = rq2(rows_of(args.rq2))
     if args.rq5:
-        report["rq5"] = rq5([{**r, "arm": r["label"].split("|")[0]} for r in rows_of(args.rq5)], set(args.hidden.read_text().split()))
+        arms = [{**r, "arm": r["label"].split("|")[0]} for r in rows_of(args.rq5)]
+        hidden = set(args.hidden.read_text().split())
+        tasks = args.rq5_tasks.read_text().split()
+        pool = args.rq5_pool.read_text().split()
+        share = sum(t in hidden for t in pool) / len(pool)
+        report["rq5"] = rq5(arms, hidden, tasks, share)
+        for path in args.drop or []:
+            kept = [t for t in tasks if t not in set(path.read_text().split())]
+            report[f"rq5_without_{path.stem}"] = rq5(arms, hidden, kept, share)
     if args.rq4_verdicts:
         haiku = rows_of(args.rq4_verdicts)
         for row in haiku:
             row["sample"] = row.get("sample") or row["label"]
-        report["rq4"] = rq4(rq4_attempts(table, labels, haiku, rows_of(args.rq4_stages), args.rq4_tasks.read_text().split()))
+        tasks = args.rq4_tasks.read_text().split()
+        report["rq4"] = rq4(rq4_attempts(table, labels, haiku, rows_of(args.rq4_stages), tasks))
+        for path in args.drop or []:
+            kept = [t for t in tasks if t not in set(path.read_text().split())]
+            report[f"rq4_without_{path.stem}"] = rq4(rq4_attempts(table, labels, haiku, rows_of(args.rq4_stages), kept))
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "tables.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: report[k] for k in ("rq1", "artifacts")}, indent=1))

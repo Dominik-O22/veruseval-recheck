@@ -116,8 +116,9 @@ def same_formula(harness: Path, item_id: str) -> bool:
     def antecedent(form: str):
         path = harness / item_id / f"{form}.json"
         return json.loads(path.read_text())["antecedent"] if path.exists() else None
+    # A missing guarded harness stays undecided: treating it as one formula would copy a refutation across.
     guarded = antecedent("guarded")
-    return guarded is None or guarded == antecedent("uncond")
+    return guarded is not None and guarded == antecedent("uncond")
 
 
 def settle(args: argparse.Namespace) -> tuple[list[dict], list[dict]]:
@@ -152,6 +153,8 @@ def settle(args: argparse.Namespace) -> tuple[list[dict], list[dict]]:
                 add(row["id"], row["form"], row["outcome"], f"batch:{path.stem}")
     table, both = [], []
     for row in regen:
+        if row.get("context_same") is False:
+            sys.exit(f"{row['id']} does not match the released record")
         one = row["direction"] == "L1" or same_formula(args.harness, row["id"])
         found = {form: list(verdicts.get((row["id"], form), [])) for form in ("uncond", "guarded")}
         if one:
@@ -191,6 +194,7 @@ def final(args: argparse.Namespace) -> None:
     print(len(table), "clauses,", len(both), "with both verdicts")
     if both:
         write_jsonl(args.out.with_suffix(".conflicts.jsonl"), both)
+        sys.exit(f"{len(both)} lemmas have both verdicts, which stops the run")
 
 
 def main() -> None:

@@ -1,0 +1,88 @@
+{
+  "solutions_identical_to_reference": 758,
+  "twin_tasks": 176,
+  "tasks_with_prose_neighbour": 430,
+  "solutions_with_task_like_comments": 108,
+  "hidden_constant_tasks_with_constants": 148,
+  "all_constants_in_examples_upper_bound": 87,
+  "rejected_L1": {
+    "all": {
+      "pairs": 2172,
+      "without_examples": 12.1,
+      "with_examples": 6.5
+    },
+    "hidden": {
+      "pairs": 386,
+      "without_examples": 8.8,
+      "with_examples": 12.4
+    },
+    "other": {
+      "pairs": 1786,
+      "without_examples": 12.8,
+      "with_examples": 5.3
+    }
+  },
+  "rejected_L2": {
+    "all": {
+      "pairs": 2172,
+      "without_examples": 28.3,
+      "with_examples": 20.4
+    },
+    "hidden": {
+      "pairs": 386,
+      "without_examples": 46.1,
+      "with_examples": 30.6
+    },
+    "other": {
+      "pairs": 1786,
+      "without_examples": 24.5,
+      "with_examples": 18.2
+    }
+  },
+  "rejected_L3": {
+    "all": {
+      "pairs": 2172,
+      "without_examples": 31.2,
+      "with_examples": 25.8
+    },
+    "hidden": {
+      "pairs": 386,
+      "without_examples": 74.4,
+      "with_examples": 60.1
+    },
+    "other": {
+      "pairs": 1786,
+      "without_examples": 21.8,
+      "with_examples": 18.4
+    }
+  },
+  "rejected_L4": {
+    "all": {
+      "pairs": 2172,
+      "without_examples": 28.3,
+      "with_examples": 25.7
+    },
+    "hidden": {
+      "pairs": 386,
+      "without_examples": 33.7,
+      "with_examples": 31.3
+    },
+    "other": {
+      "pairs": 1786,
+      "without_examples": 27.2,
+      "with_examples": 24.5
+    }
+  },
+  "starverus_L3_L4_clean": {
+    "hidden": {
+      "pairs": 293,
+      "without_examples": 16.4,
+      "with_examples": 26.6
+    },
+    "other": {
+      "pairs": 1329,
+      "without_examples": 60.3,
+      "with_examples": 63.6
+    }
+  }
+}

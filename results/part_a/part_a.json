@@ -8,9 +8,16 @@
     "accepted": 7081
   },
   "failure_classes": {
-    "Malformed output": 452,
+    "Malformed output": 328,
+    "General Rust": 1577,
+    "Verus-specific": 2775,
+    "No diagnostic": 124
+  },
+  "failure_classes_wide": {
+    "Malformed output": 328,
     "Verus-specific": 3811,
-    "General Rust": 541
+    "General Rust": 541,
+    "No diagnostic": 124
   },
   "first_error_int_index": 902,
   "first_error_by_message": [
@@ -51,7 +58,7 @@
       144
     ],
     [
-      "no message",
+      "",
       124
     ],
     [
@@ -65,48 +72,55 @@
   ],
   "class_by_model": {
     "deepseek-chat": {
-      "Verus-specific": 898,
-      "General Rust": 149,
-      "Malformed output": 30
+      "Verus-specific": 688,
+      "General Rust": 359,
+      "Malformed output": 26,
+      "No diagnostic": 4
     },
     "deepseek-reasoner": {
-      "Verus-specific": 165,
-      "Malformed output": 8,
-      "General Rust": 21
+      "Verus-specific": 123,
+      "No diagnostic": 7,
+      "General Rust": 63,
+      "Malformed output": 1
     },
     "gpt-4o": {
-      "Verus-specific": 851,
-      "General Rust": 103,
-      "Malformed output": 17
+      "General Rust": 225,
+      "Verus-specific": 729,
+      "Malformed output": 16,
+      "No diagnostic": 1
     },
     "llama": {
-      "Malformed output": 242,
-      "Verus-specific": 1368,
-      "General Rust": 208
+      "Malformed output": 224,
+      "General Rust": 807,
+      "Verus-specific": 769,
+      "No diagnostic": 18
     },
     "qwen-coder": {
-      "Malformed output": 155,
-      "Verus-specific": 529,
-      "General Rust": 60
+      "No diagnostic": 94,
+      "Verus-specific": 466,
+      "General Rust": 123,
+      "Malformed output": 61
     }
   },
   "class_by_shot": {
     "few-shot": {
-      "Malformed output": 297,
-      "Verus-specific": 782,
-      "General Rust": 153
+      "Malformed output": 250,
+      "General Rust": 417,
+      "Verus-specific": 518,
+      "No diagnostic": 47
     },
     "zero-shot": {
-      "Verus-specific": 3029,
-      "Malformed output": 155,
-      "General Rust": 388
+      "General Rust": 1160,
+      "Verus-specific": 2257,
+      "Malformed output": 78,
+      "No diagnostic": 77
     }
   },
   "variance_explained": {
-    "workflow": 0.0807,
-    "model": 0.0683,
+    "workflow": 0.0805,
+    "model": 0.068,
     "shot": 0.1064,
-    "task_id": 0.2502
+    "task_id": 0.206
   },
   "config_range": {
     "low": 0.05511811023622047,
