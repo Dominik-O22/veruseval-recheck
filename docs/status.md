@@ -63,13 +63,14 @@ Before the freeze:
 
 | Source | Available | Spent | Use |
 |---|---|---|---|
-| API key | $100 | about $6 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), RQ4 about $3, RQ5 about $10 |
+| API key | $100 | about $6 | Census (about $8 for the other 2,387 clauses, scaled from the 656 development clauses), RQ4 about $5 with both arms, RQ5 about $4 |
 | Cloud credit, expires 5 Nov 08:59 | $214 left | $36 | Gate 2c only, unless a gate needs agents |
 
 ## Decisions
 
 | Date | Decision | Why |
 |---|---|---|
+| 2 Nov | RQ4 adds a bare arm, one try with no repair, and RQ5 runs bare throughout | Dom's point: a handicap can only work against Haiku, so a win is stronger, and one try leaves more room to see differences |
 | 2 Nov | RQ5 gets zero-shot arms, four arms in all | Few-shot examples are the benchmark's own solutions, so they may hide the effect of task text, and zero-shot tests Haiku with no guide for the first time |
 | 2 Nov | Target is arXiv and a public repo. No ICPC RENE, no second proposer, and the hand audit stays optional | Keeps it one paper, about $20 more |
 | 2 Nov | The paper asks what a VerusEval score measures, in four parts. The census becomes Part D | Evidence below, and Dom chose this over a fairness-only or a models-only paper |
