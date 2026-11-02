@@ -4,9 +4,9 @@ This is the single source of truth for what we are doing and why. `docs/paper-pl
 
 ## The question
 
-What are the rejected soundness checks in VerusEval really: solver limits, differences outside valid inputs, or real differences?
+What does a VerusEval score measure: contract skill, setup, Verus fluency, what the model was never told, or checker limits?
 
-And do the paper's results carry over to a current model? This was the project's starting point, and it is RQ4 in the plan.
+The plan has four parts. Part D is the original question: what are the rejected checks really? Part B is the project's starting point: do the results carry over to a current model?
 
 ## Rules
 
@@ -37,7 +37,7 @@ And do the paper's results carry over to a current model? This was the project's
 
 ## Next action
 
-**Paused on 2 November for a bigger rethink, by Dom's decision.** The census does not start on 5 November, and the authors' message is on hold. The redesign centres on verification failures and fairness. Gate 3 ran on Dom's go-ahead of 2 November, and its work stays valid as a tool even if the plan changes. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+**Reframed on 2 November by Dom's decision.** Dom needs to sign off revision 7 of the plan before steps 3f to 3h start. The census does not start on 5 November, and the authors' message is on hold. Gate 3's work stays valid as Parts B and D. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
@@ -46,6 +46,9 @@ And do the paper's results carry over to a current model? This was the project's
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
+| 3f | Part A from released labels | Verified rates and failure classes computed by a fixed rule, which is checked on 60 hand-read failures | Open |
+| 3g | Task text test (RQ5) | Text matched to tasks by a script, Haiku runs both ways on 5 development tasks, output grades | Open |
+| 3h | Second freeze | Plan, scripts and samples hashed and tagged `freeze-2` | Open |
 | 3e | Tell the authors | Dom approves the message and it is sent | Branch and tag pushed. Message on hold |
 
 Spending cap for gate 3: $10 of the API key.
@@ -67,6 +70,7 @@ Before the freeze:
 
 | Date | Decision | Why |
 |---|---|---|
+| 2 Nov | The paper asks what a VerusEval score measures, in four parts. The census becomes Part D | Evidence below, and Dom chose this over a fairness-only or a models-only paper |
 | 2 Nov | Pause the census and rethink the paper around verification failures and fairness | The census covers about 16% of attempts, 48% never verify, and models are marked down on limits they cannot see |
 | 2 Nov | Push `gate2-local` and `freeze-1`, leave `main` as it is. The census start was later paused | A public commit dates the method |
 | 2 Nov | Add RQ4: Haiku 5.5 on 100 random tasks through the frozen grader, written into the plan before the freeze. Haiku only | It is Dom's original point, and the census gives it a fair baseline. Haiku is the same class as the original models |
@@ -80,7 +84,7 @@ Before the freeze:
 
 ## Open questions for others
 
-- **Authors:** where are the original task requirements for tasks other than MBPP? Needed for RQ2. Their answer does not block gates 2 to 4.
+- **Authors:** where are the original task requirements for tasks outside the public sets? `vc-description` in the public VeriCoding repository gives 243 tasks, and MBPP and HumanEval give 192. Needed for RQ2 and RQ5. Their answer does not block gates 2 to 4.
 - **Endorser:** none yet. Blocks arXiv, not the work.
 
 ## Ideas, not scheduled

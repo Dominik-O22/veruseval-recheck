@@ -1,12 +1,34 @@
-# Paper plan: certifying rejected comparisons in VerusEval
+# Paper plan: what does a VerusEval score measure?
 
-Status: revision 6, 2 November 2026, frozen for the census, after two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+## The question
 
-## The paper in one paragraph
+A VerusEval score looks like a measure of how well models write contracts. This paper asks how much of it is that, and how much comes from setup, from Verus fluency, from what the model was never told, and from the limits of the checker. Of 13,659 attempts, 7,081 verify (51.8%) and 2,995 pass all three checks (21.9%), all measured from released labels. We trace where the rest go.
+
+| Part | Question | Data | Status |
+|---|---|---|---|
+| A | How much loss comes from setup and Verus fluency? | Released labels, no model | To do |
+| B | Do the results carry over to a current model? This is RQ4 below | Haiku 5.5 on 100 random tasks | Built |
+| C | How much comes from requirements the model cannot know? This is RQ5 below | Haiku with and without task text | To do |
+| D | What are the rejected checks really? This is RQ1 to RQ3 below | The census | Built |
+
+**Part A.** Verified rate by workflow, model and prompting, from 5.5% to 88.5% across the 18 configurations, and the share of variation each explains. Failures before proving, 4,804 of 13,659, sorted by a fixed rule on the diagnostic into general Rust errors, Verus-specific errors and malformed output. The authors point out these are final outputs after each workflow's repair steps, and we report them that way.
+
+**RQ5, unknowable requirements.** In the paper's setup the model receives a Rust function with no specification and no task description, and all 762 inputs have no prose comment over 40 characters (measured). References carry intent from elsewhere: `VA0187` requires `n, m <= 100`, which its code does not show. Fairness and genuineness are different questions. A limit can be a real task requirement and still be unfair to judge a model on when it was never given.
+
+Public task text exists for 435 of 762 tasks: VeriCoding 243, MBPP 154 and HumanEval 38, of which 369 are outside the development set (measured). Run Haiku through the same StarVerus path on the same tasks twice, with and without the text, which is added as a comment at the top of the input so the pipeline does not change. Sample 50 hidden-constant tasks and 50 others, seeded, from those 369. Report paired differences in verified rate and in each of L1 to L4 first-attempt labels, mainly L3.
+
+A rough scan found that on 66 of 78 hidden-constant tasks with text, not all of the reference's constants appear in the text. The scan also catches type bounds, so it overstates. If the limit is not in the text either, no reader could have known it. Report these separately after reading a sample.
+
+The I/O suites do not give an independent check, because the paper says they "rest on the same reference as specification correctness". So all three checks depend on the reference. We say so.
+
+
+Status: revision 7, 2 November 2026, not frozen, reframed on Dom's decision. `freeze-1` holds revision 6. Earlier: two rounds of adversarial review and the original authors' [reply](https://github.com/Dominik-O22/veruseval-recheck/issues/2). Current state, gates and spending are in [`docs/status.md`](status.md). Numbers marked measured come from the VerusEval release or this repo, and numbers marked guess are planning assumptions.
+
+## Part D in one paragraph
 
 VerusEval (arXiv 2610.26464) compares LLM-written Verus contracts with references. Its authors say plainly that "A rejected obligation is a failed proof attempt, not a confirmed semantic difference." That leaves thousands of comparisons undecided. This paper decides as many as it can. For each rejected soundness lemma on the 2,166 accepted artifacts that have one, it produces a Verus-checked proof or a concrete counterexample, under the paper's unconditional comparison and under a guarded one that assumes both preconditions. The result is a certified account of what those rejections are, plus a reusable grader.
 
-Working title: *Certifying Rejected Contract Comparisons in VerusEval*. The final title should state the measured result.
+Working title: *What Does a VerusEval Score Measure?* The final title should state the measured result.
 
 This is a re-measurement, not a reproduction, and we do not claim that the paper's findings fail. We report what certification adds and let the numbers stand.
 
