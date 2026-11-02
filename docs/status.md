@@ -29,7 +29,7 @@ And do the paper's results carry over to a current model? This was the project's
 | 2d | Guarded proofs have real inputs | Each guarded proof has a confirmed input, or is reported as unconfirmed | **Passed** | 63 of 69 confirmed, 6 reported as unconfirmed, about $0.01. `results/gate2/guard_final.jsonl` |
 | 2e | Filter stops rejecting valid proofs | The 7 rejected `axiom` answers are rechecked | **Passed** | 13 answers on 7 clauses rechecked, not 7, 1 clause newly proved, no API spend. 262 other stored answers unchanged. `results/gate2/tier_axiom.jsonl` |
 | 2f | Witnesses can use computed values | Changed on dev data only, then frozen before the holdout. With the frozen change: 0 proved lemmas and 0 must-clear variants refuted on dev and holdout, every earlier refutation unchanged, each computed refutation has a clean control, uses only values bound to literals, fits its type and carries its own tag, and the 4 known cases reproduce. The computed proposer must actually run on the holdout, so this tests something | **Passed** | 0 of 3,937 proved lemmas refuted, 1,602 of them attacked with computed values, 0 must-clear variants refuted, all 1,506 earlier refutations unchanged, 3 of 3 and 15 of 15 controls clean, 4 of 4 known cases, no API spend. Logged deviation: the first holdout check replaced 3 plain witnesses, so the order was fixed and the holdout re-run. `results/gate2/computed_verify.json` |
-| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | **Waiting** on the authors' message | `results/gate3/freeze.sha256`, tag `freeze-1` |
+| 3 | Freeze | Plan, grader and analysis script fixed, hashed, dry-run on synthetic data, authors told | **Paused** | `results/gate3/freeze.sha256`, tag `freeze-1` |
 | 4 | Census | All 3,043 clauses run on the 80% of tasks not used in development, plus development tasks reported apart | Blocked by 3 | |
 | 5 | Analysis | RQ1 to RQ3 scored as written in the plan | Blocked by 4 | |
 | 6 | Draft | Every number traces to a results file, every reference checked by hand | Blocked by 5 | |
@@ -37,7 +37,7 @@ And do the paper's results carry over to a current model? This was the project's
 
 ## Next action
 
-Dom sends the authors' message, then the census starts on 5 November. Gate 3 ran on Dom's go-ahead of 2 November. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
+**Paused on 2 November for a bigger rethink, by Dom's decision.** The census does not start on 5 November, and the authors' message is on hold. The redesign centres on verification failures and fairness. Gate 3 ran on Dom's go-ahead of 2 November, and its work stays valid as a tool even if the plan changes. Each step has its pass condition here, written before the work. Development tasks only, so no census data is seen before the freeze.
 
 | Step | Work | Pass condition | Status |
 |---|---|---|---|
@@ -46,7 +46,7 @@ Dom sends the authors' message, then the census starts on 5 November. Gate 3 ran
 | 3b+ | RQ4 generation script | Runs Haiku on 5 development tasks with the API key through the unmodified StarVerus few-shot path, and the output grades through the census driver | **Passed.** 5 of 5 verified, about $0.10, graded through the free steps. `analysis/rq4_generate.py` |
 | 3c | Analysis script | Produces every RQ table from synthetic data with known answers, and each table matches them | **Passed** for RQ1, RQ2, RQ3 items 2 and 3, and RQ4. `analysis/test_census_report.py`. RQ3 items 4 and 5 are exploratory and item 1 uses released labels only, so they sit outside it |
 | 3d | Freeze | Plan, grader and analysis hashed and tagged locally, cost estimate updated from 3a, authors' message drafted | **Passed.** Local tag `freeze-1`. `results/gate3/freeze.sha256`. Census about $8, RQ4 about $3 |
-| 3e | Tell the authors | Dom approves the message and it is sent | Branch and tag pushed. Dom sends the message |
+| 3e | Tell the authors | Dom approves the message and it is sent | Branch and tag pushed. Message on hold |
 
 Spending cap for gate 3: $10 of the API key.
 
@@ -67,7 +67,8 @@ Before the freeze:
 
 | Date | Decision | Why |
 |---|---|---|
-| 2 Nov | Push `gate2-local` and `freeze-1`, leave `main` as it is. Census starts on 5 November, 3 days after the authors are told | A public commit dates the method, and the authors get time to object before results exist |
+| 2 Nov | Pause the census and rethink the paper around verification failures and fairness | The census covers about 16% of attempts, 48% never verify, and models are marked down on limits they cannot see |
+| 2 Nov | Push `gate2-local` and `freeze-1`, leave `main` as it is. The census start was later paused | A public commit dates the method |
 | 2 Nov | Add RQ4: Haiku 5.5 on 100 random tasks through the frozen grader, written into the plan before the freeze. Haiku only | It is Dom's original point, and the census gives it a fair baseline. Haiku is the same class as the original models |
 | 1 Nov | First paper certifies rejected checks, and the workflow study is a separate note | It tests a different claim and needs its own design |
 | 1 Nov | No collaboration pitch yet | Bring results first |
