@@ -94,5 +94,5 @@ Each needs a decision before it runs.
 - Sort computed refutations by evidence: look for a real implementation that passes the generated contract and fails the reference. One hand test on `VD0138`: wiping the list passes the generated contract and fails the reference.
 - Blind review, confirmatory run. Pilot: 18 of 22 real differences caught, 7 of 60 clear units alarmed.
 - Sample of about 100 "promises more" checks on the largest contracts, for the longer-contracts question.
-- Workflow note: agent against pipeline.
+- Workflow note: agent against pipeline. Dom's design for its core: their default repair loop against the same loop with Verus's full output sent every round, on DeepSeek-Chat and Haiku 5.5, same programs, same lynette rule, same round budget, run live on a seeded sample. Tests whether VeruSteer's 0.71 point gain is small next to straight piping. After the paper's freeze.
 - Telling the authors about the lynette copies, or about pilot results. Wait for gate 5.
